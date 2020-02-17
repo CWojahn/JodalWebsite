@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/xampp/htdocs/Jodal/application/config/autoload.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/views/restrito/treinamentos/novo.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/views/contato/contato.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/controllers/empresa.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/controllers/home.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/css/bootstrap.css</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/controllers/Welcome.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/controllers/acesso_restrito.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/config/config.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/controllers/contato.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/models/user.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/controllers/painel_controle.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/models/treinamento_m.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/views/home/home.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/views/restrito/login.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/controllers/treinamento_painel.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/config/routes.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/views/welcome_message.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/views/template/footer.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/controllers/verifylogin.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/controllers/index.html</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/views/restrito/painel.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/views/restrito/footer.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/views/template/header.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/views/index.html</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/controllers/servicos.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/.htaccess</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/views/restrito/treinamentos/principal.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/views/treinamentos/treinamentos.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/css/styles.css</file>
+            <file>file:/C:/xampp/htdocs/Jodal/index.php</file>
+            <file>file:/C:/xampp/htdocs/Jodal/application/controllers/treinamentos.php</file>
+        </group>
+    </open-files>
+</project-private>
