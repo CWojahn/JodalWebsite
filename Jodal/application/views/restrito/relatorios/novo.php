@@ -8,7 +8,7 @@
     <?php } ?>
 </div>
 <div class="row">
-    <form id="form_orcamento" method="post">
+    <form id="form_relatorio" method="post">
         <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8">
             <div class="col-md-12">
                 <div class="form-group">
@@ -24,20 +24,13 @@
             </div>
             <div class="col-md-8">
                 <div class="form-group">
-                    <label for="treinamento">Selecione o Treinamento</label>
-                    <select class="form-control" id="treinamento" name="treinamento" disabled="">
-                        <option value="-1">Escolha um treinamento</option>
-                        <?php foreach ($treinamentos as $treinam) { ?>
-                            <option value="<?php echo $treinam->id ?>"><?php echo $treinam->nome_pt; ?></option>
+                    <label for="relatorio_form">Selecione um formulário</label>
+                    <select class="form-control" id="relatorio_form" name="relatorio_form" disabled="">
+                        <option value="-1">Escolha um formulário</option>
+                        <?php foreach ($formularios_relatorio as $formulario_rel) { ?>
+                            <option value="<?php echo $formulario_rel->id ?>"><?php echo $formulario_rel->nome_pt; ?></option>
                         <?php } ?>
-
                     </select>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="alunos">Número de alunos</label>
-                    <input class="form-control text-center" id="alunos" name="alunos" disabled="">
                 </div>
             </div>
         </div>
@@ -67,12 +60,11 @@
     $('#cliente').on('change', function () {
         //alert(this.value); // or $(this).val()
         var cliente = this.value;
-        $('#treinamento').removeAttr('disabled');
-        $('#alunos').removeAttr('disabled');
+        $('#relatorio_form').removeAttr('disabled');
         if (cliente != -1) {
             $.ajax(
                     {
-                        url: "<?php echo site_url('cotacao_painel/carregar_header') ?>",
+                        url: "<?php echo site_url('relatorio_painel/carregar_header') ?>",
                         type: "POST",
                         data: {id: cliente},
                         //dataType: "json",
@@ -82,8 +74,6 @@
                             array_orc = [];
                             $("#result").html(dados);
                             //console.log(dados);
-
-
                         },
                         error: function ()
                         {
@@ -91,34 +81,34 @@
                         }
                     });
         }
-
     });
-    var array_orc = [];
-    var total_orc;
-    $("#form_orcamento").submit(function (e) {
+
+    var array_rel = [];
+    var total_rel;
+    $("#relatorio_form").submit(function (e) {
         e.preventDefault();
         $("#btn_add").addClass('disabled');
-        var input = $("<input>").attr("type", "hidden").attr("name", "count_orc").val(array_orc.length);
+        var input = $("<input>").attr("type", "hidden").attr("name", "count_rel").val(array_rel.length);
         jQuery(this).append(input);
         var postData = jQuery(this).serialize();
 
         $.ajax(
                 {
-                    url: "<?php echo site_url('cotacao_painel/gerar_cotacao') ?>",
+                    url: "<?php echo site_url('relatorio_painel/gerar_relatorio') ?>",
                     type: "POST",
                     data: postData,
                     dataType: "json",
                     success: function (dados)
                     {
                         if (dados.msg == true) {
-                            var aux = {id_treinamento: dados.id_treinamento, valor: dados.total, alunos: dados.alunos};
+                            var aux = {id_relatorio: dados.id_relatorio};
 
-                            array_orc.push(aux);
-                            total_orc = total_orc + parseFloat(dados.total);
-                            console.log(array_orc);
+                            array_rel.push(aux);
+                            total_rel = total_rel + parseFloat(dados.total);
+                            console.log(array_rel);
                             $("#result_selos").append(dados.header);
-                            $("#table_orc").append(dados.page);
-                            $("#table_total").html(converteFloatMoeda(total_orc));
+                            $("#table_rel").append(dados.page);
+                            $("#table_total").html(converteFloatMoeda(total_rel));
                             $('html,body').animate({scrollTop: $("#result").offset().top}, 'slow');
                             //console.log(dados.total);
                             $("#btn_add").removeClass('disabled');
@@ -130,22 +120,22 @@
                     error: function ()
                     {
                         $("#btn_add").removeClass('disabled');
-                        alert('Erro ao incluir novo orçamento!');
+                        alert('Erro ao incluir novo relatorio!');
                     }
                 });
     });
 
-    function updateOrc(nro_orc, id_trein) {
+    function updateRel(nro_rel, id_trein) {
         //console.log('Nro: ' + nro_orc);
         //console.log('id: ' + id_trein);
         var aux_total = 0;
         
-        for(var aux in array_orc){
+        for(var aux in array_rel){
             //console.log('Aux: ' + array_orc[aux].id_treinamento);
-            if(id_trein == array_orc[aux].id_treinamento){
+            if(id_rel == array_rel[aux].id_relatorio){
                 //console.log('Antes: '+array_orc[aux].valor);
-                var nro_alunos = $("#nalunos_"+nro_orc).html();
-                var valor_aluno = $("#valor_"+nro_orc).html();
+                var nro_alunos = $("#nalunos_"+nro_rel).html();
+                var valor_aluno = $("#valor_"+nro_rel).html();
                 var total = parseInt(nro_alunos) * parseFloat(valor_aluno);
                 
                 $("#total_"+nro_orc).html('<strong>'+converteFloatMoeda(total)+'</strong>');
