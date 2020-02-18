@@ -74,7 +74,7 @@
                                             if (result) {
                                                 $.ajax({
                                                     type: "POST",
-                                                    url: "<?php echo site_url('cotacao_painel/excluir'); ?>",
+                                                    url: "<?php echo site_url('relatorio_painel/excluir'); ?>",
                                                     data: {id: id},
                                                     success: function (dados) {
                                                         if (dados.msg == true) {
@@ -98,11 +98,11 @@
 
                                     function enviar(id, email) {
 
-                                        bootbox.confirm("Enviar orçamento por email para <b>" + email + '</b>?<br><i>Obs.: Caso o email esteja errado, altere no cadastro do cliente</i>', function (result) {
+                                        bootbox.confirm("Enviar relatório por email para <b>" + email + '</b>?<br><i>Obs.: Caso o email esteja errado, altere no cadastro do cliente</i>', function (result) {
                                             if (result) {
                                                 $.ajax({
                                                     type: "POST",
-                                                    url: "<?php echo site_url('cotacao_painel/enviar_email'); ?>",
+                                                    url: "<?php echo site_url('relatorio_painel/enviar_email'); ?>",
                                                     data: {id: id},
                                                     success: function (dados) {
                                                         if (dados.msg == true) {
