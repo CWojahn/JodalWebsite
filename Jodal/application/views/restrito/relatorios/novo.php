@@ -18,7 +18,6 @@
                         <?php foreach ($clientes as $client) { ?>
                             <option value="<?php echo $client->id ?>"><?php echo $client->empresa; ?></option>
                         <?php } ?>
-
                     </select>
                 </div>
             </div>
@@ -106,9 +105,7 @@
                             array_rel.push(aux);
                             total_rel = total_rel + parseFloat(dados.total);
                             console.log(array_rel);
-                            $("#result_selos").append(dados.header);
                             $("#table_rel").append(dados.page);
-                            $("#table_total").html(converteFloatMoeda(total_rel));
                             $('html,body').animate({scrollTop: $("#result").offset().top}, 'slow');
                             //console.log(dados.total);
                             $("#btn_add").removeClass('disabled');
@@ -125,27 +122,5 @@
                 });
     });
 
-    function updateRel(nro_rel, id_trein) {
-        //console.log('Nro: ' + nro_orc);
-        //console.log('id: ' + id_trein);
-        var aux_total = 0;
-        
-        for(var aux in array_rel){
-            //console.log('Aux: ' + array_orc[aux].id_treinamento);
-            if(id_rel == array_rel[aux].id_relatorio){
-                //console.log('Antes: '+array_orc[aux].valor);
-                var nro_alunos = $("#nalunos_"+nro_rel).html();
-                var valor_aluno = $("#valor_"+nro_rel).html();
-                var total = parseInt(nro_alunos) * parseFloat(valor_aluno);
-                
-                $("#total_"+nro_orc).html('<strong>'+converteFloatMoeda(total)+'</strong>');
-                array_orc[aux].valor = ''+total;
-                //console.log(array_orc);
-            }
-            aux_total = aux_total + parseFloat(array_orc[aux].valor);
-        }
-        //console.log('Total: ' + aux_total);
-        total_orc = aux_total;
-        $("#table_total").html(converteFloatMoeda(total_orc));
-    };
+
 </script>
