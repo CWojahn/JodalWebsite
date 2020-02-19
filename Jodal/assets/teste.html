@@ -19,7 +19,7 @@
                 margin-left: 1.0cm;
                 margin-right: 1.0cm;
                 background-color:#ffffff;
-                
+
 
             }
             html, body{
@@ -39,9 +39,9 @@
               border-width:1px;
               margin: 0;
               padding: 1rem;
-              
+
             }
-            
+
             .tg-0lax1 {
               border-style:solid;
               border-width:1px;
@@ -59,7 +59,41 @@
             th{
                border-style: solid;
                border-width: 1px;
-               
+
+            }
+
+
+
+            .divTable{
+              display: table;
+              width: 100%;
+              height: 100px;
+            }
+            .divTableRow {
+              display: table-row;
+            }
+            .divTableHeading {
+              background-color: #EEE;
+              display: table-header-group;
+            }
+            .divTableCell, .divTableHead {
+              border: 1px solid #999999;
+              display: table-cell;
+              padding: 3px 10px;
+              text-align: center;
+            }
+            .divTableHeading {
+              background-color: #EEE;
+              display: table-header-group;
+              font-weight: bold;
+            }
+            .divTableFoot {
+              background-color: #EEE;
+              display: table-footer-group;
+              font-weight: bold;
+            }
+            .divTableBody {
+              display: table-row-group;
             }
 
         </style>
@@ -69,93 +103,103 @@
     </htmlpageheader>
 
     <div class="row">
-        <table class="tg">
-            <tr>
-                <th class="tg-0lax" rowspan="2"><img src="C:\xampp\htdocs\Jodal\JodalWebsite\Jodal\assets\img\logo_relatorio.png" alt="" srcset="" style="width: 150px;"></th>
-                <th class="tg-0lax" rowspan="2" style="width: 250px;">Relatório fotográfico das <br> Melhorias
-                a serem Implantadas no canteiro de obra.</th>
-                <th class="tg-0lax1" style="width: 200px;">Nº 8888888</th>
-                <th class="tg-0lax1"style="width: auto;">Página 1 de {$2}</th>
-            </tr>
-            <tr>
-                <td class="tg-0lax1"style="width: 100px;">Classificação: Uso Interno</td>
-                <td class="tg-0lax1">Rev.: 00 - 27/04/2018</td>
-            </tr>
-        </table>
-
-        <div class="col-md-offset-3 col-md-6">
-            <div class="panel panel-default">
-              <div class="panel-body text-center">
-                    <p class="text-uppercase" >EMPRESA: NOME EMPRESA</p>
-                    <p class="text-uppercase" >OBRA: OBRA DO RELATORIO</p>
-                    <p class="text-uppercase" >LOCAL: CIDADE/UF</p>
-                    <p class="text-uppercase" >TST-OBRA: NOME DO TECNICO</p>
-                    <p class="text-uppercase" style="color: #ffffff; background-color: #000000; text-align: center;font-size: 16px; padding: 0.25em;">PCMAT & PG5T</p>
+      <div class="divTable">
+        <div class="divTableBody">
+          <div class="divTableRow"style="padding: 0; border-spacing:0">
+            <div class="divTableCell" style="vertical-align: middle;">
+              <img src="C:\xampp\htdocs\JodalWebsite\Jodal\assets\img\logo_relatorio.jpg" alt="" style="width: 75px;" srcset="">
+            </div>
+            <div class="divTableCell"style="vertical-align: middle;">
+              <p style="font-weight: 600;">Relatório fotográfico das <br> Melhorias a serem Implantadas no canteiro de obra.</p>
+            </div>
+            <div class="divTableCell"style="padding: 0; border-spacing:0; border:0">
+              <div class="divTable"style="margin: 0; border-spacing:0" >
+                <div class="divTableRow">
+                  <div class="divTableCell"style="margin: 0; border-spacing:0; text-align: left">
+                    <p>N°: {04054}</p> 
+                  </div>
+                </div>
+                <div class="divTableRow">
+                  <div class="divTableCell"style="margin: 0; border-spacing:0; text-align: left">
+                    <p>Classificação: Uso Interno</p> 
+                  </div>
+                </div>
               </div>
             </div>
+            <div class="divTableCell"style="padding: 0; border-spacing:0; border:0">
+              <div class="divTable"style="margin: 0; border-spacing:0"  >
+                <div class="divTableRow" >
+                  <div class="divTableCell"style="margin: 0; border-spacing:0; text-align: left">
+                    <p>Página: {$1} de {$2}</p>
+                  </div>
+                </div>
+                <div class="divTableRow">
+                  <div class="divTableCell"style="margin: 0; border-spacing:0; text-align: left">
+                    <p>Rev.: 00 - 27/04/2019</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="col-md-offset-3 col-md-6" style="border-style: solid; border-width: 1px;margin-top: 35px;" >
+          <div class="panel panel-default">
+            <div class="panel-body text-center">
+                  <p class="text-uppercase" style="padding-left: 10px;">EMPRESA: {NOME EMPRESA}</p>
+                  <p class="text-uppercase" style="padding-left: 10px;">OBRA: {OBRA DO RELATORIO}</p>
+                  <p class="text-uppercase" style="padding-left: 10px;">LOCAL: {CIDADE/UF}</p>
+                  <p class="text-uppercase" style="padding-left: 10px;">TST-OBRA: {NOME DO TECNICO}</p>
+                  <p class="text-uppercase" style="padding-left: 10px;">DATA: {XX/XX/XXXX}</p>
+                  <p  style="color: #ffffff;
+                        background-color: #000000;
+                        text-align: center;
+                        font-size: 16px;
+                        padding: 0.25em;
+                        margin-bottom: 0;"
+                  >PCMAT & PGST</p>
+            </div>
+          </div>
+      </div>
     </div>
 
-      <div class="row" >
-        <div class="col-md-offset-2 col-md-8" style="justify-content: center;" >
-            <table class="table table-striped" style="border-spacing: 0;">
-              <p style="font-size: 12px; font-weight: 600;">RELATÓRIO VISUAL: - (X)</p>
-                <thead>
-                    <tr style="background-color: #999999;">
-                        <th class="text-center" style="height: 20px; width: 70%;">Foto/Imagem</th>
-                        <th class="text-center" style="height: 20px; width: 30%;">Ações Encontradas </th>
-                    </tr>
-                </thead>
-                  <tr>
-                    <th class="text-center" style="height: 20px; width: 70%;"><img src="https://blog.regionaltelhas.com.br/wp-content/uploads/2019/06/292887-como-usar-o-concreto-auto-adensavel-na-sua-obra.jpg" alt="" srcset="" width="auto"></th>
-                    <th class="text-center" style="height: 20px; width: 30%;">asdasdasd </th>
-                  </tr>
-
-                <tfoot>
-
-
-                    <tr class="success">
-
-                        <td style="height: 32px"></td>
-
-                        <td style="height: 32px"></td>
-
-                        <td style="height: 32px"></td>
-
-                        <td class="text-center" style="height: 32px"><strong>asdf</strong></td>
-
-                        <td id="table_total" style="font-weight: bold; height: 32px" class="text-center">asdfasdfasdf</td>
-
-                    </tr>
-
-                </tfoot>
-
-                <tbody id="table_orc">
-
-                       <tr> 
-
-                            <td class="text-center" style="height: 32px">asdffasdf</td>
-
-                            <td class="text-center" style="height: 32px">asdf</td>
-
-                            <td class="text-center" style="height: 32px">asdfasdf</td>
-
-                            <td class="text-center" style="height: 32px">sdf</td>
-
-                            <td class="text-center" style="height: 32px"><strong>sdf</strong></td>
-
-                        </tr>
-
-
-
-                </tbody>
-
-            </table>
-
-            <textarea id="orc_obs" name="orc_obs" class="form-control" rows="3"><?php echo $orcamento->observacao; ?></textarea>
-
+    <div class="row" style="margin-top: 30px;" >
+      <p style="font-size: 12px; font-weight: 600; padding-left: 10px;">RELATÓRIO VISUAL: - (X)</p>
+      <div class="divTable">
+        <div class="divTableBody">
+          <div class="divTableRow"style="background-color: #999999;">
+            <div class="divTableCell" style="height: 20px; vertical-align: middle; border-color: #333; font-weight: 600;">
+              Foto/Imagem
+            </div>
+            <div class="divTableCell" style="height: 20px; vertical-align: middle; border-color: #333; font-weight: 600;">
+              Ações Encontradas
+            </div>
+          </div>
+          <div class="divTableRow">
+            <div class="divTableCell" style="vertical-align: middle;">
+              <img src="https://blog.regionaltelhas.com.br/wp-content/uploads/2019/06/292887-como-usar-o-concreto-auto-adensavel-na-sua-obra.jpg"
+                alt="" srcset="" width="600em">
+            </div>
+            <div class="divTableCell" style="text-align: left;">
+              {<p style="text-align: center;">APONTAMENTOS TÉCNICOS:</p>
+              <p>1. Uso dedasda sdasdlajls çdsdkj asçda</p>
+              <p>2. sadsfsdfsdkj asçda</p>}
+            </div>
+          </div>          
         </div>
+      </div>
+      <div class="row"style="background-color: #999999; text-align: center; font-weight: 600;" >
+        Observações:
+      </div>
+      <div class="row" style="border: #999 solid 1px;">
+        <Ul>
+          <li>{JODAL - Sr. Pablo; (TST)}</li>
+        </Ul>
+      </div>
+      
 
-    </div>
+
+
+  </div>
 
 </html>
