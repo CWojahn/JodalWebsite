@@ -1,55 +1,112 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
-
     <htmlpageheader>
-
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/bootstrap.css'); ?>">
-
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/styles.css'); ?>">
-
         <style type="text/css">
 
             @page {
-
                 margin-top: 0.0cm;
-
                 margin-bottom: 0.0cm;
-
                 margin-left: 1.0cm;
-
                 margin-right: 1.0cm;
-
                 background-color:#ffffff;
-
+            }
+            
+            html, body{
+              font-family: Arial, Helvetica, sans-serif;
+            }
+            .text-uppercase {
+              font-weight:600;
+              font-size: 12px;
+            }
+            .divTable{
+              display: table;
+              width: 100%;
+              height: 100px;
+            }
+            .divTableRow {
+              display: table-row;
+            }
+            .divTableHeading {
+              background-color: #EEE;
+              display: table-header-group;
+            }
+            .divTableCell, .divTableHead {
+              border: 1px solid #999999;
+              display: table-cell;
+              padding: 3px 10px;
+              text-align: center;
+            }
+            .divTableHeading {
+              background-color: #EEE;
+              display: table-header-group;
+              font-weight: bold;
+            }
+            .divTableFoot {
+              background-color: #EEE;
+              display: table-footer-group;
+              font-weight: bold;
+            }
+            .divTableBody {
+              display: table-row-group;
             }
 
+            .emailsitem span{
+              position: relative;
+              left: -30%;
+            }
         </style>
-
-
-
     </htmlpageheader>
 
-
-
     <?php setlocale(LC_ALL, 'pt_BR'); ?>
+    <div class="row">
+      <div class="divTable">
+        <div class="divTableBody">
+          <div class="divTableRow"style="padding: 0; border-spacing:0">
+            <div class="divTableCell" style="vertical-align: middle;">
+              <img src="<?php echo base_url('./img/logo_relatorio.jpg');?>"" alt="" style="width: 75px;" srcset="">
+            </div>
+            <div class="divTableCell"style="vertical-align: middle;">
+              <p style="font-weight: 600;">Relatório fotográfico das <br> Melhorias a serem Implantadas no canteiro de obra.</p>
+            </div>
+            <div class="divTableCell"style="padding: 0; border-spacing:0; border:0">
+              <div class="divTable"style="margin: 0; border-spacing:0" >
+                <div class="divTableRow">
+                  <div class="divTableCell"style="margin: 0; border-spacing:0; text-align: left">
+                    <p>N°: {04054}</p> 
+                  </div>
+                </div>
+                <div class="divTableRow">
+                  <div class="divTableCell"style="margin: 0; border-spacing:0; text-align: left">
+                    <p>Classificação: Uso Interno</p> 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="divTableCell"style="padding: 0; border-spacing:0; border:0">
+              <div class="divTable"style="margin: 0; border-spacing:0"  >
+                <div class="divTableRow" >
+                  <div class="divTableCell"style="margin: 0; border-spacing:0; text-align: left">
+                    <p>Página: {$1} de {$2}</p>
+                  </div>
+                </div>
+                <div class="divTableRow">
+                  <div class="divTableCell"style="margin: 0; border-spacing:0; text-align: left">
+                    <p>Rev.: 00 - 27/04/2019</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <div class="row">
 
-        <table class="tg">
-            <tr>
-                <th class="tg-0lax" rowspan="2"></th>
-                <th class="tg-0lax" rowspan="2"></th>
-                <th class="tg-0lax"></th>
-                <th class="tg-0lax"></th>
-            </tr>
-            <tr>
-                <td class="tg-0lax"></td>
-                <td class="tg-0lax"></td>
-            </tr>
-        </table>
+
 
         <div class="col-md-offset-3 col-md-6">
 
