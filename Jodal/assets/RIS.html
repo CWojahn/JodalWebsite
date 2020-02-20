@@ -1,0 +1,263 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+    <htmlpageheader>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/bootstrap.css'); ?>">
+
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/styles.css'); ?>">
+
+        <style type="text/css">
+
+            @page {
+
+                margin-top: 0.0cm;
+                margin-bottom: 0.0cm;
+                margin-left: 1.0cm;
+                margin-right: 1.0cm;
+                background-color:#ffffff;
+
+            }
+            html, body{
+              font-family: Arial, Helvetica, sans-serif;
+            }
+            .tg {
+              border-collapse:collapse;
+              border-spacing:0;
+              margin: auto;
+              border-style:solid;
+              border-width:2px;
+              font-size: 14px;
+            }
+
+            .tg-0lax {
+              border-style:solid;
+              border-width:1px;
+              margin: 0;
+              padding: 1rem;
+
+            }
+
+            .tg-0lax1 {
+              border-style:solid;
+              border-width:1px;
+              margin: 0;
+              padding: 1rem;
+              text-align: left;
+              font-weight: 100;
+            }
+
+            .text-uppercase {
+              font-weight:600;
+              font-size: 12px;
+            }
+
+            th{
+               border-style: solid;
+               border-width: 1px;
+
+            }
+
+
+
+            .divTable{
+              display: table;
+              width: 100%;
+              height: 100px;
+            }
+            .divTableRow {
+              display: table-row;
+            }
+            .divTableHeading {
+              background-color: #EEE;
+              display: table-header-group;
+            }
+            .divTableCell, .divTableHead {
+              border: 1px solid #999999;
+              display: table-cell;
+              padding: 3px 10px;
+              text-align: center;
+            }
+            .divTableHeading {
+              background-color: #EEE;
+              display: table-header-group;
+              font-weight: bold;
+            }
+            .divTableFoot {
+              background-color: #EEE;
+              display: table-footer-group;
+              font-weight: bold;
+            }
+            .divTableBody {
+              display: table-row-group;
+            }
+
+            .emailsitem span{
+              position: relative;
+              left: -30%;
+            }
+
+        </style>
+
+
+
+    </htmlpageheader>
+
+    <div class="row">
+      <div class="divTable">
+        <div class="divTableBody">
+          <div class="divTableRow"style="padding: 0; border-spacing:0">
+            <div class="divTableCell" style="vertical-align: middle;">
+              <img src="C:\xampp\htdocs\JodalWebsite\Jodal\assets\img\logo_relatorio.jpg" alt="" style="width: 75px;" srcset="">
+            </div>
+            <div class="divTableCell"style="vertical-align: middle;">
+              <p style="font-weight: 600;">Relatório de Inspeção de Segurança.</p>
+            </div>
+            <div class="divTableCell"style="padding: 0; border-spacing:0; border:0">
+              <div class="divTable"style="margin: 0; border-spacing:0" >
+                <div class="divTableRow">
+                  <div class="divTableCell"style="margin: 0; border-spacing:0; text-align: left">
+                    <p>N°: {04054}</p> 
+                  </div>
+                </div>
+                <div class="divTableRow">
+                  <div class="divTableCell"style="margin: 0; border-spacing:0; text-align: left">
+                    <p>Classificação: Uso Interno</p> 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="divTableCell"style="padding: 0; border-spacing:0; border:0">
+              <div class="divTable"style="margin: 0; border-spacing:0"  >
+                <div class="divTableRow" >
+                  <div class="divTableCell"style="margin: 0; border-spacing:0; text-align: left">
+                    <p>Página: {$1} de {$2}</p>
+                  </div>
+                </div>
+                <div class="divTableRow">
+                  <div class="divTableCell"style="margin: 0; border-spacing:0; text-align: left">
+                    <p>Rev.: 00 - 27/04/2019</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="col-md-offset-3 col-md-6" style="border-style: solid; border-width: 1px;margin-top: 35px;" >
+          <div class="panel panel-default">
+            <div class="panel-body text-center">
+                  <p class="text-uppercase" style="padding-left: 10px;">EMPRESA: {NOME EMPRESA}</p>
+                  <p class="text-uppercase" style="padding-left: 10px;">OBRA: {OBRA DO RELATORIO}</p>
+                  <p class="text-uppercase" style="padding-left: 10px;">LOCAL: {CIDADE/UF}</p>
+                  <p class="text-uppercase" style="padding-left: 10px;">TST-OBRA: {NOME DO TECNICO}</p>
+                  <p class="text-uppercase" style="padding-left: 10px;">DATA: {XX/XX/XXXX}</p>
+                  <p  style="color: #ffffff;
+                        background-color: #000000;
+                        text-align: center;
+                        font-size: 16px;
+                        padding: 0.25em;
+                        margin-bottom: 0;"
+                  >Relatório de Inspeção de Segurança</p>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 30px;" >
+      <div class="divTable">
+        <div class="divTableBody">
+          <div class="divTableRow"style="">
+            <div class="divTableCell" style="background-color: #999999; vertical-align: middle; text-align: left; width: 10%; font-weight: 600;">
+              Descrição
+            </div>
+            <div class="divTableCell" style="vertical-align: middle; text-align: left;">
+              <span> Adequação refeitório. Colocação  de iluminação, mesa, cadeiras, toalhas, bebedouro, bife adequados.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 30px;" >
+            <div class="divTable">
+        <div class="divTableBody">
+          <div class="divTableRow"style="background-color: #999999;">
+            <div class="divTableCell" style="height: 20px; vertical-align: middle; border-color: #333; font-weight: 600;">
+              Foto/Imagem
+            </div>
+          </div>
+          <div class="divTableRow">
+            <div class="divTableCell" style="vertical-align: middle;">
+              <img src="https://blog.regionaltelhas.com.br/wp-content/uploads/2019/06/292887-como-usar-o-concreto-auto-adensavel-na-sua-obra.jpg"
+                alt="" srcset="" width="600em">
+                <p>{292887-como-usar-o-concreto-auto-adensavel-na-sua-obra.jpg}</p>
+                <br>
+                <img src="https://blog.regionaltelhas.com.br/wp-content/uploads/2019/06/292887-como-usar-o-concreto-auto-adensavel-na-sua-obra.jpg"
+                alt="" srcset="" width="600em">
+                <p>{292887-como-usar-o-concreto-auto-adensavel-na-sua-obra.jpg}</p>
+            </div>
+          </div>          
+        </div>
+      </div>
+      <div class="row"style="background-color: #999999; text-align: center; font-weight: 600;" >
+        Recomendações:
+      </div>
+      <div class="row" style="border: #999 solid 1px;">
+        <Ul>
+          <li>{NR18 ÁREAS DE ALIMENTAÇÃO}</li>
+        </Ul>
+      </div> 
+      <div class="row"style="background-color: #999999; text-align: center; font-weight: 600;" >
+        Aspecto Legal:
+      </div>
+      <div class="row" style="border: #999 solid 1px;">
+        <Ul>
+          <li>{Portaria 3214/78 MTE.}</li>
+          <li>{NR18}</li>
+        </Ul>
+      </div> 
+      <div class="row"style="background-color: #999999; text-align: center; font-weight: 600;" >
+        Prazo:
+      </div>
+      <div class="row" style="border: #999 solid 1px; padding-left: 30px;">
+        <p>12-28-2018</p>
+      </div>
+
+      <div class="row">
+        <div class="divTable">
+          <div class="divTableBody">
+            <div class="divTableRow">
+              <div class="divTableCell">
+                <br><br><br>
+                <hr>
+                <p style="font-weight: 600;">PABLO M. DE MOURA MASTELLA</p>
+                <p style="text-align: center;font-weight: 600;">JODAL</p>
+              </div> 
+            
+            <div class="divTableCell"style="text-align: center;">
+              <p style="text-decoration: underline;">Observação: Documento encaminhar para e-mails:</p>
+                <ul style="margin: auto; width: 50%; padding-left: 30%;">
+                  <li class="emailsitem"><span>{olavio@sadsad}</span></li>
+                  <li class="emailsitem"><span>{olavio@sadsad}</span></li>
+                  <li class="emailsitem"><span>{olavio@sadsad}</span></li>
+                  <li class="emailsitem"><span>{olavio@sadsad}</span></li>
+                </ul>
+            </div>
+            <div class="divTableCell">
+              <br><br><br>
+              <hr>
+              <ps style="font-weight: 600;">CONTRATANTE - {EMPRESA}</p>
+            </div> 
+          </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+
+</html>
