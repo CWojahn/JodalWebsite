@@ -178,103 +178,35 @@ class Relatorio_painel extends CI_Controller {
     }
 
 
-
+//ver com o fazer o vetor de todas as imagens e observações
     public function salvar() {
 
         $numero = $this->input->post('numero');
 
-        $treinamento = $this->input->post('treinamento');
+        $clienteid = $this->input->post('clienteid');
 
-        $horas = $this->input->post('horas');
+        $obra = $this->input->post('obra');
 
-        $aluno = $this->input->post('aluno');
+        $cidade = $this->input->post('cidade');
 
-        $cpf = $this->input->post('cpf');
-
-
-
-        $certificado = array(
-
-            'id' => $numero,
-
-            'treinamento' => $treinamento,
-
-            'horas' => $horas,
-
-            'aluno_nome' => $aluno,
-
-            'aluno_cpf' => $cpf
-
-        );
-
-        $this->load->model('certificado_m');
-
-
-
-        if ($this->certificado_m->insert($certificado)) {
-
-            $this->session->set_flashdata('success', 'Certificado cadastrado com sucesso para o aluno <strong>' . $aluno . '</strong>!');
-
-            redirect(site_url('certificado_painel'));
-
-        } else {
-
-            $this->session->set_flashdata('unchecked', TRUE);
-
-            redirect(site_url('certificado_painel/novo'));
-
-        }
+        $tst = $this->input->post('tst');
 
     }
 
 
-
+//ver com o fazer o vetor de todas as imagens e observações
     public function salvar_edit() {
+
 
         $numero = $this->input->post('numero');
 
-        $treinamento = $this->input->post('treinamento');
+        $clienteid = $this->input->post('clienteid');
 
-        $horas = $this->input->post('horas');
+        $obra = $this->input->post('obra');
 
-        $aluno = $this->input->post('aluno');
+        $cidade = $this->input->post('cidade');
 
-        $cpf = $this->input->post('cpf');
-
-
-
-        $certificado = array(
-
-            //'id' => $numero,
-
-            'treinamento' => $treinamento,
-
-            'horas' => $horas,
-
-            'aluno_nome' => $aluno,
-
-            'aluno_cpf' => $cpf
-
-        );
-
-        $this->load->model('certificado_m');
-
-
-
-        if ($this->certificado_m->update($certificado, $numero)) {
-
-            $this->session->set_flashdata('success', 'Certificado modificado com sucesso para o aluno <strong>' . $aluno . '</strong>!');
-
-            redirect(site_url('certificado_painel'));
-
-        } else {
-
-            $this->session->set_flashdata('unchecked', '<strong>ATENÇÃO!</strong> Erro ao editar certificado, verfique os dados e tente novamente.');
-
-            redirect(site_url('certificado_painel/editar/' . $numero));
-
-        }
-
+        $tst = $this->input->post('tst');
     }
 
 
@@ -287,13 +219,13 @@ class Relatorio_painel extends CI_Controller {
 
         $this->load->model('clientes_m');
 
-        $this->load->model('cotacao_m');
+        $this->load->model('relatorio_m');
 
 
 
-        $nro_orc = $this->cotacao_m->getNroOrcamento()->nro_orc;
+        $nro_relatorio = $this->relatorio_m->getNroOrcamento()->nro_relatorio;
 
-        $nro_orc = $nro_orc + 1;
+        $nro_relatorio = $nro_relatorio + 1;
 
 
 
@@ -301,13 +233,13 @@ class Relatorio_painel extends CI_Controller {
 
             'sel_cliente' => $this->clientes_m->get_cliente($id_cliente)->row(),
 
-            'nro_orc' => $nro_orc,
+            'nro_relatorio' => $nro_relatorio,
 
             'data' => date('Y-m-d')
 
         );
 
-        $this->load->view('restrito/cotacao/header', $dados);
+        $this->load->view('restrito/relatorios/header', $dados);
 
     }
 
@@ -315,114 +247,45 @@ class Relatorio_painel extends CI_Controller {
 
     public function gerar_cotacao() {
 
-        //$nro_alunos = $this->input->post('alunos');
+        if ($this->input->post('relatorio') &&
+            $this->input->post('cliente')) {
 
-        //$id_treinam = $this->input->post('treinamento');
 
-        //$id_cliente = $this->input->post('cliente');
-
-        if ($this->input->post('alunos') && $this->input->post('treinamento') && $this->input->post('cliente')) {
-
-            $this->load->model('treinamento_m');
+            $this->load->model('relatorio_m');
 
             $this->load->model('clientes_m');
 
-            $this->load->model('cotacao_m');
 
-
-
-            $nro_alunos = $this->input->post('alunos');
-
-            $id_treinam = $this->input->post('treinamento');
+            $id_relatorio = $this->input->post('relatorio');
 
             $id_cliente = $this->input->post('cliente');
 
-            $count_orc = $this->input->post('count_orc');
+            $count_relatorio = $this->input->post('count_relatorio');
+
+            $nro_relatorio = $this->cotacao_m->getNroRelatorio()->nro_relatorio;
+
+            $nro_relatorio = $nro_relatorio + 1;
 
 
 
-            //$cliente = $this->clientes_m->get_cliente($id_cliente)->row();
-
-            //$treinamento = $this->treinamento_m->get_treinamento($id_treinam)->row();
-
-            $nro_orc = $this->cotacao_m->getNroOrcamento()->nro_orc;
-
-            $nro_orc = $nro_orc + 1;
-
-
-
-            $sel_treinam = $this->treinamento_m->get_treinamento($id_treinam)->row();
+            $sel_relatorio = $this->relatorio_m->get_relatorio($id_relatorio)->row();
 
             $dados = array(
 
                 'sel_cliente' => $this->clientes_m->get_cliente($id_cliente)->row(),
 
-                'sel_treinamento' => $sel_treinam,
-
-                'nro_alunos' => $nro_alunos,
-
-                'count_orc' => $count_orc + 1
-
+                'sel_relatorio' => $sel_relatorio,
             );
 
+            $result['id_relatorio'] = $sel_relatorio->id;
 
-
-            $dados1 = array(
-
-                'sel_treinamento' => $sel_treinam,
-
-            );
-
-
-
-
-
-            //$total = $treinamento->valor_aluno * $nro_alunos;
-
-
-
-            $result['id_treinamento'] = $sel_treinam->id;
-
-            $result['alunos'] = $nro_alunos;
-
-            $result['valor_aluno'] = money_format("%.2n", $sel_treinam->valor_aluno);
-
-            $result['total'] = money_format("%.2n", $sel_treinam->valor_aluno * $nro_alunos);
-
-
-
-
-
-            $result['header'] = $this->load->view('restrito/cotacao/novo_selo', $dados1, true);
-
-            $result['page'] = $this->load->view('restrito/cotacao/novo_orcamento', $dados, true);
+            $result['page'] = $this->load->view('restrito/relatorios/novo_relatorio', $dados, true);
 
             $result['msg'] = TRUE;
 
-            
-
             echo json_encode($result);
-
         } else {
-
             $result['msg'] = FALSE;
-
-            //$result['page'] = '<div class="alert alert-danger alert-dismissible" role="alert">
-
-            //<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
-            //Erro! Verifique se os campos do formulário foram preenchidos.
-
-        //</div>';
-
-            //echo '<div class="alert alert-danger alert-dismissible" role="alert">
-
-            //<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
-            //Erro! Verifique se os campos do formulário foram preenchidos.
-
-            //</div>';
-
             echo json_encode($result);
 
         }
