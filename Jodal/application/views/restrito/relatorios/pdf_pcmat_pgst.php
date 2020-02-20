@@ -67,7 +67,7 @@
         <div class="divTableBody">
           <div class="divTableRow"style="padding: 0; border-spacing:0">
             <div class="divTableCell" style="vertical-align: middle;">
-              <img src="<?php echo base_url('./img/logo_relatorio.jpg');?>"" alt="" style="width: 75px;" srcset="">
+              <img src="<?php echo base_url('img/logo_relatorio.jpg');?>"" alt="" style="width: 75px;" srcset="">
             </div>
             <div class="divTableCell"style="vertical-align: middle;">
               <p style="font-weight: 600;">Relatório fotográfico das <br> Melhorias a serem Implantadas no canteiro de obra.</p>
@@ -76,7 +76,7 @@
               <div class="divTable"style="margin: 0; border-spacing:0" >
                 <div class="divTableRow">
                   <div class="divTableCell"style="margin: 0; border-spacing:0; text-align: left">
-                    <p>N°: {04054}</p> 
+                    <p>N°: <?php echo $nro_rel; ?></p> 
                   </div>
                 </div>
                 <div class="divTableRow">
@@ -102,144 +102,91 @@
             </div>
           </div>
         </div>
-      </div>
-
-    <div class="row">
-
-
-
-        <div class="col-md-offset-3 col-md-6">
-
-
-
-
-
-            <div class="panel panel-default">
-
-                <div class="panel-heading">
-
-                    <strong>CLIENTE</strong>
-
-                </div>
-
-                <div class="panel-body text-center">
-
-                    <p class="text-uppercase" style="font-weight: bold"><?php echo $cliente->empresa . '. ' . $cliente->razao_social . '. Fone: ' . $cliente->telefone; ?></p>
-
-                    <p class="text-uppercase" style="font-weight: bold"><?php echo $cliente->responsavel; ?></p>
-
-                    <p class="text-uppercase" style="font-weight: bold"><?php echo $cliente->endereco . ' - ' . $cliente->bairro . ' - ' . $cliente->cidade . ' - ' . $cliente->cep; ?></p>
-
-                    <p class="" style="font-weight: bold"><?php echo $cliente->site . ' - ' . $cliente->email; ?></p>
-
-                </div>
-
+      <div class="col-md-offset-3 col-md-6" style="border-style: solid; border-width: 1px;margin-top: 35px;" >
+          <div class="panel panel-default">
+            <div class="panel-body text-center">
+                  <p class="text-uppercase" style="padding-left: 10px;">EMPRESA: <?php echo $cliente->empresa . '. ' . $cliente->razao_social?></p>
+                  <p class="text-uppercase" style="padding-left: 10px;">OBRA: <?php echo $relatorio->obra?></p>
+                  <p class="text-uppercase" style="padding-left: 10px;">LOCAL: <?php echo $relatorio->cidade . "/" .$relatorio->uf?></p>
+                  <p class="text-uppercase" style="padding-left: 10px;">TST-OBRA: <?php echo $relatorio->tst?></p>
+                  <p class="text-uppercase" style="padding-left: 10px;">DATA: <?php echo $relatorio->data?></p>
+                  <p  style="color: #ffffff;
+                        background-color: #000000;
+                        text-align: center;
+                        font-size: 16px;
+                        padding: 0.25em;
+                        margin-bottom: 0;"
+                  >PCMAT & PGST</p>
             </div>
-
-        </div>
-
+          </div>
+      </div>
     </div>
+  </div>
 
-    <div class="row text-center">
-
-        <div class="col-md-offset-3 col-md-6" id="result_selos">
-
-            <?php foreach ($array_orc as $value) { ?>
-
-                <img style="width: 150px; height: 150px; margin: 7px;" src="<?php echo base_url('uploads/selos/' . $value->selo); ?>" />
-
-            <?php } ?>            
-
+  <div class="row" style="margin-top: 30px;" >
+      <p style="font-size: 12px; font-weight: 600; padding-left: 10px;">RELATÓRIO VISUAL: - (X)</p>
+      <div class="divTable">
+        <div class="divTableBody">
+          <div class="divTableRow"style="background-color: #999999;">
+            <div class="divTableCell" style="height: 20px; vertical-align: middle; border-color: #333; font-weight: 600;">
+              Foto/Imagem
+            </div>
+            <div class="divTableCell" style="height: 20px; vertical-align: middle; border-color: #333; font-weight: 600;">
+              Ações Encontradas
+            </div>
+          </div>
+          <div class="divTableRow">
+            <?php foreach ($array_rel as $value) { ?>
+              <div class="divTableCell" style="vertical-align: middle;">
+                <img src="<?php echo base_url('uploads/relatorios/' . $value->imagem); ?>"
+                  alt="" srcset="" width="600em">
+              </div>
+              <div class="divTableCell" style="text-align: left;">
+                <p style="text-align: center; text-decoration: underline;">APONTAMENTOS TÉCNICOS:</p>
+                <?php foreach ($array_obs as $observacao) { ?>
+                  <p><?php echo $observacao; ?></p>
+                <?php } ?> 
+              </div>
+            <?php } ?> 
+          </div>          
         </div>
-
+      </div>
+    <div class="row"style="background-color: #999999; text-align: center; font-weight: 600;" >
+        Observações:
     </div>
-
-
-
+    <div class="row" style="border: #999 solid 1px;">
+      <Ul>
+        <?php foreach ($array_tst as $tst) { ?>
+          <li><?php echo $tst; ?></li>
+        <?php } ?>
+      </Ul>
+    </div> 
     <div class="row">
-
-        <div class="col-md-offset-2 col-md-8">
-
-
-
-            <table class="table table-striped">
-
-                <thead>
-
-                    <tr>
-
-                        <th colspan="5" class="text-center" style="height: 40px">RESUMO DO ORÇAMENTO</th>
-
-                    </tr>
-
-                    <tr>
-
-                        <th class="text-center" style="height: 32px">#</th>
-
-                        <th class="text-center" style="height: 32px">TREINAMENTO</th>
-
-                        <th class="text-center" style="height: 32px">Nº Alunos</th>
-
-                        <th class="text-center" style="height: 32px">VALOR POR ALUNO</th>
-
-                        <th class="text-center" style="height: 32px">TOTAL</th>
-
-                    </tr>
-
-                </thead>
-
-                <tfoot>
-
-                    <?php setlocale(LC_ALL, 'pt_BR'); ?>
-
-                    <tr class="success">
-
-                        <td style="height: 32px"></td>
-
-                        <td style="height: 32px"></td>
-
-                        <td style="height: 32px"></td>
-
-                        <td class="text-center" style="height: 32px"><strong>TOTAL</strong></td>
-
-                        <td id="table_total" style="font-weight: bold; height: 32px" class="text-center"><?php echo money_format("%.2n", $orcamento->valor_total); ?></td>
-
-                    </tr>
-
-                </tfoot>
-
-                <tbody id="table_orc">
-
-                    <?php setlocale(LC_ALL, 'pt_BR'); ?>
-
-                    <?php for ($index = 0; $index < count($array_orc); $index++) { ?>
-
-                        <tr> 
-
-                            <td class="text-center" style="height: 32px"><?php echo $index + 1; ?></td>
-
-                            <td class="text-center" style="height: 32px"><?php echo strip_tags($array_orc[$index]->treinamento); ?></td>
-
-                            <td class="text-center" style="height: 32px"><?php echo $array_orc[$index]->alunos; ?></td>
-
-                            <td class="text-center" style="height: 32px"><?php echo money_format("%.2n", $array_orc[$index]->valor / $array_orc[$index]->alunos); ?></td>
-
-                            <td class="text-center" style="height: 32px"><strong><?php echo money_format("%.2n", $array_orc[$index]->valor); ?></strong></td>
-
-                        </tr>
-
-                    <?php } ?>
-
-
-
-                </tbody>
-
-            </table>
-
-            <textarea id="orc_obs" name="orc_obs" class="form-control" rows="3"><?php echo $orcamento->observacao; ?></textarea>
-
+      <div class="divTable">
+        <div class="divTableBody">
+          <div class="divTableRow">
+            <div class="divTableCell">
+              <br><br><br>
+              <hr>
+              <p style="font-weight: 600;">PABLO M. DE MOURA MASTELLA</p>
+              <p style="text-align: center;font-weight: 600;">JODAL</p>
+            </div>           
+            <div class="divTableCell"style="text-align: center;">
+              <p style="text-decoration: underline;">Observação: Documento encaminhar para e-mails:</p>
+                <ul style="margin: auto; width: 50%; padding-left: 30%;">
+                  <?php foreach ($array_email as $email) { ?>
+                    <li class="emailsitem"><span><?php echo $tst; ?></li>
+                  <?php } ?>
+                </ul>
+            </div>
+            <div class="divTableCell">
+              <br><br><br>
+              <hr>
+              <ps style="font-weight: 600;">CONTRATANTE - <?php echo $cliente->empresa . '. ' . $cliente->razao_social?></p>
+            </div> 
+          </div>
         </div>
-
+      </div>
     </div>
-
+  </div>
 </html>
