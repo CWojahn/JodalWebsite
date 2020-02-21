@@ -245,11 +245,10 @@ class Relatorio_painel extends CI_Controller {
 
 
 
-    public function gerar_cotacao() {
+    public function gerar_relatorio() {
 
         if ($this->input->post('relatorio') &&
             $this->input->post('cliente')) {
-
 
             $this->load->model('relatorio_m');
 
@@ -265,8 +264,6 @@ class Relatorio_painel extends CI_Controller {
             $nro_relatorio = $this->cotacao_m->getNroRelatorio()->nro_relatorio;
 
             $nro_relatorio = $nro_relatorio + 1;
-
-
 
             $sel_relatorio = $this->relatorio_m->get_relatorio($id_relatorio)->row();
 
@@ -287,56 +284,55 @@ class Relatorio_painel extends CI_Controller {
         } else {
             $result['msg'] = FALSE;
             echo json_encode($result);
-
         }
 
     }
 
 
 
-    public function salvar_orcamento() {
+    public function salvar_relatorio() {
 
-        $this->load->model('cotacao_m');
-
-        $this->load->model('treinamento_m');
+        $this->load->model('relatorio_m');
 
         $this->load->model('clientes_m');
 
+        $array_obj = $this->input->post('json_relatorio');
 
+        $clienteid = $this->input->post('clienteid');
 
-        $array_obj = $this->input->post('json_orc');
+        $obra = $this->input->post('obra');
 
-        $cliente = $this->input->post('cliente');
+        $cidade = $this->input->post('cidade');
 
-        $valor_total = $this->input->post('total');
+        $tst = $this->input->post('tst');
 
-        $observ = $this->input->post('observacao');
-
-        $array_orc = json_decode($array_obj);
-
-
-
-        $nro_orc = $this->cotacao_m->getNroOrcamento()->nro_orc;
-
-        $nro_orc = $nro_orc + 1;
+        $array_relatorio = json_decode($array_obj);
 
 
 
-        for ($index = 0; $index < count($array_orc); $index++) {
+        $nro_relatorio = $this->relatorio_m->getNroRelatorio()->nro_relatorio;
 
-            $array_orc[$index]->id_orcamento = $nro_orc;
+        $nro_relatorio = $nro_relatorio + 1;
+
+
+
+        for ($index = 0; $index < count($array_relatorio); $index++) {
+
+            $array_relatorio[$index]->id_relatorio = $nro_relatorio;
 
         }
 
+        $dados_relatorio = array(
 
-
-        $dados_orc = array(
-
-            'id' => $nro_orc,
+            'id' => $nro_relatorio,
 
             'id_cliente' => $cliente,
 
-            'valor_total' => $valor_total,
+            'obra' => $obra,
+
+            'cidade' => $cidade,
+
+            'tst' => $tst,
 
             'data' => date('Y-m-d'),
 
@@ -344,17 +340,21 @@ class Relatorio_painel extends CI_Controller {
 
         );
 
-        $dados_orc1 = new stdClass();
+        $dados_rel1 = new stdClass();
 
-        $dados_orc1->id = $nro_orc;
+        $dados_rwl1->id = $nro_orc;
 
-        $dados_orc1->id_cliente = $cliente;
+        $dados_rel1->id_cliente = $cliente;
 
-        $dados_orc1->valor_total = $valor_total;
+        $dados_rel1->obra = $obra;
 
-        $dados_orc1->data = date('Y-m-d');
+        $dados_rel1->cidade = $cidade;
 
-        $dados_orc1->observacao = $observ;
+        $dados_rel1->tst = $tst;
+
+        $dados_rel1->data = date('Y-m-d');
+
+        $dados_rel1->observacao = $observ;
 
         
 
