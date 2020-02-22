@@ -212,37 +212,31 @@ class Relatorio_painel extends CI_Controller {
 
 
     public function carregar_header() {
-
         $id_cliente = $this->input->post('id');
-
-
+        $tipo_relatorio = $this->input->post('tipo');
 
         $this->load->model('clientes_m');
-
         $this->load->model('relatorio_m');
 
-
-
         $nro_relatorio = $this->relatorio_m->getNroRelatorio()->nro_relatorio;
-
         $nro_relatorio = $nro_relatorio + 1;
 
-
-
         $dados = array(
-
             'sel_cliente' => $this->clientes_m->get_cliente($id_cliente)->row(),
-
             'nro_relatorio' => $nro_relatorio,
-
             'data' => date('Y-m-d')
-
         );
 
-        $this->load->view('restrito/relatorios/header', $dados);
-
+        if ($tipo_relatorio == 0){
+            $this->load->view('restrito/relatorios/header_pcmat', $dados);
+        } elseif ($tipo_relatorio ==1) {
+            $this->load->view('restrito/relatorios/header_ris', $dados);
+        } elseif ($tipo_relatorio ==2) {
+            $this->load->view('restrito/relatorios/header_apr', $dados);
+        } elseif ($tipo_relatorio ==3) {
+            $this->load->view('restrito/relatorios/header_dst', $dados);
+        }
     }
-
 
 
     public function gerar_relatorio() {
@@ -251,7 +245,6 @@ class Relatorio_painel extends CI_Controller {
             $this->input->post('cliente')) {
 
             $this->load->model('relatorio_m');
-
             $this->load->model('clientes_m');
 
 

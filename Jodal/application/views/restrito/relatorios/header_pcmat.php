@@ -4,7 +4,7 @@
 
 <div class="row">
 
-    <h3 class="text-center">RELATÓRIO Nº <?php echo ($nro_relatorio) . '/' . date('y', strtotime($data)) . ' - ' . date('d/m/Y', strtotime($data)) . ' - ' . $sel_cliente->empresa; ?></h3>
+    <h3 class="text-center">RELATÓRIO PCMAT & PGST Nº <?php echo ($nro_relatorio) . '/' . date('y', strtotime($data)) . ' - ' . $sel_cliente->empresa; ?></h3>
 
     <div class="col-md-offset-3 col-md-6">
 
@@ -40,7 +40,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th colspan="5" class="text-center">RESUMO DO ORÇAMENTO</th>
+                    <th colspan="5" class="text-center">RELATORIO </th>
                 </tr>
                 <tr>
                     <th class="text-center">#</th>

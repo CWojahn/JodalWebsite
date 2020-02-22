@@ -173,7 +173,7 @@
               <p style="text-decoration: underline;">Observação: Documento encaminhar para e-mails:</p>
                 <ul style="margin: auto; width: 50%; padding-left: 30%;">
                   <?php foreach ($array_email as $email) { ?>
-                    <li class="emailsitem"><span><?php echo $tst; ?></li>
+                    <li class="emailsitem"><span><?php echo $email; ?></li>
                   <?php } ?>
                 </ul>
             </div>

@@ -23,12 +23,13 @@
             </div>
             <div class="col-md-8">
                 <div class="form-group">
-                    <label for="relatorio_form">Selecione um formulário</label>
-                    <select class="form-control" id="relatorio_form" name="relatorio_form" disabled="">
+                    <label for="tipo_relatorio">Selecione um formulário</label>
+                    <select class="form-control" id="tipo_relatorio" name="tipo_relatorio" disabled="">
                         <option value="-1">Escolha um formulário</option>
-                        <?php foreach ($formularios_relatorio as $formulario_rel) { ?>
-                            <option value="<?php echo $formulario_rel->id ?>"><?php echo $formulario_rel->nome_pt; ?></option>
-                        <?php } ?>
+                        <option value="0">PCMAT & PGST</option>
+                        <option value="1">Relatório de Inspeção de Segurança</option>
+                        <option value="2">Análise Preliminar de Risco</option>
+                        <option value="3">Documento de Segurança do Trabalho</option>
                     </select>
                 </div>
             </div>
@@ -56,29 +57,31 @@
      alert(this.value); // or $(this).val()
      });*/
 
-    $('#cliente').on('change', function () {
+    $('#tipo_relatorio').on('change', function () {
         //alert(this.value); // or $(this).val()
-        var cliente = this.value;
+        var tipo_relatorio = this.value;
         $('#relatorio_form').removeAttr('disabled');
-        if (cliente != -1) {
+        if (tipo_relatorio != -1) {
             $.ajax(
+                {
+                    url: "<?php echo site_url('relatorio_painel/carregar_header') ?>",
+                    type: "POST",
+                    data: {id: cliente,
+                           tipo: tipo_relatorio},
+                    //dataType: "json",
+                    success: function (dados)
                     {
-                        url: "<?php echo site_url('relatorio_painel/carregar_header') ?>",
-                        type: "POST",
-                        data: {id: cliente},
-                        //dataType: "json",
-                        success: function (dados)
-                        {
-                            total_orc = 0.0;
-                            array_orc = [];
-                            $("#result").html(dados);
-                            //console.log(dados);
-                        },
-                        error: function ()
-                        {
-                            console.log('ERROR');
-                        }
-                    });
+                        total_orc = 0.0;
+                        array_orc = [];
+                        $("#result").html(dados);
+                        //console.log(dados);
+                    },
+                    error: function ()
+                    {
+                        console.log('ERROR');
+                    }
+                }
+            );
         }
     });
 
