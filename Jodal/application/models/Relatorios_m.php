@@ -11,20 +11,26 @@
  *
  * @author Carlos.Wojahn
  */
-class Relatorio_m extends CI_Model {
+class Relatorios_m extends CI_Model {
 
     //put your code here
 
     function insert($relatorio) {
-        return $this->db->insert('relatorio', $relatorio);
-    }
-
-    function insert_relatorio($relatorio) {
         return $this->db->insert('relatorios', $relatorio);
     }
 
+    function insert_pcmat($relatorio) {
+        return $this->db->insert('relatorio_pcmat', $relatorio);
+    }
+
+    // **** Alterar ****
+    // Outro tipo de relatorio
+    // function insert_pcmat($relatorio) {
+    //     return $this->db->insert('relatorio_pcmat', $relatorio);
+    // }
+
     function getNroRelatorio() {
-        $query = $this->db->query("SELECT COALESCE(max(id),0) nro_relatorio FROM relatorio");
+        $query = $this->db->query("SELECT COALESCE(max(id),0) nro_relatorio FROM relatorios");
 
         return $query->row();
     }
@@ -32,6 +38,7 @@ class Relatorio_m extends CI_Model {
     function getRelatorio() {
         $query = $this->db->query("SELECT relatorios.id, clientes.empresa, clientes.email,
                                     relatorios.data, relatorios.obra, relatorios.local,
+                                    relatotios.observacoes,
                                     relatorios.tst_name, relatorios.path_pdf, clientes.responsavel
                                    FROM relatorios
 	                               INNER JOIN clientes
@@ -60,7 +67,7 @@ class Relatorio_m extends CI_Model {
 
     function getRelatorioById($id) {
         $query = $this->db->query("SELECT relatorios.id, clientes.empresa, clientes.email,
-                                    relatorios.data, relatorios.obra, relatorios.local, relatorios.tst_name, relatorios.path_pdf,
+                                    relatorios.data, relatorios.obra, relatorios.local, relatorios.tst_name, relatotios.observacoes, relatorios.path_pdf,
                                     clientes.responsavel
                                    FROM relatorios
 	                               INNER JOIN clientes
@@ -70,7 +77,7 @@ class Relatorio_m extends CI_Model {
 
     function getRelatorioByCliente($cliente){
         $query = $this->db->query("SELECT relatorios.id, clientes.empresa, clientes.email,
-                                    relatorios.data, relatorios.obra, relatorios.local, relatorios.tst_name, relatorios.path_pdf,
+                                    relatorios.data, relatorios.obra, relatorios.local, relatorios.tst_name, relatotios.observacoes, relatorios.path_pdf,
                                     clientes.responsavel
                                    FROM relatorios
 	                               INNER JOIN clientes
@@ -80,7 +87,7 @@ class Relatorio_m extends CI_Model {
 
     function getRelatorioByObra($obra) {
         $query = $this->db->query("SELECT relatorios.id, clientes.empresa, clientes.email,
-                                    relatorios.data, relatorios.obra, relatorios.local, relatorios.tst_name, relatorios.path_pdf,
+                                    relatorios.data, relatorios.obra, relatorios.local, relatorios.tst_name, relatotios.observacoes, relatorios.path_pdf,
                                     clientes.responsavel
                                    FROM relatorios
 	                               INNER JOIN clientes
@@ -88,11 +95,11 @@ class Relatorio_m extends CI_Model {
         return $query->row();
     }
 
-    function insertRel($dados_rel, $dados_obs) {
+    function insertPcmat($dados_rel, $dados_obs) {
         $this->db->trans_begin();
 
         $this->db->insert('relatorios', $dados_rel);
-        $this->db->insert_batch('observacoes_relatorios', $dados_obs);
+        $this->db->insert_batch('relatorio_pcmat', $dados_obs);
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
@@ -102,7 +109,7 @@ class Relatorio_m extends CI_Model {
             return TRUE;
         }
     }
-
+   
     function update($id, $array) {
 
         $this->db->where('id', $id);

@@ -67,7 +67,7 @@
         <div class="divTableBody">
           <div class="divTableRow"style="padding: 0; border-spacing:0">
             <div class="divTableCell" style="vertical-align: middle;">
-              <img src="<?php echo base_url('img/logo_relatorio.jpg');?>"" alt="" style="width: 75px;" srcset="">
+              <img src="<?php echo base_url('assets/img/logo_relatorio.jpg');?>" alt="" style="width: 75px;" srcset="">
             </div>
             <div class="divTableCell"style="vertical-align: middle;">
               <p style="font-weight: 600;">Relatório fotográfico das <br> Melhorias a serem Implantadas no canteiro de obra.</p>
@@ -76,7 +76,7 @@
               <div class="divTable"style="margin: 0; border-spacing:0" >
                 <div class="divTableRow">
                   <div class="divTableCell"style="margin: 0; border-spacing:0; text-align: left">
-                    <p>N°: <?php echo $nro_rel; ?></p> 
+                    <p>N°: <?php echo $nro_relatorio; ?></p> 
                   </div>
                 </div>
                 <div class="divTableRow">
@@ -105,10 +105,10 @@
       <div class="col-md-offset-3 col-md-6" style="border-style: solid; border-width: 1px;margin-top: 35px;" >
           <div class="panel panel-default">
             <div class="panel-body text-center">
-                  <p class="text-uppercase" style="padding-left: 10px;">EMPRESA: <?php echo $cliente->empresa . '. ' . $cliente->razao_social?></p>
+                  <p class="text-uppercase" style="padding-left: 10px;">EMPRESA: <?php echo $cliente->empresa?></p>
                   <p class="text-uppercase" style="padding-left: 10px;">OBRA: <?php echo $relatorio->obra?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">LOCAL: <?php echo $relatorio->cidade . "/" .$relatorio->uf?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">TST-OBRA: <?php echo $relatorio->tst?></p>
+                  <p class="text-uppercase" style="padding-left: 10px;">LOCAL: <?php echo $relatorio->local?></p>
+                  <p class="text-uppercase" style="padding-left: 10px;">TST-OBRA: <?php echo $relatorio->tst_name?></p>
                   <p class="text-uppercase" style="padding-left: 10px;">DATA: <?php echo $relatorio->data?></p>
                   <p  style="color: #ffffff;
                         background-color: #000000;
@@ -156,9 +156,7 @@
     </div>
     <div class="row" style="border: #999 solid 1px;">
       <Ul>
-        <?php foreach ($array_tst as $tst) { ?>
-          <li><?php echo $tst; ?></li>
-        <?php } ?>
+        <li><?php echo $relatorio->observacoes; ?></li>
       </Ul>
     </div> 
     <div class="row">
@@ -182,7 +180,7 @@
             <div class="divTableCell">
               <br><br><br>
               <hr>
-              <ps style="font-weight: 600;">CONTRATANTE - <?php echo $cliente->empresa . '. ' . $cliente->razao_social?></p>
+              <ps style="font-weight: 600;">CONTRATANTE - <?php echo $cliente->empresa?></p>
             </div> 
           </div>
         </div>

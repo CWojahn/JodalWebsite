@@ -223,7 +223,7 @@ class Relatorio_painel extends CI_Controller {
 
 
 
-        $nro_relatorio = $this->relatorio_m->getNroOrcamento()->nro_relatorio;
+        $nro_relatorio = $this->relatorio_m->getNroRelatorio()->nro_relatorio;
 
         $nro_relatorio = $nro_relatorio + 1;
 
