@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="text-center">
+    <h3>Dados do Relatório</h3>
+</div>
+<form >
+  <div class="col-md-offset-3 col-md-6">
+  <div class="form-row">
+    <label for="obra">Obra</label>
+    <input type="text" id="obra" name="obra">
+  </div>
+  <div class="form-row">
+  <label for="local">Local</label>
+  <input type="text" id="local" name="local">
+  </div>
+  <textarea class="form-control" id="obs" name="obs"
+        placeholder="Observações da Obra" rows="3"></textarea>
+      </div>
+</form>
+<form id="form_nova_imagem" method="post" action="<?php echo site_url('relatorio_painel/salvarImagens'); ?>" enctype="multipart/form-data" >
+  <div class="form-row" style="margin-bottom: 10px;">
+    <div class="center-text">
+      <label for="imagem">Imagem</label>
+      <input type="file" id="imagem" name="imagem"
+          onchange="PreviewImage_pt();" accept="image/*" capture="camera" class="form-control-file">
+          <img id="uploadPreview_pt" style="width: 150px; height: 125px;" />
+    </div>
+      <label for="descricao">Descrição</label>
+      <textarea class="form-control" id="descricao" name="descricao"
+        placeholder="Descrição da Imagem" rows="4"></textarea> 
+
+  </div>
+    <div class="col-md-12 col-sm-12 text-center">
+        <button class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Salvar</button>
+        <a href="javascript:history.back()" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Cancelar</a>
+    </div>
+</form>
+
+</body>
+</html>

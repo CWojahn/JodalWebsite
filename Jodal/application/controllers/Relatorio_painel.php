@@ -46,7 +46,7 @@ class Relatorio_painel extends CI_Controller {
 // ok
     public function index($array = array()) {
 
-        $this->load->model('relatorio_m'); 
+        $this->load->model('relatorios_m'); 
 
         $dados = array(
 
@@ -60,7 +60,7 @@ class Relatorio_painel extends CI_Controller {
 
         //$certificados = $this->certificado_m->get_all();
 
-        $array['relatorios'] = $this->relatorio_m->getRelatorios();
+        //$array['relatorios'] = $this->relatorios_m->getRelatorios();
 
         $this->load->view('restrito/painel', $dados);
 
@@ -74,6 +74,7 @@ class Relatorio_painel extends CI_Controller {
 // ok
     public function novo() {
 
+        $this->load->model('relatorios_m');
         $this->load->model('clientes_m');
 
         $dados = array(
@@ -130,7 +131,7 @@ class Relatorio_painel extends CI_Controller {
 
         $this->load->view('restrito/painel', $dados);
 
-        $this->load->view('restrito/certificados/editar', $dados1);
+        $this->load->view('restrito/relatorios/editar', $dados1);
 
         $this->load->view('restrito/footer');
 
@@ -178,6 +179,66 @@ class Relatorio_painel extends CI_Controller {
     }
 
 
+    public function salvarImagens() {
+
+        $config['upload_path'] = FCPATH . 'uploads/relatorios';
+
+        $config['allowed_types'] = 'gif|jpg|png';
+
+        $config['max_size'] = 0;
+
+
+
+        $this->load->library('upload', $config);
+
+
+
+        $array = array();
+
+
+
+        if (!$this->upload->do_upload('imagem')) {
+
+            $this->session->set_flashdata('error', 'Erro ao carregar imagem do relatorio, tente novamente.');
+
+            redirect(site_url('relatorio_painel/novo'));
+
+        } else {
+
+            $imagem = $this->upload->data('file_name');
+
+            $descricao = $this->input->post('descricao');
+
+
+            $array['imagem'] = $imagem;
+
+
+            $array['descricao'] = $descricao;
+
+
+            $this->load->model('relatorios_m');
+
+            if ($this->relatorios_m->insert($array)) {
+
+                //$this->index($array);
+
+                $this->session->set_flashdata('success', '|Imagem adicionada com sucesso!');
+
+                redirect(site_url('relatorios_painel'));
+
+            } else {
+
+                $this->session->set_flashdata('error', 'Erro ao salvar nova imagem, tente novamente.');
+
+                redirect(site_url('relatorios_painel/novo'));
+
+            }
+
+        }
+
+    }
+
+
 //ver com o fazer o vetor de todas as imagens e observações
     public function salvar() {
 
@@ -214,11 +275,12 @@ class Relatorio_painel extends CI_Controller {
     public function carregar_header() {
         $id_cliente = $this->input->post('id');
         $tipo_relatorio = $this->input->post('tipo');
+        //console.log($id_cliente, $tipo_relatorio);
 
         $this->load->model('clientes_m');
-        $this->load->model('relatorio_m');
+        $this->load->model('relatorios_m');
 
-        $nro_relatorio = $this->relatorio_m->getNroRelatorio()->nro_relatorio;
+        $nro_relatorio = $this->relatorios_m->getNroRelatorio()->nro_relatorio;
         $nro_relatorio = $nro_relatorio + 1;
 
         $dados = array(
@@ -229,6 +291,7 @@ class Relatorio_painel extends CI_Controller {
 
         if ($tipo_relatorio == 0){
             $this->load->view('restrito/relatorios/header_pcmat', $dados);
+            $this->load->view('restrito/relatorios/novo_pcmat', $dados);
         } elseif ($tipo_relatorio ==1) {
             $this->load->view('restrito/relatorios/header_ris', $dados);
         } elseif ($tipo_relatorio ==2) {
@@ -239,12 +302,59 @@ class Relatorio_painel extends CI_Controller {
     }
 
 
+    public function acrescentar_imagem(){
+        if ($this->input->post('imagem')) {
+            $config['upload_path'] = FCPATH . 'uploads/relatorios';
+
+        $config['allowed_types'] = 'doc|docx|xls|xlsx|pdf';
+
+        $config['max_size'] = 0;
+
+        $this->load->library('upload', $config);
+
+        $array = array();
+        if (!$this->upload->do_upload('imagem')) {
+
+            $this->session->set_flashdata('error', 'Erro ao carregar material de apoio, tente novamente.');
+
+            //redirect(site_url('material_painel/novo'));
+
+        } else {
+
+            $imagem = $this->upload->data('file_name');
+
+            $nome = $this->input->post('nome');
+
+            //$descricao = $this->input->post('site');
+
+
+
+            $array['arquivo'] = $imagem;
+
+            $array['nome'] = $nome;
+
+            $array['descricao'] = $this->input->post('descricao');
+        }
+
+            $dados['imagem']= $this->input->post('imagem');
+            $dados['descricao']= $this->input->post('descricao');
+            
+            $result['page'] = $this->load->view('restrito/relatorios/novo_image_table', $dados, true);
+        }
+    }
+
+
+
+
+
+
+
     public function gerar_relatorio() {
 
         if ($this->input->post('relatorio') &&
             $this->input->post('cliente')) {
 
-            $this->load->model('relatorio_m');
+            $this->load->model('relatorios_m');
             $this->load->model('clientes_m');
 
 
@@ -258,7 +368,7 @@ class Relatorio_painel extends CI_Controller {
 
             $nro_relatorio = $nro_relatorio + 1;
 
-            $sel_relatorio = $this->relatorio_m->get_relatorio($id_relatorio)->row();
+            $sel_relatorio = $this->relatorios_m->get_relatorio($id_relatorio)->row();
 
             $dados = array(
 
@@ -285,7 +395,7 @@ class Relatorio_painel extends CI_Controller {
 
     public function salvar_relatorio() {
 
-        $this->load->model('relatorio_m');
+        $this->load->model('relatorios_m');
 
         $this->load->model('clientes_m');
 
@@ -303,7 +413,7 @@ class Relatorio_painel extends CI_Controller {
 
 
 
-        $nro_relatorio = $this->relatorio_m->getNroRelatorio()->nro_relatorio;
+        $nro_relatorio = $this->relatorios_m->getNroRelatorio()->nro_relatorio;
 
         $nro_relatorio = $nro_relatorio + 1;
 
@@ -353,19 +463,7 @@ class Relatorio_painel extends CI_Controller {
 
 
 
-        if ($this->cotacao_m->insertOrc($dados_orc, $array_orc)) {
-
-            for ($index = 0; $index < count($array_orc); $index++) {
-
-                $sel_treinam = $this->treinamento_m->get_treinamento($array_orc[$index]->id_treinamento)->row();
-
-                $array_orc[$index]->treinamento = $sel_treinam->nome_pt;
-
-                $array_orc[$index]->selo = $sel_treinam->selo_pt;
-
-                $array_orc[$index]->valor_aluno = money_format("%.2n", $sel_treinam->valor_aluno);
-
-            }
+        if ($this->relatorios_m->insertOrcinsert_pcmat($dados_orc, $array_orc)) {
 
 
 

@@ -1,3 +1,4 @@
+
 <div class="text-center">
     <h3>Gerar novo Relatório</h3>
     <?php if ($this->session->flashdata('unchecked')) { ?>
@@ -24,7 +25,7 @@
             <div class="col-md-8">
                 <div class="form-group">
                     <label for="tipo_relatorio">Selecione um formulário</label>
-                    <select class="form-control" id="tipo_relatorio" name="tipo_relatorio" disabled="">
+                    <select class="form-control" id="tipo_relatorio" name="tipo_relatorio">
                         <option value="-1">Escolha um formulário</option>
                         <option value="0">PCMAT & PGST</option>
                         <option value="1">Relatório de Inspeção de Segurança</option>
@@ -35,8 +36,6 @@
             </div>
         </div>
         <div class="col-md-12 col-sm-12 text-center">
-            <button class="btn btn-success" data-loading-text="Incluindo..." id="btn_add"><span class="glyphicon glyphicon-plus"></span> Acrescentar</button>
-            <!--<button class="btn btn-success disabled" id="btn_add"><span class="glyphicon glyphicon-plus"></span> Add treinamento</button>-->
             <a href="javascript:history.back()" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Cancelar</a>
         </div>
     </form>
@@ -52,33 +51,29 @@
 <script src="<?php echo base_url('js/bootbox.min.js'); ?>"></script>
 <script src="<?php echo base_url('js/funcoes_de_conversao.js'); ?>"></script>
 <script>
-// just for the demos, avoids form submit
-    /*$('#treinamento').on('change', function () {
-     alert(this.value); // or $(this).val()
-     });*/
 
     $('#tipo_relatorio').on('change', function () {
-        //alert(this.value); // or $(this).val()
         var tipo_relatorio = this.value;
+        var cliente = document.getElementById("cliente").value
         $('#relatorio_form').removeAttr('disabled');
         if (tipo_relatorio != -1) {
             $.ajax(
                 {
-                    url: "<?php echo site_url('relatorio_painel/carregar_header') ?>",
-                    type: "POST",
-                    data: {id: cliente,
-                           tipo: tipo_relatorio},
-                    //dataType: "json",
-                    success: function (dados)
+                url: "<?php echo site_url('relatorio_painel/carregar_header') ?>",
+                type: "POST",
+                data: {id: cliente, tipo: tipo_relatorio},
+                  //dataType: "json",
+                success: function (dados)
                     {
-                        total_orc = 0.0;
-                        array_orc = [];
+                        console.log('ok');
+        //                 total_orc = 0.0;
+        //                 array_orc = [];
                         $("#result").html(dados);
-                        //console.log(dados);
+      //                 //console.log(dados);
                     },
-                    error: function ()
+                error: function (jqXhr, textStatus, errorThrown )
                     {
-                        console.log('ERROR');
+                        console.log(textStatus );
                     }
                 }
             );

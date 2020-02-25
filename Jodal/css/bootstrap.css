@@ -2776,6 +2776,14 @@ select[multiple].form-group-lg .form-control {
 .has-feedback .form-control {
   padding-right: 42.5px;
 }
+.form-row{
+  display:-ms-flexbox;
+  display:flex;
+  -ms-flex-wrap:wrap;
+  flex-wrap:wrap;
+  margin-right:-5px;
+  margin-left:-5px
+}
 .form-control-feedback {
   position: absolute;
   top: 0;
@@ -3396,6 +3404,13 @@ tr.collapse.in {
 }
 tbody.collapse.in {
   display: table-row-group;
+}
+.col{
+  -ms-flex-preferred-size:0;
+  flex-basis:0;
+  -ms-flex-positive:1;
+  flex-grow:1;
+  max-width:100%
 }
 .collapsing {
   position: relative;

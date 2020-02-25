@@ -37,80 +37,23 @@
 <div class="row">
 
     <div class="col-md-offset-2 col-md-8">
-        <table class="table table-striped">
+        <table class="table table-borderless">
             <thead>
                 <tr>
-                    <th colspan="5" class="text-center">RELATORIO </th>
+                    <th colspan="5" class="text-center">RELATORIO PCMAT & PGST</th>
                 </tr>
-                <tr>
-                    <th class="text-center">#</th>
-                    <th class="text-center">TREINAMENTO</th>
-
-                    <th class="text-center">Nº Alunos</th>
-
-                    <th class="text-center">VALOR POR ALUNO(R$)</th>
-
-                    <th class="text-center">#</th>
-
-                    <th class="text-center">TOTAL</th>
-
-                </tr>
-
             </thead>
-
-            <tfoot>
-
-                <?php setlocale(LC_ALL, 'pt_BR'); ?>
-
-                <tr class="success">
-
-                    <td></td>
-
-                    <td></td>
-
-                    <td></td>
-
-                    <td><strong>TOTAL</strong></td>
-
-                    <td></td>
-
-                    <td id="table_total" style="font-weight: bold"><span></span></td>
-
-                </tr>
-
-            </tfoot>
-
-            <tbody id="table_orc">
-
-
-
-            </tbody>
-
         </table>
-
-        <textarea id="orc_obs" name="orc_obs" class="form-control" rows="3" placeholder="Digite aqui observações gerais do orçamento"></textarea>
-
     </div>
-
 </div>
-
-
 
 <div class="row">
-
     <div class="col-md-12 col-sm-12 text-center">
-
         <button id="btn_save" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
-
-        <!--<button class="btn btn-success disabled" id="btn_add"><span class="glyphicon glyphicon-plus"></span> Add treinamento</button>
-
-        <a href="#" class="btn btn-warning"><span class="glyphicon glyphicon-print"></span> Imprimir</a>-->
-
     </div>
-
 </div>
 
-<script>
+<!-- <script>
 
     $('#btn_save').click(function () {
 
@@ -126,7 +69,7 @@
 
                 {
 
-                    url: "<?php echo site_url('cotacao_painel/salvar_orcamento') ?>",
+                    url: "<?php echo site_url('relatorio_painel/salvar') ?>",
 
                     type: "POST",
 
@@ -178,4 +121,4 @@
 
     });
 
-</script>
+</script> -->
