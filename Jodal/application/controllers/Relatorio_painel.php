@@ -187,10 +187,7 @@ class Relatorio_painel extends CI_Controller {
 
         $config['max_size'] = 0;
 
-
-
         $this->load->library('upload', $config);
-
 
 
         $array = array();
@@ -303,50 +300,134 @@ class Relatorio_painel extends CI_Controller {
 
 
     public function acrescentar_imagem(){
-        if ($this->input->post('imagem')) {
-            $config['upload_path'] = FCPATH . 'uploads/relatorios';
 
-        $config['allowed_types'] = 'doc|docx|xls|xlsx|pdf';
+        $upload_path_url = base_url() . 'uploads/relatorios/';
 
-        $config['max_size'] = 0;
+
+
+        $config['upload_path'] = FCPATH . 'uploads/relatorios/';
+
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+
+        $config['max_size'] = '60000';
+
 
         $this->load->library('upload', $config);
 
-        $array = array();
-        if (!$this->upload->do_upload('imagem')) {
+        if (!$this->upload->do_upload()) {
 
-            $this->session->set_flashdata('error', 'Erro ao carregar material de apoio, tente novamente.');
+            $existingFiles = get_dir_file_info($config['upload_path']);
 
-            //redirect(site_url('material_painel/novo'));
+            $foundFiles = array();
+
+            $f = 0;
+
+            foreach ($existingFiles as $fileName => $info) {
+
+                if ($fileName != 'thumbs') {
+
+                    $foundFiles[$f]['name'] = $fileName;
+
+                    $foundFiles[$f]['size'] = $info['size'];
+
+                    $foundFiles[$f]['url'] = $upload_path_url . $fileName;
+
+                    $foundFiles[$f]['thumbnailUrl'] = $upload_path_url . 'thumbs/' . $fileName;
+
+                    $foundFiles[$f]['error'] = null;
+
+                    $f++;
+
+                }
+
+            }
+
+            $this->output
+
+                    ->set_content_type('application/json')
+
+                    ->set_output(json_encode(array('files' => $foundFiles)));
 
         } else {
 
-            $imagem = $this->upload->data('file_name');
+            $data = $this->upload->data();
 
-            $nome = $this->input->post('nome');
+            $config = array();
 
-            //$descricao = $this->input->post('site');
+            $config['image_library'] = 'gd2';
 
+            $config['source_image'] = $data['full_path'];
 
+            $config['create_thumb'] = TRUE;
 
-            $array['arquivo'] = $imagem;
+            $config['new_image'] = $data['file_path'] . 'thumbs/';
 
-            $array['nome'] = $nome;
+            $config['maintain_ratio'] = TRUE;
 
-            $array['descricao'] = $this->input->post('descricao');
+            $config['thumb_marker'] = '';
+
+            $config['width'] = 75;
+
+            $config['height'] = 50;
+
+            $this->load->library('image_lib', $config);
+
+            $this->image_lib->resize();
+
+            //set the data for the json array
+
+            $info = new StdClass;
+
+            $info->name = $data['file_name'];
+
+            $info->size = $data['file_size'] * 1024;
+
+            $info->type = $data['file_type'];
+
+            $info->url = $upload_path_url . $data['file_name'];
+
+            // I set this to original file since I did not create thumbs.  change to thumbnail directory if you do = $upload_path_url .'/thumbs' .$data['file_name']
+
+            $info->thumbnailUrl = $upload_path_url . 'thumbs/' . $data['file_name'];
+
+            $info->error = null;
+
+            if (IS_AJAX) {
+
+                echo json_encode(array("files" => $files));
+            } else {
+
+                $file_data['upload_data'] = $this->upload->data();
+
+                $this->load->view('upload/upload_success', $file_data);
+
+            }
+
         }
 
-            $dados['imagem']= $this->input->post('imagem');
-            $dados['descricao']= $this->input->post('descricao');
-            
-            $result['page'] = $this->load->view('restrito/relatorios/novo_image_table', $dados, true);
-        }
     }
 
 
 
 
-
+    function do_upload(){
+        $config['upload_path']= FCPATH . 'uploads/relatorios';
+        $config['allowed_types']='gif|jpg|png';
+        $config['encrypt_name'] = TRUE;
+         
+        $this->load->library('upload',$config);
+        if($this->upload->do_upload("file")){
+            $data = array('upload_data' => $this->upload->data());
+ 
+            $descricao= $this->input->post('descricao');
+            $image= $data['upload_data']['file_name']; 
+             
+            $result= $this->load->view('restrito/relatorios/novo_image_table', $descricao, $image, true);
+            //$result= $this->upload_model->save_upload($descricao,$image);
+            echo json_decode($result);
+        }
+ 
+     }
 
 
     public function gerar_relatorio() {

@@ -45,8 +45,14 @@
             </tr>
         </thead>
         <tbody id="table_images">
-
-
+            <tr>
+                <th>
+                    <img id="uploadPreview_pt" style="width: 150px; height: 125px;" />
+                </th>
+                <th>
+                    <span>asdasds</span>
+                </th>
+            </tr>
 
         </tbody>
 
@@ -87,51 +93,67 @@
 </script>
 
 <script type="text/javascript">
-    var array_rel = [];
-    $("#form_nova_imagem").submit(function (e) {
-        console.log(document.getElementById("imagem").files[0]);
-        e.preventDefault();
-        $("#btn_add").addClass('disabled');        
-        $.ajax(
-                {
-                    url: "<?php echo site_url('relatorio_painel/acrescentar_imagem') ?>",
-                    type: "POST",
-                    data: {imagem: document.getElementById("imagem").files[0].name, 
-                        descricao: document.getElementById("descricao").value},
-                    
-                    dataType: "json",                    
-                    success: function (dados)
-                    {
-                        
-                        if (dados.msg == true) {
-                            var aux = {imagem: dados.image_path, descricao: dados.descricao};
-                            array_rel.push(aux);
-                            console.log(array_rel);
-                            $("#table_images").append(dados.page);
-                            //$('html,body').animate({scrollTop: $("#result").offset().top}, 'slow');
-                            //console.log(dados.total);
-                            $("#btn_add").removeClass('disabled');
-                        } else {
-                            bootbox.alert('É necessário preencher todos os campos');
-                            $("#btn_add").removeClass('disabled');
-                        }
-                    },
-                    error: function ()
-                    {
-                        $("#btn_add").removeClass('disabled');
-                        alert('Erro ao incluir nova imagem!');
-                    }
-                });
-    });
+ $(document).ready(function(){
+ 
+ $('#form_nova_imagem').submit(function(e){
+     e.preventDefault(); 
+          $.ajax({
+              url:"<?php echo site_url('relatorio_painel/do_upload') ?>",
+              type:"post",
+              data:new FormData(this),
+              processData:false,
+              contentType:false,
+              cache:false,
+              async:false,
+               success: function(data){
+                   alert("Upload Image Successful.");
+            }
+          });
+     });
+  
+
+});
+
+
+    // var array_rel = [];
+    // $("#form_nova_imagem").submit(function (e) {
+    //     e.preventDefault();
+    //     $("#btn_add").addClass('disabled');    
+    //     $.ajax(
+    //             {
+    //                 url: "<?php echo site_url('relatorio_painel/acrescentar_imagem') ?>",
+    //                 type: "POST",
+    //                 data: {imagem: document.getElementById("imagem").files[0], 
+    //                     descricao: document.getElementById("descricao").value},
+    //                // dataType: "json",                    
+    //                 success: function (dados)
+    //                 {
+    //                     if (dados.msg == true) {
+    //                         var aux = {imagem: dados.image_path, descricao: dados.descricao};
+    //                         array_rel.push(aux);
+    //                         console.log(array_rel);
+    //                         $("#table_images").append(dados.page);
+    //                         $("#btn_add").removeClass('disabled');
+    //                     } else {
+    //                         bootbox.alert('É necessário preencher todos os campos');
+    //                         $("#btn_add").removeClass('disabled');
+    //                     }
+    //                 },
+    //                 error: function ()
+    //                 {
+    //                     $("#btn_add").removeClass('disabled');
+    //                     alert('Erro ao incluir nova imagem!');
+    //                 }
+    //             });
+    // });
 
 
     function PreviewImage_pt() {
         var oFReader = new FileReader();
         oFReader.readAsDataURL(document.getElementById("imagem").files[0]);
 
-        // oFReader.onload = function (oFREvent) {
-        //     document.getElementById("uploadPreview_pt").src = oFREvent.target.result;
-        //};
-    }
-    ;
+        oFReader.onload = function (oFREvent) {
+            document.getElementById("uploadPreview_pt").src = oFREvent.target.result;
+        };
+    }    ;
 </script>
