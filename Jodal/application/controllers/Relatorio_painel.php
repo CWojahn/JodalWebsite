@@ -235,13 +235,19 @@ class Relatorio_painel extends CI_Controller {
 
         $numero = $this->input->post('numero');
 
-        $clienteid = $this->input->post('clienteid');
+        $id_cliente = $this->input->post('id_cliente');
 
         $obra = $this->input->post('obra');
 
-        $cidade = $this->input->post('cidade');
+        $data = $this->input->post('data');
 
-        $tst = $this->input->post('tst');
+        $local = $this->input->post('local');
+
+        $tst_name = $this->input->post('tst_name');
+
+        $observacoes = $this->input->post('observacoes');
+
+        $path_pdf = $this->input->post('path_pdf');
 
     }
 

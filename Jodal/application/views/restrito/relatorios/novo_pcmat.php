@@ -95,89 +95,31 @@
 
 <script type="text/javascript">
 
-$(document).ready(function(){
- 
- $('#form_nova_imagem').submit(function(e){
-     e.preventDefault(); 
-          $.ajax({
-              url:'<?php echo site_url('relatorio_painel/do_upload') ?>',
-              type:"post",
-              data:new FormData(this),
-              processData:false,
-              contentType:false,
-              cache:false,
-              async:false,
-               success: function(dados){
-                   $('#imagensadicionadas').append(dados);
-                   $("#imagem").val(null)
-                   $("#descricao").val(null)
-                   //$('#uploadPreview_pt').removeAttr('src')
-                   $('#uploadPreview_pt').hide();
-            }
-          });
-     });
-  
+    $(document).ready(function(){
+        $('#form_nova_imagem').submit(function(e){
+            e.preventDefault(); 
+            $.ajax({
+                url:'<?php echo site_url('relatorio_painel/do_upload') ?>',
+                type:"post",
+                data:new FormData(this),
+                processData:false,
+                contentType:false,
+                cache:false,
+                async:false,
+                success: function(dados){
+                    $('#imagensadicionadas').append(dados);
+                    $("#imagem").val(null)
+                    $("#descricao").val(null)
+                    //$('#uploadPreview_pt').removeAttr('src')
+                    $('#uploadPreview_pt').hide();
+                }
+            });
+        });
+    });
 
-});
-
-function excluir(id){
-    document.getElementById("linha"+id).remove();     
-	}
-
-//     $(document).ready(function(){
-    
-//     $("#form_nova_imagem").submit(function(e){
-//         e.preventDefault(); 
-//             $.ajax({
-//                 url:'<?php echo site_url('relatorio_painel/do_upload') ?>',
-//                 type:'POST',
-//                 data:new FormData(this),
-//                 processData:false,
-//                 contentType:false,
-//                 cache:false,
-//                 async:false,
-//                 success: function(data){
-//                     alert("carregado");
-//                 }
-//             });
-//         });
-    
-
-// });
-
-
-    // var array_rel = [];
-    // $("#form_nova_imagem").submit(function (e) {
-    //     e.preventDefault();
-    //     $("#btn_add").addClass('disabled');    
-    //     $.ajax(
-    //             {
-    //                 url: "<?php echo site_url('relatorio_painel/acrescentar_imagem') ?>",
-    //                 type: "POST",
-    //                 data: {imagem: document.getElementById("imagem").files[0], 
-    //                     descricao: document.getElementById("descricao").value},
-    //                // dataType: "json",                    
-    //                 success: function (dados)
-    //                 {
-    //                     if (dados.msg == true) {
-    //                         var aux = {imagem: dados.image_path, descricao: dados.descricao};
-    //                         array_rel.push(aux);
-    //                         console.log(array_rel);
-    //                         $("#table_images").append(dados.page);
-    //                         $("#btn_add").removeClass('disabled');
-    //                     } else {
-    //                         bootbox.alert('É necessário preencher todos os campos');
-    //                         $("#btn_add").removeClass('disabled');
-    //                     }
-    //                 },
-    //                 error: function ()
-    //                 {
-    //                     $("#btn_add").removeClass('disabled');
-    //                     alert('Erro ao incluir nova imagem!');
-    //                 }
-    //             });
-    // });
-
+    function excluir(id){
+        document.getElementById("linha"+id).remove();     
+    };
 
     function PreviewImage_pt() {
         var oFReader = new FileReader();
@@ -187,5 +129,18 @@ function excluir(id){
             $('#uploadPreview_pt').show();
             document.getElementById("uploadPreview_pt").src = oFREvent.target.result;
         };
-    }    ;
+    };
+
+    function SalvarRelatorio(){
+        let numero = ;
+        let id_cliente = document.getElementById("cliente").value;
+        let obra = document.getElementById("obra").value;
+        let data = ;
+        let local = document.getElementById("local").value;
+        let tst_name = ;
+        let observcoes = document.getElementById("obs").value;
+        let path_pdf = ;
+    }
+
+
 </script>
