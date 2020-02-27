@@ -66,10 +66,7 @@
                 success: function (dados)
                     {
                         console.log('ok');
-        //                 total_orc = 0.0;
-        //                 array_orc = [];
                         $("#result").html(dados);
-      //                 //console.log(dados);
                     },
                 error: function (jqXhr, textStatus, errorThrown )
                     {

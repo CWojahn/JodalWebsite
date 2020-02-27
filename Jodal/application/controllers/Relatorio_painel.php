@@ -3,23 +3,16 @@
 
 
 /*
-
  * To change this license header, choose License Headers in Project Properties.
-
  * To change this template file, choose Tools | Templates
-
  * and open the template in the editor.
-
  */
 
 
 
 /**
-
  *
-
  * @author Carlos.Wojahn
-
  */
 
 class Relatorio_painel extends CI_Controller {
@@ -82,6 +75,7 @@ class Relatorio_painel extends CI_Controller {
             'header' => 'Controle de Relatórios'
 
         );
+        $_SESSION['number'] = 0;
 
         $clientes = $this->clientes_m->get_all();
 
@@ -410,21 +404,52 @@ class Relatorio_painel extends CI_Controller {
 
 
 
-    function do_upload(){
+    // function do_upload(){
+    //     $config['upload_path']= FCPATH . 'uploads/relatorios';
+    //     $config['allowed_types']='gif|jpg|png';
+    //     $config['encrypt_name'] = TRUE;
+         
+    //     $this->load->library('upload',$config);
+
+    //     if($this->upload->do_upload('file')){
+    //         $data = array('upload_data' => $this->upload->data());
+ 
+    //         $descricao= $this->input->post('descricao');
+    //         $image= $data['upload_data']['file_name']; 
+             
+    //         //$result= $this->load->view('restrito/relatorios/novo_image_table', $descricao, $image, true);
+    //         $result= $this->upload_model->save_upload($descricao,$image);
+    //         echo json_decode($result);
+    //     }
+ 
+    //  }
+
+
+     function do_upload(){
         $config['upload_path']= FCPATH . 'uploads/relatorios';
         $config['allowed_types']='gif|jpg|png';
+        $config['max_size'] = 0;
         $config['encrypt_name'] = TRUE;
          
-        $this->load->library('upload',$config);
-        if($this->upload->do_upload("file")){
-            $data = array('upload_data' => $this->upload->data());
- 
-            $descricao= $this->input->post('descricao');
-            $image= $data['upload_data']['file_name']; 
-             
-            $result= $this->load->view('restrito/relatorios/novo_image_table', $descricao, $image, true);
-            //$result= $this->upload_model->save_upload($descricao,$image);
-            echo json_decode($result);
+        $this->load->library('upload', $config);
+        $dados1 = array();
+
+        if($this->upload->do_upload('imagem')){
+
+            $imagem = $this->upload->data('file_name');
+            $descricao = $this->input->post('descricao');
+            $number = $_SESSION['number'];
+            $number++;
+            $_SESSION['number'] = $number;
+            $dados1['imagem'] = $imagem;
+            $dados1['descricao'] = $descricao;
+            $dados1['ids'] = $number;
+            //$result= $this->upload_model->save_upload($title,$image);
+            $dados = $this->load->view('restrito/relatorios/novo_image_table', $dados1, true);
+            
+            
+            echo $dados;
+            
         }
  
      }
@@ -619,129 +644,58 @@ class Relatorio_painel extends CI_Controller {
         }
 
         /* if ($this->input->post('alunos') && $this->input->post('treinamento') && $this->input->post('cliente')) {
-
           $nro_alunos = $this->input->post('alunos');
-
           $id_treinam = $this->input->post('treinamento');
-
           $id_cliente = $this->input->post('cliente');
-
-
-
           $this->load->model('treinamento_m');
-
           $this->load->model('clientes_m');
-
           $this->load->model('cotacao_m');
-
-
-
           $treinamento = $this->treinamento_m->get_treinamento($id_treinam)->row();
-
           $dados = array(
-
           'sel_treinamento' => $treinamento,
-
           'nro_alunos' => $nro_alunos
-
           );
-
-
-
           // As PDF creation takes a bit of memory, we're saving the created file in /downloads/reports/
-
           $hora = date("H-i-s");
-
           //$dia = date("d-m-Y", strtotime($data));
-
-
-
           $nome_pdf = "ORC-" . $nro_orc . "-" . date('y') . ".pdf";
-
-
-
           $pdfFilePath = FCPATH . "uploads/orcamentos/" . $nome_pdf;
-
           //$data['page_title'] = 'RelatÃ³rio'; // pass data to the view
-
-
-
           $orc_bd = array(
-
           'id' => $nro_orc,
-
           'id_treinamento' => $id_treinam,
-
           'id_cliente' => $id_cliente,
-
           'nro_alunos' => $nro_alunos,
-
           'custo' => $nro_alunos * $treinamento->valor_aluno,
-
           'data' => date('Y-m-d'),
-
           'path_pdf' => $nome_pdf
-
           );
-
-
-
           if (file_exists($pdfFilePath) == FALSE) {
-
           ini_set('memory_limit', '64M'); // boost the memory limit if it's low <img src="http://davidsimpson.me/wp-includes/images/smilies/icon_wink.gif" alt=";)" class="wp-smiley firstChild">
-
           $html = $this->load->view('restrito/cotacao/pdf_orcamento', $dados, true); // render the view into HTML
-
-
-
           $this->cotacao_m->insert_orcamento($orc_bd);
-
           $this->load->library('pdf');
-
           $pdf = $this->pdf->load();
-
           $pdf->SetDisplayMode('fullpage');
-
           //$img = base_url() .'images/portalwiditec.png';
-
           //$pdf->SetHTMLHeader('<div><img src="'.$img.'" alt="layout" id="xxx" width="300" height="80"></div>');
-
           $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}|' . date(DATE_RFC822)); // Add a footer for good measure <img src="http://davidsimpson.me/wp-includes/images/smilies/icon_wink.gif" alt=";)" class="wp-smiley lastChild">
-
           //$pdf->SetJS('this.print();');
-
           $pdf->WriteHTML($html); // write the HTML into the PDF
-
           $pdf->Output($pdfFilePath, 'F'); // save to file because we can
-
           //print_r($pdf);
-
           }
-
-
-
           //redirect("/uploads/orcamentos/ORC-" . $hora . ".pdf");
-
           //echo base_url("/uploads/orcamentos/" . $nome_pdf);
-
           $this->session->set_flashdata('success', 'Orçamento gerado com sucesso!');
-
           //redirect(site_url('cotacao_painel'));
-
           $result['msg'] = TRUE;
-
           echo json_encode($result);
-
           //$total = $treinamento->valor_aluno * $nro_alunos;
-
           //$this->load->view('restrito/cotacao/novo_orcamento', $dados);
-
           } else {
-
           $result['msg'] = FALSE;
-
           echo json_encode($result);
-
           } */
 
     }
@@ -825,4 +779,3 @@ class Relatorio_painel extends CI_Controller {
 
 
 }
-

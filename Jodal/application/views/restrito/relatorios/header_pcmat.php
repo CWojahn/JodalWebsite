@@ -47,11 +47,11 @@
     </div>
 </div>
 
-<div class="row">
+<!-- <div class="row">
     <div class="col-md-12 col-sm-12 text-center">
         <button id="btn_save" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
     </div>
-</div>
+</div> -->
 
 <!-- <script>
 
