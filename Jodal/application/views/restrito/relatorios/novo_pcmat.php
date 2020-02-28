@@ -22,10 +22,18 @@
         </div>
         
     </div>
-    <div class="form-group">
-        <label for="obs">Observações</label>
-        <textarea class="form-control" id="obs" name="obs"
-            placeholder="Observações da Obra" rows="3"></textarea>
+    <div class="row">
+        <div class="form-group">
+            <label for="obs">Observações</label>
+            <textarea class="form-control" id="obs" name="obs"
+                placeholder="Observações da Obra" rows="3"></textarea>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="nome_tst">Nome do TST</label>
+            <input type="text" id="nome_tst" name="nome_tst" class ="form-control">
+            <label for="data_rel">Data</label>
+            <input type="date" id="data_rel" name="data_rel" class ="form-control">
+        </div>
     </div>
 </form>
 <form class="form-row" id="form_nova_imagem" style="margin-bottom: 15px;">     
@@ -63,7 +71,7 @@
 </div>
 <div class="row">
     <div class="col-md-12 col-sm-12 text-center">
-        <button id="btn_save" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar Relatório</button>
+        <button id="btn_save" class="btn btn-success" onclick="SalvarRelatorio()"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar Relatório</button>
     </div>
 </div>
 
@@ -132,15 +140,25 @@
     };
 
     function SalvarRelatorio(){
-        let numero = ;
-        let id_cliente = document.getElementById("cliente").value;
-        let obra = document.getElementById("obra").value;
-        let data = ;
-        let local = document.getElementById("local").value;
-        let tst_name = ;
-        let observcoes = document.getElementById("obs").value;
-        let path_pdf = ;
-    }
+        let dados = {
+            'id_cliente' : document.getElementById("cliente").value,
+            'obra' : document.getElementById("obra").value,
+            'data' : document.getElementById("data_rel").value,
+            'local' : document.getElementById("local").value,
+            'tst_name' : document.getElementById("nome_tst").value,
+            'observacoes' : document.getElementById("obs").value,
+        };
+        
+        $.ajax(
+                {
+                    url: "<?php echo site_url('relatorio_painel/salvaralgo') ?>",
+                    type: "POST",
+                    data: dados,
+                    datatype: "json",
+                }
+        )
+
+    };
 
 
 </script>
