@@ -230,25 +230,23 @@ class Relatorio_painel extends CI_Controller {
     }
 
 
-//ver com o fazer o vetor de todas as imagens e observações
     public function salvar() {
+        $dados = array(
+            'id_cliente' => $this->input->post('cliente'),
+            'obra' => $this->input->post('obra'),
+            'data' => $this->input->post('data'),
+            'local' => $this->input->post('local'),
+            'tst_name' => $this->input->post('tst'),
+            'observacoes' => $this->input->post('obs'),
+        );
 
-        $numero = $this->input->post('numero');
-
-        $id_cliente = $this->input->post('id_cliente');
-
-        $obra = $this->input->post('obra');
-
-        $data = $this->input->post('data');
-
-        $local = $this->input->post('local');
-
-        $tst_name = $this->input->post('tst_name');
-
-        $observacoes = $this->input->post('observacoes');
-
-        $path_pdf = $this->input->post('path_pdf');
-
+        $this->load->model('relatorios_m');
+        $this->relatorios_m->insert($dados);
+        // if ($this->input->post('dados')){
+        //     //$relatorio= json_decode($relatorio);
+        //     //$this->relatorios_m->insert($dados);
+        //     echo TRUE;
+        // }
     }
 
 
@@ -575,7 +573,7 @@ class Relatorio_painel extends CI_Controller {
 
 
 
-        if ($this->relatorios_m->insertOrcinsert_pcmat($dados_orc, $array_orc)) {
+        if ($this->relatorios_m->insert_pcmat($dados_orc, $array_orc)) {
 
 
 

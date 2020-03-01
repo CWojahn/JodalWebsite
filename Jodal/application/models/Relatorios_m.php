@@ -16,7 +16,16 @@ class Relatorios_m extends CI_Model {
     //put your code here
 
     function insert($relatorio) {
-        return $this->db->insert('relatorios', $relatorio);
+        //$relatorio = json_decode($relatorio);
+        $this->db->trans_begin();
+        $this->db->insert('relatorios', $relatorio);
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return FALSE;
+        } else {
+            $this->db->trans_commit();
+            return TRUE;
+        }
     }
 
     function insert_pcmat($relatorio) {

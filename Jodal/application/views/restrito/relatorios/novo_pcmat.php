@@ -23,10 +23,10 @@
         
     </div>
     <div class="row">
-        <div class="form-group">
+        <div class="form-group col-md-6">
             <label for="obs">Observações</label>
             <textarea class="form-control" id="obs" name="obs"
-                placeholder="Observações da Obra" rows="3"></textarea>
+                placeholder="Observações da Obra" rows="4"></textarea>
         </div>
         <div class="form-group col-md-6">
             <label for="nome_tst">Nome do TST</label>
@@ -59,15 +59,15 @@
 <hr>
     <table class="table table-hover">
         <thead>
-        <tr>
-            <th style="text-align: center">Imagem</th>
-            <th style="text-align: center">Descrição</th>
-            <th style="text-align: center">Excluir</th>
-        </tr>
+            <tr>
+                <th style="text-align: center">Imagem</th>
+                <th style="text-align: center">Descrição</th>
+                <th style="text-align: center">Excluir</th>
+            </tr>
         </thead>
         <tbody id="imagensadicionadas">
         </tbody>
-  </table>
+    </table>
 </div>
 <div class="row">
     <div class="col-md-12 col-sm-12 text-center">
@@ -139,25 +139,60 @@
         };
     };
 
+
+
+    function teste(){
+        let tabledata = new Array();
+            $("#imagensadicionadas tr").each(function (row,tr) {
+                tabledata[row]= {
+                    'imagemsrc' : $(this).find("td").eq(0).find("img").attr('src'),
+                    'descricao' :  $(this).find("td").eq(1).find("textarea").val()
+                }
+            });
+        console.log(tabledata);
+    };
+
+
     function SalvarRelatorio(){
-        let dados = {
-            'id_cliente' : document.getElementById("cliente").value,
-            'obra' : document.getElementById("obra").value,
-            'data' : document.getElementById("data_rel").value,
-            'local' : document.getElementById("local").value,
-            'tst_name' : document.getElementById("nome_tst").value,
-            'observacoes' : document.getElementById("obs").value,
-        };
+        // let dados = {
+        //     'id_cliente' : document.getElementById("cliente").value,
+        //     'obra' : document.getElementById("obra").value,
+        //     'data' : document.getElementById("data_rel").value,
+        //     'local' : document.getElementById("local").value,
+        //     'tst_name' : document.getElementById("nome_tst").value,
+        //     'observacoes' : document.getElementById("obs").value,
+        //     'path_pdf' : ''
+        // };
+        // console.log(dados);
+        // let imagesdata = new Array();
+        //     $("#imagensadicionadas tr").each(function (row,tr) {
+        //         imagesdata[row]= {
+        //             'image_path' : $(this).find("td").eq(0).find("img").attr('src'),
+        //             'observacao' :  $(this).find("td").eq(1).find("textarea").val()
+        //         }
+        //     });
+        //dados = json_encode(dados);
+
+        //
         
         $.ajax(
                 {
-                    url: "<?php echo site_url('relatorio_painel/salvaralgo') ?>",
+                    url: "<?php echo site_url('relatorio_painel/salvar') ?>",
                     type: "POST",
-                    data: dados,
+                    data: {cliente: document.getElementById("cliente").value, obra: document.getElementById("obra").value, data: document.getElementById("data_rel").value, local: document.getElementById("local").value, tst: document.getElementById("nome_tst").value, obs: document.getElementById("obs").value},
                     datatype: "json",
+                    processData:false,
+                    contentType:false,
+                    cache:false,
+                    async:false,
+                    success: function(dados){
+                        console.log(dados);
+                    },
+                    error: function(thrownError){
+                        console.log(thrownError);
+                    }
                 }
-        )
-
+        );
     };
 
 
