@@ -259,13 +259,20 @@ class Relatorio_painel extends CI_Controller {
     }
 
     public function salvarImagensPcmat(){
-        $nro_pcmat = $this->relatorios_m->getNroRelatorioPcmat()->nro_pcmat;
-        $nro_pcmat = $nro_pcmat+1;
-        $dados = $this->input->post('imagesdata');
-        $dadosdecoded = json_decode($dados);
-        $dadosdecoded['id'] = $nro_pcmat;
         $this->load->model('relatorios_m');
-        $insert = $this->relatorios_m->insert_pcmat($dadosdecoded);
+        $nro_pcmat = $this->relatorios_m->getNroRelatorioPcmat()->nro_relatorio;
+        $nro_pcmat = $nro_pcmat+1;
+        $id_relatorio = $this->input->post('id_relatorio');
+        $image_path = $this->input->post('image_path');
+        $observacao = $this->input->post('observacao');
+
+        $dados = array(
+            'id' => $nro_pcmat,
+            'id_relatorio' => $id_relatorio,
+            'image_path' => $image_path,
+            'observacao' => $observacao
+        );
+        $insert = $this->relatorios_m->insert_pcmat($dados);
         echo json_encode($insert);
     }
 

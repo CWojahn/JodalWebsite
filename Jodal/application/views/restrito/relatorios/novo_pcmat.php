@@ -154,19 +154,6 @@
 
 
     function SalvarRelatorio(){
-        // let dados = {
-        //     'id_cliente' : document.getElementById("cliente").value,
-        //     'obra' : document.getElementById("obra").value,
-        //     'data' : document.getElementById("data_rel").value,
-        //     'local' : document.getElementById("local").value,
-        //     'tst_name' : document.getElementById("nome_tst").value,
-        //     'observacoes' : document.getElementById("obs").value,
-        //     'path_pdf' : ''
-        // };
-        // console.log(dados);
-        
-
-        //
         
         $.ajax(
                 {
@@ -186,29 +173,32 @@
     };
 
 function salvarPcmat(dados) {
-    let imagesdata = new Array();
-            $("#imagensadicionadas tr").each(function (row,tr) {
-                imagesdata[row]= {
-                    'image_path' : $(this).find("td").eq(0).find("img").attr('src'),
-                    'observacao' :  $(this).find("td").eq(1).find("textarea").val(),
-                    'id_relatorio' : dados
+    let countrows =0;
+    let count =0;
+    $("#imagensadicionadas tr").each(function (row,tr) {
+        $.ajax(               
+            {
+                url: "<?php echo site_url('relatorio_painel/salvarImagensPcmat') ?>",
+                type: "POST",
+                data: {image_path : $(this).find("td").eq(0).find("img").attr('src'),
+                    observacao :  $(this).find("td").eq(1).find("textarea").val(), 
+                    id_relatorio : dados},
+                datatype: "json",
+                async:false,
+                success: function(dados){
+                    console.log('Imagem ' + row + ' foi cadastrada');
+                    count = count+1;
+                },
+                error: function(){
+                    alert('erro');
                 }
-            });
-        //dados = json_encode(dados);
-    $.ajax(               
-        {
-            url: "<?php echo site_url('relatorio_painel/salvarImagensPcmat') ?>",
-            type: "POST",
-            data: imagesdata,
-            datatype: "json",
-            async:false,
-            success: function(dados){
-                alert('Todas as imagens cadastradas');
-            },
-            error: function(){
-                alert('erro');
-            }
         });
+        countrows = countrows +1;
+    });
+
+    if (count == countrows) {
+        alert('Todas as imagens foram cadastradas com sucesso.');
+    }
 };
 
 </script>
