@@ -20,8 +20,9 @@ class Relatorios_m extends CI_Model {
        return $query;
     }
 
-    function insert_pcmat($relatorio) {
-        return $this->db->insert('relatorio_pcmat', $relatorio);
+    function insert_pcmat($data) {
+        $query = $this->db->insert('relatorio_pcmat', $data);
+        return $query;
     }
 
     // **** Alterar ****
@@ -32,7 +33,11 @@ class Relatorios_m extends CI_Model {
 
     function getNroRelatorio() {
         $query = $this->db->query("SELECT COALESCE(max(id),0) nro_relatorio FROM relatorios");
+        return $query->row();
+    }
 
+    function getNroRelatorioPcmat() {
+        $query = $this->db->query("SELECT COALESCE(max(id),0) nro_relatorio FROM relatorio_pcmat");
         return $query->row();
     }
 

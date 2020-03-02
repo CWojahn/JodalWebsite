@@ -232,6 +232,10 @@ class Relatorio_painel extends CI_Controller {
 
     public function salvar() {
 
+        $this->load->model('relatorios_m');
+
+        $nro_relatorio = $this->relatorios_m->getNroRelatorio()->nro_relatorio;
+        $nro_relatorio = $nro_relatorio + 1;
         $id_cliente = $this->input->post('cliente');
         $obra = $this->input->post('obra');
         $data_rel = $this->input->post('data');
@@ -240,6 +244,7 @@ class Relatorio_painel extends CI_Controller {
         $obs = $this->input->post('obs');
 
         $dados = array(
+            'id' => $nro_relatorio,
             'id_cliente' => $id_cliente,
             'obra' => $obra,
             'data' => $data_rel,
@@ -250,9 +255,18 @@ class Relatorio_painel extends CI_Controller {
         
         $this->load->model('relatorios_m');
         $insert = $this->relatorios_m->createData($dados);
-        echo json_encode($insert);
-        
+        echo json_encode($nro_relatorio);
+    }
 
+    public function salvarImagensPcmat(){
+        $nro_pcmat = $this->relatorios_m->getNroRelatorioPcmat()->nro_pcmat;
+        $nro_pcmat = $nro_pcmat+1;
+        $dados = $this->input->post('imagesdata');
+        $dadosdecoded = json_decode($dados);
+        $dadosdecoded['id'] = $nro_pcmat;
+        $this->load->model('relatorios_m');
+        $insert = $this->relatorios_m->insert_pcmat($dadosdecoded);
+        echo json_encode($insert);
     }
 
 

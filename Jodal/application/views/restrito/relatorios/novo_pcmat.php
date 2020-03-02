@@ -164,14 +164,7 @@
         //     'path_pdf' : ''
         // };
         // console.log(dados);
-        // let imagesdata = new Array();
-        //     $("#imagensadicionadas tr").each(function (row,tr) {
-        //         imagesdata[row]= {
-        //             'image_path' : $(this).find("td").eq(0).find("img").attr('src'),
-        //             'observacao' :  $(this).find("td").eq(1).find("textarea").val()
-        //         }
-        //     });
-        //dados = json_encode(dados);
+        
 
         //
         
@@ -183,7 +176,7 @@
                     datatype: "json",
                     async:false,
                     success: function(dados){
-                        alert('Salvo com sucesso');
+                        salvarPcmat(dados);
                     },
                     error: function(){
                         alert('erro');
@@ -192,5 +185,30 @@
         );
     };
 
+function salvarPcmat(dados) {
+    let imagesdata = new Array();
+            $("#imagensadicionadas tr").each(function (row,tr) {
+                imagesdata[row]= {
+                    'image_path' : $(this).find("td").eq(0).find("img").attr('src'),
+                    'observacao' :  $(this).find("td").eq(1).find("textarea").val(),
+                    'id_relatorio' : dados
+                }
+            });
+        //dados = json_encode(dados);
+    $.ajax(               
+        {
+            url: "<?php echo site_url('relatorio_painel/salvarImagensPcmat') ?>",
+            type: "POST",
+            data: imagesdata,
+            datatype: "json",
+            async:false,
+            success: function(dados){
+                alert('Todas as imagens cadastradas');
+            },
+            error: function(){
+                alert('erro');
+            }
+        });
+};
 
 </script>
