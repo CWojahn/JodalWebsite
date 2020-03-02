@@ -231,22 +231,28 @@ class Relatorio_painel extends CI_Controller {
 
 
     public function salvar() {
-        $dados = array(
-            'id_cliente' => $this->input->post('cliente'),
-            'obra' => $this->input->post('obra'),
-            'data' => $this->input->post('data'),
-            'local' => $this->input->post('local'),
-            'tst_name' => $this->input->post('tst'),
-            'observacoes' => $this->input->post('obs'),
-        );
 
+        $id_cliente = $this->input->post('cliente');
+        $obra = $this->input->post('obra');
+        $data_rel = $this->input->post('data');
+        $local = $this->input->post('local');
+        $tst_name = $this->input->post('tst');
+        $obs = $this->input->post('obs');
+
+        $dados = array(
+            'id_cliente' => $id_cliente,
+            'obra' => $obra,
+            'data' => $data_rel,
+            'local' => $local,
+            'tst_name' => $tst_name,
+            'observacoes' => $obs,
+        );
+        
         $this->load->model('relatorios_m');
-        $this->relatorios_m->insert($dados);
-        // if ($this->input->post('dados')){
-        //     //$relatorio= json_decode($relatorio);
-        //     //$this->relatorios_m->insert($dados);
-        //     echo TRUE;
-        // }
+        $insert = $this->relatorios_m->createData($dados);
+        echo json_encode($insert);
+        
+
     }
 
 

@@ -181,15 +181,12 @@
                     type: "POST",
                     data: {cliente: document.getElementById("cliente").value, obra: document.getElementById("obra").value, data: document.getElementById("data_rel").value, local: document.getElementById("local").value, tst: document.getElementById("nome_tst").value, obs: document.getElementById("obs").value},
                     datatype: "json",
-                    processData:false,
-                    contentType:false,
-                    cache:false,
                     async:false,
                     success: function(dados){
-                        console.log(dados);
+                        alert('Salvo com sucesso');
                     },
-                    error: function(thrownError){
-                        console.log(thrownError);
+                    error: function(){
+                        alert('erro');
                     }
                 }
         );
