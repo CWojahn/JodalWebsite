@@ -98,11 +98,17 @@ class Relatorio_painel extends CI_Controller {
         );
         
         $this->load->model('relatorios_m');
+        $this->load->model('clientes_m');
+
         $relatorio = $this->relatorios_m->getRelatorioById($id);
         $imagensrelatorios = $this->relatorios_m->getPcmatImagesById($id);
+        $clientes = $this->clientes_m->get_all();
+
         $dados1 = array(
-            'imagens_relatorio' => $imagensrelatorios,
+            'imagens' => $imagensrelatorios,
+            'clientes' => $clientes,
             'relatorio' => $relatorio->row()
+
         );
         $this->load->view('restrito/painel', $dados);
         $this->load->view('restrito/relatorios/editar_pcmat', $dados1);
@@ -182,6 +188,10 @@ class Relatorio_painel extends CI_Controller {
     }
 
 
+    public function salvar_edit_pcmat(){
+
+    }
+
     public function salvar() {
 
         $this->load->model('relatorios_m');
@@ -245,6 +255,8 @@ class Relatorio_painel extends CI_Controller {
 
         $tst = $this->input->post('tst');
     }
+
+
 
 
 
