@@ -41,19 +41,18 @@ class Relatorios_m extends CI_Model {
         return $query->row();
     }
 
-    function getRelatorio() {
-        $query = $this->db->query("SELECT relatorios.id, clientes.empresa, clientes.email,
-                                    relatorios.data, relatorios.obra, relatorios.local,
-                                    relatotios.observacoes,
-                                    relatorios.tst_name, relatorios.path_pdf, clientes.responsavel
-                                   FROM relatorios
-	                               INNER JOIN clientes
-	                               ON relatorios.id_cliente = clientes.id 
-                                   ORDER BY relatorios.id DESC");
+    function getRelatorios() {
+        $query = $this->db->query("select relatorios.id, 
+                                    relatorios.data, relatorios.obra, relatorios.local,clientes.empresa,
+                                    relatorios.tipo, clientes.email, relatorios.tipo
+                                   from relatorios
+	                               inner join clientes
+	                               on relatorios.id_cliente = clientes.id 
+                                   order by relatorios.data desc");
         return $query->result();
     }
 
-    function remove_rel($id) {
+    function remove_relatorio($id) {
         return $this->db->delete('relatorios', array('id' => $id));
     }
 

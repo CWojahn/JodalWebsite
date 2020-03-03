@@ -159,7 +159,7 @@
                 {
                     url: "<?php echo site_url('relatorio_painel/salvar') ?>",
                     type: "POST",
-                    data: {cliente: document.getElementById("cliente").value, obra: document.getElementById("obra").value, data: document.getElementById("data_rel").value, local: document.getElementById("local").value, tst: document.getElementById("nome_tst").value, obs: document.getElementById("obs").value},
+                    data: {cliente: document.getElementById("cliente").value, obra: document.getElementById("obra").value, data: document.getElementById("data_rel").value, local: document.getElementById("local").value, tst: document.getElementById("nome_tst").value, obs: document.getElementById("obs").value, tipo: 'PCMAT & PGST'},
                     datatype: "json",
                     async:false,
                     success: function(dados){

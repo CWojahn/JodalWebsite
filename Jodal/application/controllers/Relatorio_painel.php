@@ -36,7 +36,7 @@ class Relatorio_painel extends CI_Controller {
     }
 
 
-// ok
+
     public function index($array = array()) {
 
         $this->load->model('relatorios_m'); 
@@ -53,7 +53,7 @@ class Relatorio_painel extends CI_Controller {
 
         //$certificados = $this->certificado_m->get_all();
 
-        //$array['relatorios'] = $this->relatorios_m->getRelatorios();
+        $array['relatorios'] = $this->relatorios_m->getRelatorios();
 
         $this->load->view('restrito/painel', $dados);
 
@@ -63,8 +63,6 @@ class Relatorio_painel extends CI_Controller {
 
     }
 
-
-// ok
     public function novo() {
 
         $this->load->model('relatorios_m');
@@ -99,19 +97,13 @@ class Relatorio_painel extends CI_Controller {
 
         $dados = array(
 
-            'header' => 'Controle de Certificados'
+            'header' => 'Controle de Relatórios'
 
         );
 
-        $this->load->model('treinamento_m');
+        $this->load->model('relatorios_m');
 
-        $this->load->model('certificado_m');
-
-        $certificado = $this->certificado_m->get_certificado($id);
-
-
-
-        $treinamentos = $this->treinamento_m->get_all();
+        $certificado = $this->relatorios_m->getRelatorioById($id);
 
         $dados1 = array(
 
@@ -133,43 +125,18 @@ class Relatorio_painel extends CI_Controller {
 //**** */
 
 
-// ok
     public function excluir() {
-
         if ($this->input->post('id')) {
-
             $id = $this->input->post('id');
-
-
-            $this->load->model('relatorio_m');
-
-            $result = $this->relatorio_m->getPdfRelatorio($id);
-
-
-            if (!empty($result->path_pdf)) {
-
-                $file = $result->path_pdf;
-
-                unlink(FCPATH . 'uploads/relatorios/' . $file);
-
-            }
-
-            if ($this->relatorio_m->remove_relatorio($id)) {
-
+            $this->load->model('relatorios_m');
+            if ($this->relatorios_m->remove_relatorio($id)) {
                 echo json_encode(array('msg' => TRUE));
-
             } else {
-
                 echo json_encode(array('msg' => FALSE));
-
             }
-
         } else {
-
             echo json_encode(array('msg' => FALSE));
-
         }
-
     }
 
 
@@ -242,6 +209,7 @@ class Relatorio_painel extends CI_Controller {
         $local = $this->input->post('local');
         $tst_name = $this->input->post('tst');
         $obs = $this->input->post('obs');
+        $tiporel = $this->input->post('tipo');
 
         $dados = array(
             'id' => $nro_relatorio,
@@ -251,6 +219,7 @@ class Relatorio_painel extends CI_Controller {
             'local' => $local,
             'tst_name' => $tst_name,
             'observacoes' => $obs,
+            'tipo' => $tiporel
         );
         
         $this->load->model('relatorios_m');
