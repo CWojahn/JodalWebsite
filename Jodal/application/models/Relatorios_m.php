@@ -70,13 +70,17 @@ class Relatorios_m extends CI_Model {
         }
     }
 
+    function getPcmatImagesById($id){
+        return $this->db->get_where('relatorio_pcmat', array('id_relatorio' =>$id));
+    }
+
     function getRelatorioById($id) {
-        $query = $this->db->query("SELECT relatorios.id, clientes.empresa, clientes.email,
-                                    relatorios.data, relatorios.obra, relatorios.local, relatorios.tst_name, relatotios.observacoes, relatorios.path_pdf,
-                                    clientes.responsavel
-                                   FROM relatorios
-	                               INNER JOIN clientes
-	                               ON relatorios.id_cliente = clientes.id AND relatorios.id=$id");
+        //$this->db->select('id','id_cliente', 'obra', 'data', 'local');
+        $query = $this->db->query("SELECT relatorios.id, relatorios.id_cliente,
+                                        relatorios.obra, relatorios.data, relatorios.local, relatorios.tst_name,
+                                        relatorios.observacoes
+                                    FROM relatorios
+                                    where relatorios.id=$id");
         return $query->row();
     }
 

@@ -92,37 +92,22 @@ class Relatorio_painel extends CI_Controller {
     }
 
 
-// revisar **** */
-    public function editar($id = '') {
-
+    public function editar_pcmat($id = '') {
         $dados = array(
-
             'header' => 'Controle de Relatórios'
-
         );
-
+        
         $this->load->model('relatorios_m');
-
-        $certificado = $this->relatorios_m->getRelatorioById($id);
-
+        $relatorio = $this->relatorios_m->getRelatorioById($id);
+        $imagensrelatorios = $this->relatorios_m->getPcmatImagesById($id);
         $dados1 = array(
-
-            'treinamentos' => $treinamentos,
-
-            'certificado' => $certificado->row()
-
+            'imagens_relatorio' => $imagensrelatorios,
+            'relatorio' => $relatorio->row()
         );
-
-
-
         $this->load->view('restrito/painel', $dados);
-
-        $this->load->view('restrito/relatorios/editar', $dados1);
-
+        $this->load->view('restrito/relatorios/editar_pcmat', $dados1);
         $this->load->view('restrito/footer');
-
     }
-//**** */
 
 
     public function excluir() {

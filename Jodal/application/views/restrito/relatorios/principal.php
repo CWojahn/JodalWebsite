@@ -52,8 +52,6 @@
                                 <?php  }elseif ($relatorio->tipo == 'DST') { ?>
                                         <a href="<?php echo site_url('relatorio_painel/editar_dst/' . $relatorio->id); ?>" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
                                 <?php   } ?>
-
-
                                 <a onclick="excluir(<?php echo $relatorio->id; ?>);" style="cursor: pointer;" class="btn btn-danger" title="Excluir"><span class="glyphicon glyphicon-remove"></span> </a>
                             </td>
                             <td class="text-center" style="width: 5%;"><?php echo $relatorio->id; ?></td>
