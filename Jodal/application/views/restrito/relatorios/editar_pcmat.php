@@ -10,10 +10,10 @@
 <form id="form_edit_pcmat" class="form-horizontal" method="post" action="<?php echo site_url('relatorio_painel/salvar_edit_pcmat'); ?>">
     <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8">
     <div class="col-md-12">
-    <div class="form-group">
-            <label for="id" class="control-label col-md-4">Código:</label>
+        <div class="form-group">
+            <label for="idrel" class="control-label col-md-4">Código:</label>
             <div class="col-md-8">
-                <input type="text" class="form-control" id="obra" name="obra" disabled value="<?php echo $relatorio->id;?>">
+                <input readonly type="text" class="form-control" id="idrel" name="idrel" value="<?php echo $relatorio->id;?>">
             </div>
         </div>
         <div class="form-group">
@@ -180,9 +180,11 @@
                     dataType: "json",
                     success: function (dados)
                     {
+                        console.log(dados);
                         if (dados.msg == true) {
-                            bootbox.alert('Relatório editado com sucesso');
+                            bootbox.alert('Relatório editado com sucesso', function(){
                             history.back();
+                            });
                         } else {
                             bootbox.alert('É necessário preencher todos os campos');
                         }

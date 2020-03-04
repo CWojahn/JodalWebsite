@@ -398,7 +398,7 @@ class Relatorio_painel extends CI_Controller {
         // $descricao = $this->input->post('descricao');
         $this->load->model('relatorios_m');
 
-        $idrel = $this->input->post('id');
+        $idrel = $this->input->post('idrel');
         $idcliente = $this->input->post('cliente');;
         $obra = $this->input->post('obra');
         $local = $this->input->post('local');
