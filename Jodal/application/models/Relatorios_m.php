@@ -80,14 +80,18 @@ class Relatorios_m extends CI_Model {
 
     function getRelatorioById($id) {
         //$this->db->select('id','id_cliente', 'obra', 'data', 'local');
-        $query = $this->db->query("SELECT relatorios.id, relatorios.id_cliente,
-                                        relatorios.obra, relatorios.data, relatorios.local, relatorios.tst_name,
-                                        relatorios.observacoes
-                                    FROM relatorios
-                                    where relatorios.id=$id");
+        $query = $this->db->query("SELECT relatorios.id, clientes.empresa, relatorios.id_cliente,
+                                    relatorios.obra, relatorios.data, relatorios.local, relatorios.tst_name,relatorios.observacoes
+                                FROM relatorios
+                                INNER JOIN clientes
+                                ON relatorios.id_cliente = clientes.id
+                                WHERE relatorios.id=$id");
         return $query->row();
     }
 
+
+
+    
     function getRelatorioByCliente($cliente){
         $query = $this->db->query("SELECT relatorios.id, clientes.empresa, clientes.email,
                                     relatorios.data, relatorios.obra, relatorios.local, relatorios.tst_name, relatotios.observacoes, relatorios.path_pdf,
@@ -123,7 +127,7 @@ class Relatorios_m extends CI_Model {
         }
     }
    
-    function update($id, $array) {
+    function update_relatorio($id, $array) {
 
         $this->db->where('id', $id);
         $this->db->update('relatorios', $array);

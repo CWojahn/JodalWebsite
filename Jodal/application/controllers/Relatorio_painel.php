@@ -392,12 +392,34 @@ class Relatorio_painel extends CI_Controller {
 
 
     public function salvar_edit_pcmat(){
-        $dados = array();
-        $dadosImagem = array();
         
+        // $dadosImagem = array();
         // $imagem = $this->input->post('');
         // $descricao = $this->input->post('descricao');
-        
+        $this->load->model('relatorios_m');
+
+        $idrel = $this->input->post('id');
+        $idcliente = $this->input->post('cliente');;
+        $obra = $this->input->post('obra');
+        $local = $this->input->post('local');
+        $obs = $this->input->post('obs');
+        $tst = $this->input->post('nometst');
+        $datarel = $this->input->post('data_rel');
+
+        //$dados['id'] = $idrel;
+        $dados = array(
+            'id_cliente'=> $idcliente,
+            'obra'=> $obra,
+            'local'=> $local,
+            'observacoes'=> $obs,
+            'tst_name'=> $tst,
+            'data'=> $datarel,
+            'tipo'=> 'PCMAT & PGST',
+            'path_pdf'=> ''
+        );
+
+            $result = $this->relatorios_m->update_relatorio($idrel, $dados);
+            echo json_encode(array('msg' => $result));
 
     }
 

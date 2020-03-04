@@ -10,10 +10,16 @@
 <form id="form_edit_pcmat" class="form-horizontal" method="post" action="<?php echo site_url('relatorio_painel/salvar_edit_pcmat'); ?>">
     <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8">
     <div class="col-md-12">
+    <div class="form-group">
+            <label for="id" class="control-label col-md-4">Código:</label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" id="obra" name="obra" disabled value="<?php echo $relatorio->id;?>">
+            </div>
+        </div>
         <div class="form-group">
             <label for="cliente">Selecione o Cliente</label>
             <select class="form-control" id="cliente" name="cliente">
-                <option value="-1">Escolha um Cliente</option>
+                <option value="<?php echo $relatorio->id_cliente ?>"><?php echo $relatorio->empresa ?></option>
                 <?php foreach ($clientes as $client) { ?>
                     <option value="<?php echo $client->id ?>"><?php echo $client->empresa; ?></option>
                 <?php } ?>
@@ -63,7 +69,6 @@
                     <tr>
                         <th style="text-align: center">Imagem</th>
                         <th style="text-align: center">Descrição</th>
-                        <th style="text-align: center">Excluir</th>
                     </tr>
                 </thead>
                 <tbody id="imagensadicionadas">
@@ -157,6 +162,37 @@
             }
         });
     };
+</script>
+
+<script>
+    var array_rel = [];
+
+     $("#form_edit_pcmat").submit(function (e) {
+        e.preventDefault();
+        var input = $("<input>").attr("type", "hidden").attr("name", "count_rel").val(array_rel.length);
+        jQuery(this).append(input);
+        var postData = jQuery(this).serialize();
+        $.ajax(
+                {
+                    url: "<?php echo site_url('relatorio_painel/salvar_edit_pcmat') ?>",
+                    type: "POST",
+                    data: postData,
+                    dataType: "json",
+                    success: function (dados)
+                    {
+                        if (dados.msg == true) {
+                            bootbox.alert('Relatório editado com sucesso');
+                            history.back();
+                        } else {
+                            bootbox.alert('É necessário preencher todos os campos');
+                        }
+                    },
+                    error: function ()
+                    {
+                        alert('Erro ao editar este relatorio!');
+                    }
+                });
+    });
 </script>
 
 
