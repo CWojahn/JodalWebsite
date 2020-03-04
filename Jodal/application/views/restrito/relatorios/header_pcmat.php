@@ -4,7 +4,7 @@
 
 <div class="row">
 
-    <h3 class="text-center">RELATÓRIO PCMAT & PGST Nº <?php echo ($nro_relatorio) . '/' . date('y', strtotime($data)) . ' - ' . $sel_cliente->empresa; ?></h3>
+    <h3 class="text-center">RELATÓRIO PCMAT & PGST Nº <?php echo ($nro_relatorio); ?></h3>
 
     <div class="col-md-offset-3 col-md-6">
 

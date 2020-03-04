@@ -453,46 +453,48 @@ class Relatorio_painel extends CI_Controller {
      }
 
 
-    public function gerar_relatorio() {
+    public function gerar_relatorio($id = '') {
 
-        if ($this->input->post('relatorio') &&
-            $this->input->post('cliente')) {
+        if ($this->input->post('relatorio')){
 
             $this->load->model('relatorios_m');
-            $this->load->model('clientes_m');
+            $relatorio = $this->relatorios_m->getRelatorioById($id);
+            $imagensrelatorios = $this->relatorios_m->getPcmatImagesById($id);
 
-
-            $id_relatorio = $this->input->post('relatorio');
-
-            $id_cliente = $this->input->post('cliente');
-
-            $count_relatorio = $this->input->post('count_relatorio');
-
-            $nro_relatorio = $this->cotacao_m->getNroRelatorio()->nro_relatorio;
-
-            $nro_relatorio = $nro_relatorio + 1;
-
-            $sel_relatorio = $this->relatorios_m->get_relatorio($id_relatorio)->row();
-
-            $dados = array(
-
-                'sel_cliente' => $this->clientes_m->get_cliente($id_cliente)->row(),
-
-                'sel_relatorio' => $sel_relatorio,
+            $dados1 = array(
+                'array_images' => $imagensrelatorios,
+                'relatorio' => $relatorio    
             );
 
-            $result['id_relatorio'] = $sel_relatorio->id;
+            $nome_pdf = date('Y-m-d') . "-REL-" . $id . ".pdf";
 
-            $result['page'] = $this->load->view('restrito/relatorios/novo_relatorio', $dados, true);
+            $pdfFilePath = FCPATH . "uploads/relatorios/pdf/" . $nome_pdf;
 
-            $result['msg'] = TRUE;
 
-            echo json_encode($result);
+
+            if (file_exists($pdfFilePath) == FALSE) {
+                ini_set('memory_limit', '64M'); 
+                $html = $this->load->view('restrito/relatorios/pdf_pcmat_pgst', $dados1, true);
+
+                $this->load->library('pdf');
+                $pdf = $this->pdf->load();
+                $pdf->SetDisplayMode('fullpage');
+                $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}|' . date(DATE_RFC822));
+                $pdf->WriteHTML($html);
+                $pdf->Output($pdfFilePath, 'F');
+
+                $this->relatorios_m->update_relatorio($id, array('path_pdf' => $nome_pdf));
+                echo TRUE;
+            } else {
+                echo FALSE;
+            }
         } else {
-            $result['msg'] = FALSE;
-            echo json_encode($result);
+
+            echo FALSE;
         }
 
+
+    
     }
 
 

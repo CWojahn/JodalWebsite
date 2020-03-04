@@ -105,7 +105,7 @@
       <div class="col-md-offset-3 col-md-6" style="border-style: solid; border-width: 1px;margin-top: 35px;" >
           <div class="panel panel-default">
             <div class="panel-body text-center">
-                  <p class="text-uppercase" style="padding-left: 10px;">EMPRESA: <?php echo $cliente->empresa?></p>
+                  <p class="text-uppercase" style="padding-left: 10px;">EMPRESA: <?php echo $relatorio->empresa?></p>
                   <p class="text-uppercase" style="padding-left: 10px;">OBRA: <?php echo $relatorio->obra?></p>
                   <p class="text-uppercase" style="padding-left: 10px;">LOCAL: <?php echo $relatorio->local?></p>
                   <p class="text-uppercase" style="padding-left: 10px;">TST-OBRA: <?php echo $relatorio->tst_name?></p>
@@ -136,16 +136,13 @@
             </div>
           </div>
           <div class="divTableRow">
-            <?php foreach ($array_rel as $value) { ?>
+            <?php foreach ($array_images as $value) { ?>
               <div class="divTableCell" style="vertical-align: middle;">
-                <img src="<?php echo base_url('uploads/relatorios/' . $value->imagem); ?>"
-                  alt="" srcset="" width="600em">
+                <img src="<?php echo $value->image_path;?>" alt="" srcset="" width="600em">
               </div>
               <div class="divTableCell" style="text-align: left;">
                 <p style="text-align: center; text-decoration: underline;">APONTAMENTOS TÉCNICOS:</p>
-                <?php foreach ($array_obs as $observacao) { ?>
-                  <p><?php echo $observacao; ?></p>
-                <?php } ?> 
+                  <p><?php echo $value->$observacao; ?></p>
               </div>
             <?php } ?> 
           </div>          
@@ -155,9 +152,7 @@
         Observações:
     </div>
     <div class="row" style="border: #999 solid 1px;">
-      <Ul>
-        <li><?php echo $relatorio->observacoes; ?></li>
-      </Ul>
+      <p><?php echo $relatorio->observacoes; ?></p>
     </div> 
     <div class="row">
       <div class="divTable">
@@ -171,16 +166,12 @@
             </div>           
             <div class="divTableCell"style="text-align: center;">
               <p style="text-decoration: underline;">Observação: Documento encaminhar para e-mails:</p>
-                <ul style="margin: auto; width: 50%; padding-left: 30%;">
-                  <?php foreach ($array_email as $email) { ?>
-                    <li class="emailsitem"><span><?php echo $email; ?></li>
-                  <?php } ?>
-                </ul>
+              <p><?php echo $email; ?></p>
             </div>
             <div class="divTableCell">
               <br><br><br>
               <hr>
-              <ps style="font-weight: 600;">CONTRATANTE - <?php echo $cliente->empresa?></p>
+              <ps style="font-weight: 600;">CONTRATANTE - <?php echo $relatorio->empresa?></p>
             </div> 
           </div>
         </div>
