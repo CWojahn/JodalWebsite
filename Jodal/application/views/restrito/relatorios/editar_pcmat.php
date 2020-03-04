@@ -34,23 +34,28 @@
         <div class="form-group">
             <label for="observacoes" class="control-label col-md-4">Observações:</label>
             <div class="col-md-8">
-                <textarea class="form-control" id="obs" name="obs" placeholder="Observações da Obra" rows="3">
-                    <?php echo $relatorio->observacoes;?>
+                <textarea class="form-control" id="obs" name="obs" placeholder="Observações da Obra" rows="3"><?php echo $relatorio->observacoes;?>
                 </textarea>
             </div>
         </div>        
         <div class="form-group">
             <label for="nometst" class="control-label col-md-4">Nome do TST:</label>
             <div class="col-md-8">
-                <input type="text" class="form-control" id="nometst" name="nometst" placeholder="Nome do TST" value="<?php echo $relatorio->nometst;?>">
+                <input type="text" class="form-control" id="nometst" name="nometst" placeholder="Nome do TST" value="<?php echo $relatorio->tst_name;?>">
             </div>
         </div>
         <div class="form-group">
             <label for="data_rel" class="control-label col-md-4">Data:</label>
             <div class="col-md-8">
-                <input type="date" class="form-control" id="data_rel" name="data_rel" placeholder="Data" value="<?php echo $relatorio->data_rel;?>">
+                <input type="date" class="form-control" id="data_rel" name="data_rel" placeholder="Data" value="<?php echo $relatorio->data;?>">
             </div>
         </div>
+    </div>
+    <div class="col-md-12 col-sm-12 text-center">
+        <button class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Salvar</button>
+        <a href="javascript:history.back()" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Cancelar</a>
+    </div>
+</form>
         <div id="imagens1">
             <hr>
             <table class="table table-hover">
@@ -63,31 +68,28 @@
                 </thead>
                 <tbody id="imagensadicionadas">
                     <?php foreach ($imagens as $imagem) { ?>
-                        <tr id="linha<?php echo $imagem->$ids; ?>">
+                        <tr id="linha<?php echo $imagem->id; ?>">
                             <td>
                                 <img style="width: auto; height: 100px;" src="<?php echo $imagem->image_path; ?>"/>
                                 </td> 
                             <td>
                                 <textarea class="form-control" id="descricao" name="descricao"
-                                    placeholder="Descrição da Imagem" rows="4"><?php echo $imagem->descricao; ?></textarea>
+                                    placeholder="Descrição da Imagem" rows="4" disabled><?php echo $imagem->observacao; ?></textarea>
                             </td>
-                            <td style="text-align: center;"><button class="btn btn-danger"  id="delete" onclick="excluirImagem(<?php echo $imagem->$ids; ?>)"><span class="glyphicon glyphicon-remove"></span> Excluir</td>
+                            <!-- <td style="text-align: center;"><a class="btn btn-danger"  id="delete" onclick="excluirImagem(<?php echo $imagem->id; ?>)"><span class="glyphicon glyphicon-remove"></span> Excluir</td> -->
                         </tr>
                     <?php } ?>
                 </tbody>
             </table>
         </div>
 
-    </div>
-    <div class="col-md-12 col-sm-12 text-center">
-        <button class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Salvar</button>
-        <a href="javascript:history.back()" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Cancelar</a>
-    </div>
-</form>
+
 <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
 <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
 <script src="<?php echo base_url('js/bootstrap-maxlength.min.js'); ?>"></script>
 <script src="<?php echo base_url('js/jquery.maskedinput.min.js'); ?>"></script>
+<script src="<?php echo base_url('js/bootbox.min.js'); ?>"></script>
+
 <script>
 // just for the demos, avoids form submit
 
@@ -127,8 +129,9 @@
             }
         }
     });
+</script>
 
-
+<script>
     function excluirImagem(id) {
         bootbox.confirm("Tem certeza que deseja excluir a imagem do relatório?", function (result) {
             if (result) {
@@ -139,16 +142,21 @@
                     dataType: 'json',
                     success: function (dados) {
                         if (dados.msg == true) {
-                            location.reload();
+                            alert('Imagem excluida');
+                            //location.reload();
                         } else {
                             alert('Erro ao excluir imagem!');
                         }
                     },
-                    error: function () {
+                    error: function (xhr, ajaxOptions, thrownError) {
                         alert('Erro ao excluir imagem!');
+                        console.log(xhr.responseText);
+                        console.log(thrownError);
                     }
                 });
             }
         });
     };
 </script>
+
+

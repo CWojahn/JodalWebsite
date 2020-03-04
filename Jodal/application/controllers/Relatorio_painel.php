@@ -107,7 +107,7 @@ class Relatorio_painel extends CI_Controller {
         $dados1 = array(
             'imagens' => $imagensrelatorios,
             'clientes' => $clientes,
-            'relatorio' => $relatorio->row()
+            'relatorio' => $relatorio
 
         );
         $this->load->view('restrito/painel', $dados);
@@ -115,6 +115,19 @@ class Relatorio_painel extends CI_Controller {
         $this->load->view('restrito/footer');
     }
 
+    public function excluir_imagempcmat(){
+        if ($this->input->post('id')) {
+            $id = $this->input->post('id');
+            $this->load->model('relatorios_m');
+            if ($this->relatorios_m->remove_imagemPcmat($id)) {
+                echo json_encode(array('msg' => TRUE));
+            } else {
+                echo json_encode(array('msg' => FALSE));
+            }
+        } else {
+            echo json_encode(array('msg' => FALSE));
+        }
+    }
 
     public function excluir() {
         if ($this->input->post('id')) {
@@ -188,9 +201,7 @@ class Relatorio_painel extends CI_Controller {
     }
 
 
-    public function salvar_edit_pcmat(){
 
-    }
 
     public function salvar() {
 
@@ -239,25 +250,6 @@ class Relatorio_painel extends CI_Controller {
         $insert = $this->relatorios_m->insert_pcmat($dados);
         echo json_encode($insert);
     }
-
-
-//ver com o fazer o vetor de todas as imagens e observações
-    public function salvar_edit() {
-
-
-        $numero = $this->input->post('numero');
-
-        $clienteid = $this->input->post('clienteid');
-
-        $obra = $this->input->post('obra');
-
-        $cidade = $this->input->post('cidade');
-
-        $tst = $this->input->post('tst');
-    }
-
-
-
 
 
     public function carregar_header() {
@@ -399,28 +391,15 @@ class Relatorio_painel extends CI_Controller {
     }
 
 
+    public function salvar_edit_pcmat(){
+        $dados = array();
+        $dadosImagem = array();
+        
+        // $imagem = $this->input->post('');
+        // $descricao = $this->input->post('descricao');
+        
 
-
-    // function do_upload(){
-    //     $config['upload_path']= FCPATH . 'uploads/relatorios';
-    //     $config['allowed_types']='gif|jpg|png';
-    //     $config['encrypt_name'] = TRUE;
-         
-    //     $this->load->library('upload',$config);
-
-    //     if($this->upload->do_upload('file')){
-    //         $data = array('upload_data' => $this->upload->data());
- 
-    //         $descricao= $this->input->post('descricao');
-    //         $image= $data['upload_data']['file_name']; 
-             
-    //         //$result= $this->load->view('restrito/relatorios/novo_image_table', $descricao, $image, true);
-    //         $result= $this->upload_model->save_upload($descricao,$image);
-    //         echo json_decode($result);
-    //     }
- 
-    //  }
-
+    }
 
      function do_upload(){
         $config['upload_path']= FCPATH . 'uploads/relatorios';

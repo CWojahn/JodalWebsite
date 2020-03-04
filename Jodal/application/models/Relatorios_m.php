@@ -56,6 +56,10 @@ class Relatorios_m extends CI_Model {
         return $this->db->delete('relatorios', array('id' => $id));
     }
 
+    function remove_imagemPcmat($id) {
+        return $this->db->delete('relatorio_pcmat', array('id' => $id));
+    }
+
     function getPdfRelatorio($id) {
         $this->db->select('path_pdf');
         $this->db->where('id', $id);
@@ -71,7 +75,7 @@ class Relatorios_m extends CI_Model {
     }
 
     function getPcmatImagesById($id){
-        return $this->db->get_where('relatorio_pcmat', array('id_relatorio' =>$id));
+        return $this->db->get_where('relatorio_pcmat', array('id_relatorio' =>$id))->result();
     }
 
     function getRelatorioById($id) {
