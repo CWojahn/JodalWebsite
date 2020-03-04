@@ -76,7 +76,7 @@
               <div class="divTable"style="margin: 0; border-spacing:0" >
                 <div class="divTableRow">
                   <div class="divTableCell"style="margin: 0; border-spacing:0; text-align: left">
-                    <p>N°: <?php echo $nro_relatorio; ?></p> 
+                    <p>N°: <?php echo $relatorio->id; ?></p> 
                   </div>
                 </div>
                 <div class="divTableRow">
@@ -142,7 +142,7 @@
               </div>
               <div class="divTableCell" style="text-align: left;">
                 <p style="text-align: center; text-decoration: underline;">APONTAMENTOS TÉCNICOS:</p>
-                  <p><?php echo $value->$observacao; ?></p>
+                  <p><?php echo $value->observacao; ?></p>
               </div>
             <?php } ?> 
           </div>          
@@ -166,7 +166,7 @@
             </div>           
             <div class="divTableCell"style="text-align: center;">
               <p style="text-decoration: underline;">Observação: Documento encaminhar para e-mails:</p>
-              <p><?php echo $email; ?></p>
+              <p><?php echo $relatorio->email; ?></p>
             </div>
             <div class="divTableCell">
               <br><br><br>

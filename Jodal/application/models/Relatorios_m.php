@@ -80,7 +80,7 @@ class Relatorios_m extends CI_Model {
 
     function getRelatorioById($id) {
         //$this->db->select('id','id_cliente', 'obra', 'data', 'local');
-        $query = $this->db->query("SELECT relatorios.id, clientes.empresa, relatorios.id_cliente,
+        $query = $this->db->query("SELECT relatorios.id, clientes.empresa, relatorios.id_cliente,clientes.email,
                                     relatorios.obra, relatorios.data, relatorios.local, relatorios.tst_name,relatorios.observacoes
                                 FROM relatorios
                                 INNER JOIN clientes

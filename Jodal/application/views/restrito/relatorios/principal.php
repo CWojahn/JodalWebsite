@@ -132,3 +132,26 @@
     ;
 
 </script>
+
+<script>
+    function gerapdf(id){
+        $.ajax({
+            type: "POST",
+            url: "<?php echo site_url('relatorio_painel/gerar_relatorio') ?>",
+            data: {id: id},
+            dataType: 'json',
+            success: function (dados) {
+                if (dados.msg == true) {
+                    bootbox.alert('Deu');
+                } else {
+                    bootbox.alert('Nao deu');
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr.responseText);
+                //bootbox.alert('deu alguma merda no meio do caminho');
+                //$("#result_edit").html('<div class="alert alert-danger" role="alert">Erro ao excluir registro!</div>');
+            }
+        });
+    };
+</script>

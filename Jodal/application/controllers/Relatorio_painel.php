@@ -453,10 +453,9 @@ class Relatorio_painel extends CI_Controller {
      }
 
 
-    public function gerar_relatorio($id = '') {
+    public function gerar_relatorio() {
 
-        if ($this->input->post('relatorio')){
-
+            $id = $this->input->post('id');
             $this->load->model('relatorios_m');
             $relatorio = $this->relatorios_m->getRelatorioById($id);
             $imagensrelatorios = $this->relatorios_m->getPcmatImagesById($id);
@@ -469,8 +468,6 @@ class Relatorio_painel extends CI_Controller {
             $nome_pdf = date('Y-m-d') . "-REL-" . $id . ".pdf";
 
             $pdfFilePath = FCPATH . "uploads/relatorios/pdf/" . $nome_pdf;
-
-
 
             if (file_exists($pdfFilePath) == FALSE) {
                 ini_set('memory_limit', '64M'); 
@@ -488,12 +485,6 @@ class Relatorio_painel extends CI_Controller {
             } else {
                 echo FALSE;
             }
-        } else {
-
-            echo FALSE;
-        }
-
-
     
     }
 
