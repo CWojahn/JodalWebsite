@@ -139,6 +139,19 @@ class Relatorios_m extends CI_Model {
         }
     }
    
+    function update_ris($id, $array) {
+
+        $this->db->where('id_relatorio', $id);
+        $this->db->update('relatorio_ris', $array);
+
+        if ($this->db->affected_rows() > 0) {
+            // Code here after successful insert
+            return true; // to the controller
+        }
+
+        return FALSE;
+    }
+
     function update_relatorio($id, $array) {
 
         $this->db->where('id', $id);

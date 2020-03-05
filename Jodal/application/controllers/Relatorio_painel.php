@@ -420,27 +420,22 @@ class Relatorio_painel extends CI_Controller {
     public function salvar_edit_ris(){
         $this->load->model('relatorios_m');
 
-        $nro_aux_ris = $this->relatorios_m->getNroRelatorioAuxRis()->nro_relatorio;
-
         $idrel = $this->input->post('idrel');
-        $idcliente = $this->input->post('cliente');;
-        $obra = $this->input->post('obra');
-        $local = $this->input->post('local');
-        $obs = $this->input->post('obs');
-        $tst = $this->input->post('nometst');
-        $datarel = $this->input->post('data_rel');
+        $email = $this->input->post('email');
+        $recomendacoes = $this->input->post('recomendacoes');
+        $data_prazo = $this->input->post('data_prazo');
+        $asp_legal = $this->input->post('asp_legal');
+        $idrel = $this->input->post('idrel');
 
         //$dados['id'] = $idrel;
         $dados = array(
-            'id_cliente'=> $idcliente,
-            'obra'=> $obra,
-            'local'=> $local,
-            'observacoes'=> $obs,
-            'tst_name'=> $tst,
-            'data'=> $datarel,
+            'email' => $email,
+            'recomendacoes' => $recomendacoes,
+            'data_prazo' => $data_prazo,
+            'asp_legal' => $asp_legal
         );
 
-            $result = $this->relatorios_m->update_relatorio($idrel, $dados);
+            $result = $this->relatorios_m->update_ris($idrel, $dados);
             echo json_encode(array('msg' => $result));
 
     }

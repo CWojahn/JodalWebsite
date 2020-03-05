@@ -197,9 +197,7 @@
                     {
                         console.log(dados);
                         if (dados.msg == true) {
-                            bootbox.alert('Relatório editado com sucesso', function(){
-                            history.back();
-                            });
+                            salvareditRis(postData);
                         } else {
                             bootbox.alert('É necessário preencher todos os campos');
                         }
@@ -212,4 +210,31 @@
     });
 </script>
 
+<script>
+    var array_rel = [];
 
+     function salvareditRis(postData){
+        $.ajax(
+            {
+                url: "<?php echo site_url('relatorio_painel/salvar_edit_ris') ?>",
+                type: "POST",
+                data: postData,
+                dataType: "json",
+                success: function (dados)
+                {
+                    console.log(dados);
+                    if (dados.msg == true) {
+                        bootbox.alert('Relatório editado com sucesso', function(){
+                        history.back();
+                        });
+                    } else {
+                        bootbox.alert('É necessário preencher todos os campos');
+                    }
+                },
+                error: function (xhr)
+                {
+                    console.log(xhr.responseText);
+                }
+            });
+    };
+</script>
