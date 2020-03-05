@@ -228,10 +228,18 @@ class Relatorio_painel extends CI_Controller {
             $this->load->model('relatorios_m');
             $relatorio = $this->relatorios_m->getRelatorioById($id);
 
-            if ($relatorio->tipo == 'PCMAT & PGST' || $relatorio->tipo == 'RIS') {
+            if ($relatorio->tipo == 'PCMAT & PGST') {
                 $imagensrelatorios = $this->relatorios_m->getPcmatImagesById($id);
                 $dados1 = array(
                     'array_images' => $imagensrelatorios,
+                    'relatorio' => $relatorio    
+                );
+            }elseif ($relatorio->tipo == 'RIS') {
+                $imagensrelatorios = $this->relatorios_m->getPcmatImagesById($id);
+                $dadosris = $this->relatorios_m->getAuxRisById($id);
+                $dados1 = array(
+                    'array_images' => $imagensrelatorios,
+                    'array_info' => $dadosris,
                     'relatorio' => $relatorio    
                 );
             }elseif ($relatorio->tipo == 'APR') {
