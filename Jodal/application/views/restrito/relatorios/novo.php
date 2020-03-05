@@ -40,7 +40,7 @@
         </div>
     </form>
 </div>
-<div class="row text-center" id="result">
+<div class="row" id="result">
 
 </div>
 

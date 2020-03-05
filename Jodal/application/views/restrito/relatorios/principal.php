@@ -41,7 +41,7 @@
                         ?>
                         <tr>
                             <td class="text-center" style="width: 15%;">
-                                <a onclick="gerapdf(<?php echo $relatorio->id;?>)" class="btn btn-success" title="Imprimir" target="_blank"><span class="glyphicon glyphicon-print"></span></a>
+                                <a onclick="gerapdf(<?php echo $relatorio->id;?>, <?php echo $relatorio->tipo;?>)" class="btn btn-success" title="Imprimir" target="_blank"><span class="glyphicon glyphicon-print"></span></a>
                                 <a onclick="enviar(<?php echo $relatorio->id;?>, '<?php echo $relatorio->email;?>');" class="btn btn-success" title="Enviar" style="cursor: pointer"><span class="glyphicon glyphicon-envelope"></span></a>
                                 <?php if ($relatorio->tipo == 'PCMAT & PGST') { ?>
                                         <a href="<?php echo site_url('relatorio_painel/editar_pcmat/' . $relatorio->id); ?>" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
@@ -114,7 +114,6 @@
                     success: function (dados) {
                         if (dados.msg == true) {
                             $("#result_edit").html('<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Email enviado com sucesso!</div>');
-                            //location.reload();
                         } else {
                             $("#result_edit").html('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Erro ao enviar email, verifique se o email de destino é válido.</div>');
                         }
@@ -134,23 +133,22 @@
 </script>
 
 <script>
-    function gerapdf(id){
+    function gerapdf(id, tipo){
         $.ajax({
             type: "POST",
             url: "<?php echo site_url('relatorio_painel/gerar_relatorio') ?>",
-            data: {id: id},
+            data: {id: id, tipo: tipo},
             dataType: 'json',
             success: function (dados) {
                 openpdf(dados);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 openpdf(xhr.responseText);
-                //bootbox.alert('deu alguma merda no meio do caminho');
-                //$("#result_edit").html('<div class="alert alert-danger" role="alert">Erro ao excluir registro!</div>');
             }
         });
     };
+    
     function openpdf(dados) {
         window.open("http://www.jodaltreinamentos.com/jodal/uploads/relatorios/pdf/" + dados, "_blank");
-    }
+    };
 </script>

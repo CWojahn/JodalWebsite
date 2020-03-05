@@ -9,47 +9,51 @@
 <div class="text-center">
     <h3>Dados do Relatório</h3>
 </div>
-<div>
-<form class = "form-row">
+  <form class="form-row">
         <div class ="form-group col-md-6">
-            <label for="obra">Obra</label>
+            <label for="obra">Setor Especifico</label>
             <input type="text" id="obra" name="obra" class ="form-control">
+            <label for="elaborado">Elaborador por</label>
+            <input type="text" id="elaborado" name="elaborado" class ="form-control">
+            <label for="email">E-mail que este relatório será enviado</label>
+            <input type="text" id="email" name="email" class ="form-control">
+            <label for="recomendacoes">Recomendações</label>
+            <textarea class="form-control" id="recomendacoes" name="recomendacoes"
+                placeholder="Recomendações" rows="4"></textarea>
+            <div style="width:33%;">
+            	<label for="data_prazo">Prazo</label>
+            	<input type="date" id="data_prazo" name="data_prazo" class ="form-control">
+            </div>
         </div>
         <div class ="form-group col-md-6">
-            <label for="local">Local</label>
-            <input type="text" id="local" name="local" class ="form-control">
-        </div>
-        <div class="form-group col-md-6">
-            <label for="obs">Observações</label>
-            <textarea class="form-control" id="obs" name="obs"
-                placeholder="Observações da Obra" rows="4"></textarea>
-        </div>
-        <div class="form-group col-md-6">
-            <label for="nome_tst">Nome do TST</label>
-            <input type="text" id="nome_tst" name="nome_tst" class ="form-control">
+          <div style="width:33%;">
             <label for="data_rel">Data</label>
             <input type="date" id="data_rel" name="data_rel" class ="form-control">
+          </div>
+          <label for="descricao">Descrição</label>
+          <textarea class="form-control" id="descricao" name="descricao"
+              placeholder="Descrição" rows="4"></textarea>
+          <label for="asp_legal">Aspecto Legal</label>
+          <textarea class="form-control" id="asp_legal" name="asp_legal"
+              placeholder="Aspecto Legal" rows="3"></textarea>
         </div>
+  </form>
 
-</form>
-<form class="form-row" id="form_nova_imagem" style="margin-bottom: 15px;">     
-    <div class ="form-group col-md-4">
-        <label for="imagem">Imagem</label>
-        <input type="file" id="imagem" name="imagem"
-        onchange="PreviewImage_pt();" accept="image/*" capture="camera" class="form-control-file">
-    </div>
-    <div class="form-group col-md-2">
-        <img id="uploadPreview_pt" style="width: 150px; height: 125px;" />
-    </div>
-    <div class="form-group col-md-4">
-        <label for="descricao">Ações Encontradas</label>
-        <textarea class="form-control" id="descricao" name="descricao"
-        placeholder="Ações Encontradas" rows="4"></textarea> 
-    </div>
-    <div class="col-md-12 col-sm-12 text-center">
-        <button class="btn btn-success" data-loading-text="Incluindo..." id="btn_upload" type="submit"><span class="glyphicon glyphicon-plus"></span> Acrescentar Imagem</button>
-    </div>
-</form>
+<div class="form-row">
+  <form id="form_nova_imagem" style="margin-bottom: 15px;">     
+      <div class ="form-group col-md-6">
+          <label for="imagem">Imagem</label>
+          <input type="file" id="imagem" name="imagem"
+          onchange="PreviewImage_pt();" accept="image/*" capture="camera" class="form-control-file">
+      </div>
+      <div class="form-group col-md-2">
+          <img id="uploadPreview_pt" style="width: 150px; height: 125px;" />
+      </div>
+      <div class="col-md-12 col-sm-12 text-center">
+          <button class="btn btn-success" data-loading-text="Incluindo..." id="btn_upload" type="submit"><span class="glyphicon glyphicon-plus"></span> Acrescentar Imagem</button>
+      </div>
+  </form>
+</div>
 
 <div id="imagens1">
 <hr>
@@ -57,7 +61,6 @@
         <thead>
             <tr>
                 <th style="text-align: center">Imagem</th>
-                <th style="text-align: center">Ações Encontradas</th>
                 <th style="text-align: center">Excluir</th>
             </tr>
         </thead>
@@ -113,8 +116,6 @@
                 success: function(dados){
                     $('#imagensadicionadas').append(dados);
                     $("#imagem").val(null)
-                    $("#descricao").val(null)
-                    //$('#uploadPreview_pt').removeAttr('src')
                     $('#uploadPreview_pt').hide();
                 }
             });
@@ -135,31 +136,18 @@
         };
     };
 
-
-
-    function teste(){
-        let tabledata = new Array();
-            $("#imagensadicionadas tr").each(function (row,tr) {
-                tabledata[row]= {
-                    'imagemsrc' : $(this).find("td").eq(0).find("img").attr('src'),
-                    'descricao' :  $(this).find("td").eq(1).find("textarea").val()
-                }
-            });
-        console.log(tabledata);
-    };
-
-
     function SalvarRelatorio(){
         
         $.ajax(
                 {
                     url: "<?php echo site_url('relatorio_painel/salvar') ?>",
                     type: "POST",
-                    data: {cliente: document.getElementById("cliente").value, obra: document.getElementById("obra").value, data: document.getElementById("data_rel").value, local: document.getElementById("local").value, tst: document.getElementById("nome_tst").value, obs: document.getElementById("obs").value, tipo: 'PCMAT & PGST'},
+                    data: {cliente: document.getElementById("cliente").value, obra: document.getElementById("obra").value, data: document.getElementById("data_rel").value, tst: document.getElementById("elaborado").value, obs: document.getElementById("descricao").value,local: '', tipo: 'RIS'},
                     datatype: "json",
                     async:false,
                     success: function(dados){
-                        salvarPcmat(dados);
+                        salvarRis(dados);
+                        salvarImagens(dados);
                     },
                     error: function(){
                         alert('erro');
@@ -168,7 +156,27 @@
         );
     };
 
-function salvarPcmat(dados) {
+    function salvarRis(dados){
+        
+        $.ajax(
+                {
+                    url: "<?php echo site_url('relatorio_painel/salvar_ris') ?>",
+                    type: "POST",
+                    data: {email: document.getElementById("email").value, recomendacoes: document.getElementById("recomendacoes").value, data_prazo: document.getElementById("data_prazo").value, asp_legal: document.getElementById("asp_legal").value, id_relatorio : dados},
+                    datatype: "json",
+                    async:false,
+                    success: function(dados){
+                      alert('Relatório salvo com sucesso');
+                    },
+                    error: function(){
+                        alert('erro');
+                    }
+                }
+        );
+    };
+
+
+function salvarImagens(dados) {
     let countrows =0;
     let count =0;
     $("#imagensadicionadas tr").each(function (row,tr) {
@@ -177,8 +185,7 @@ function salvarPcmat(dados) {
                 url: "<?php echo site_url('relatorio_painel/salvarImagensPcmat') ?>",
                 type: "POST",
                 data: {image_path : $(this).find("td").eq(0).find("img").attr('src'),
-                    observacao :  $(this).find("td").eq(1).find("textarea").val(), 
-                    id_relatorio : dados},
+                      observacao:'', id_relatorio : dados},
                 datatype: "json",
                 async:false,
                 success: function(dados){

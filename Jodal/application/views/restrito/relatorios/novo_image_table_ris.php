@@ -4,13 +4,6 @@
         <td>
           <img style="width: auto; height: 100px;" src="<?php echo base_url('uploads/relatorios/' . $imagem); ?>"/>
         </td>
-
-        <?php if(!$descricao == '') {?>
-        <td>
-          <textarea class="form-control" id="descricao" name="descricao"
-            placeholder="Descrição da Imagem" rows="4"><?php echo $descricao; ?></textarea>
-        </td>
-        <?php }?>
         <td style="text-align: center;"><button class="btn btn-danger"  id="delete" onclick="excluir(<?php echo $ids; ?>)"><span class="glyphicon glyphicon-remove"></span> Excluir</td>
       </tr>
 

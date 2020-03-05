@@ -25,11 +25,11 @@ class Relatorios_m extends CI_Model {
         return $query;
     }
 
-    // **** Alterar ****
-    // Outro tipo de relatorio
-    // function insert_pcmat($relatorio) {
-    //     return $this->db->insert('relatorio_pcmat', $relatorio);
-    // }
+    function insert_ris($data) {
+        $query = $this->db->insert('relatorio_ris', $data);
+        return $query;
+    }
+
 
     function getNroRelatorio() {
         $query = $this->db->query("SELECT COALESCE(max(id),0) nro_relatorio FROM relatorios");
@@ -38,6 +38,11 @@ class Relatorios_m extends CI_Model {
 
     function getNroRelatorioPcmat() {
         $query = $this->db->query("SELECT COALESCE(max(id),0) nro_relatorio FROM relatorio_pcmat");
+        return $query->row();
+    }
+    
+    function getNroRelatorioAuxRis() {
+        $query = $this->db->query("SELECT COALESCE(max(id),0) nro_relatorio FROM relatorio_ris");
         return $query->row();
     }
 
@@ -59,6 +64,7 @@ class Relatorios_m extends CI_Model {
     function remove_imagemPcmat($id) {
         return $this->db->delete('relatorio_pcmat', array('id' => $id));
     }
+    
 
     function getPdfRelatorio($id) {
         $this->db->select('path_pdf');
@@ -78,10 +84,16 @@ class Relatorios_m extends CI_Model {
         return $this->db->get_where('relatorio_pcmat', array('id_relatorio' =>$id))->result();
     }
 
+    function getAuxRisById($id){
+        return $this->db->get_where('relatorio_ris', array('id_relatorio' =>$id))->row();
+    }
+
     function getRelatorioById($id) {
         //$this->db->select('id','id_cliente', 'obra', 'data', 'local');
-        $query = $this->db->query("SELECT relatorios.id, clientes.empresa, relatorios.id_cliente,clientes.email,
-                                    relatorios.obra, relatorios.data, relatorios.local, relatorios.tst_name,relatorios.observacoes
+        $query = $this->db->query("SELECT relatorios.id, clientes.empresa,
+                                    relatorios.id_cliente,clientes.email,relatorios.tipo,
+                                    relatorios.obra, relatorios.data, relatorios.local,
+                                    relatorios.tst_name,relatorios.observacoes
                                 FROM relatorios
                                 INNER JOIN clientes
                                 ON relatorios.id_cliente = clientes.id

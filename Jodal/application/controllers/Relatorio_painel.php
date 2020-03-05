@@ -1,15 +1,5 @@
 <?php
 
-
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-
 /**
  *
  * @author Carlos.Wojahn
@@ -17,9 +7,6 @@
 
 class Relatorio_painel extends CI_Controller {
 
-
-
-    //put your code here
 
     function __construct() {
 
@@ -34,8 +21,6 @@ class Relatorio_painel extends CI_Controller {
         }
 
     }
-
-
 
     public function index($array = array()) {
 
@@ -91,41 +76,35 @@ class Relatorio_painel extends CI_Controller {
 
     }
 
+    public function carregar_header() {
+        $id_cliente = $this->input->post('id');
+        $tipo_relatorio = $this->input->post('tipo');
+        //console.log($id_cliente, $tipo_relatorio);
 
-    public function editar_pcmat($id = '') {
-        $dados = array(
-            'header' => 'Controle de Relatórios'
-        );
-        
-        $this->load->model('relatorios_m');
         $this->load->model('clientes_m');
+        $this->load->model('relatorios_m');
 
-        $relatorio = $this->relatorios_m->getRelatorioById($id);
-        $imagensrelatorios = $this->relatorios_m->getPcmatImagesById($id);
-        $clientes = $this->clientes_m->get_all();
+        $nro_relatorio = $this->relatorios_m->getNroRelatorio()->nro_relatorio;
+        $nro_relatorio = $nro_relatorio + 1;
 
-        $dados1 = array(
-            'imagens' => $imagensrelatorios,
-            'clientes' => $clientes,
-            'relatorio' => $relatorio
-
+        $dados = array(
+            'sel_cliente' => $this->clientes_m->get_cliente($id_cliente)->row(),
+            'nro_relatorio' => $nro_relatorio,
+            'data' => date('Y-m-d')
         );
-        $this->load->view('restrito/painel', $dados);
-        $this->load->view('restrito/relatorios/editar_pcmat', $dados1);
-        $this->load->view('restrito/footer');
-    }
 
-    public function excluir_imagempcmat(){
-        if ($this->input->post('id')) {
-            $id = $this->input->post('id');
-            $this->load->model('relatorios_m');
-            if ($this->relatorios_m->remove_imagemPcmat($id)) {
-                echo json_encode(array('msg' => TRUE));
-            } else {
-                echo json_encode(array('msg' => FALSE));
-            }
-        } else {
-            echo json_encode(array('msg' => FALSE));
+        if ($tipo_relatorio == 0){
+            $this->load->view('restrito/relatorios/header_pcmat', $dados);
+            $this->load->view('restrito/relatorios/novo_pcmat', $dados);
+        } elseif ($tipo_relatorio ==1) {
+            $this->load->view('restrito/relatorios/header_ris', $dados);
+            $this->load->view('restrito/relatorios/novo_ris', $dados);
+        } elseif ($tipo_relatorio ==2) {
+            $this->load->view('restrito/relatorios/header_apr', $dados);
+            $this->load->view('restrito/relatorios/novo_apr', $dados);
+        } elseif ($tipo_relatorio ==3) {
+            $this->load->view('restrito/relatorios/header_dst', $dados);
+            $this->load->view('restrito/relatorios/novo_apr', $dados);
         }
     }
 
@@ -143,65 +122,37 @@ class Relatorio_painel extends CI_Controller {
         }
     }
 
-
-    public function salvarImagens() {
-
-        $config['upload_path'] = FCPATH . 'uploads/relatorios';
-
-        $config['allowed_types'] = 'gif|jpg|png';
-
-        $config['max_size'] = 0;
-
-        $this->load->library('upload', $config);
-
-
-        $array = array();
-
-
-
-        if (!$this->upload->do_upload('imagem')) {
-
-            $this->session->set_flashdata('error', 'Erro ao carregar imagem do relatorio, tente novamente.');
-
-            redirect(site_url('relatorio_painel/novo'));
-
-        } else {
-
-            $imagem = $this->upload->data('file_name');
-
-            $descricao = $this->input->post('descricao');
-
-
-            $array['imagem'] = $imagem;
-
-
-            $array['descricao'] = $descricao;
-
-
+    public function enviar_email() {
+        if ($this->input->post('id')) {
+            $id = $this->input->post('id');
             $this->load->model('relatorios_m');
 
-            if ($this->relatorios_m->insert($array)) {
+            $relatorio = $this->relatorios_m->getRelatorioById($id);
 
-                //$this->index($array);
+            $email_config = Array(
+                'mailtype' => 'html',
+                'starttls' => true,
+                'newline' => "\r\n",
+                'charset' => 'utf-8',
+                'wordwrap' => TRUE
+            );
 
-                $this->session->set_flashdata('success', '|Imagem adicionada com sucesso!');
+            $corpo = 'Segue em anexo relatório referente a obra ' . $relatorio->obra;
+            $this->load->library('email', $email_config);
+            $this->email->from('site@jodaltreinamentos.com', 'Jodal');
+            $this->email->to($relatorio->email);
+            $this->email->reply_to('contato@jodaltreinamentos.com', 'Jodal Treinamentos');
+            $this->email->subject('Relatorio Jodal - '. $relatorio->obra);
+            $this->email->message($corpo);
+            $this->email->attach(FCPATH . "uploads/relatorios/pdf/" . $relatorio->path_pdf);
 
-                redirect(site_url('relatorios_painel'));
-
+            if ($this->email->send()) {
+                echo json_encode(array('msg' => TRUE));
             } else {
-
-                $this->session->set_flashdata('error', 'Erro ao salvar nova imagem, tente novamente.');
-
-                redirect(site_url('relatorios_painel/novo'));
-
+                echo json_encode(array('msg' => FALSE));
             }
-
         }
-
     }
-
-
-
 
     public function salvar() {
 
@@ -232,7 +183,146 @@ class Relatorio_painel extends CI_Controller {
         $insert = $this->relatorios_m->createData($dados);
         echo json_encode($nro_relatorio);
     }
+    
+ 
+    function do_upload(){
+        $config['upload_path']= FCPATH . 'uploads/relatorios';
+        $config['allowed_types']='gif|jpg|png';
+        $config['max_size'] = 0;
+        $config['encrypt_name'] = TRUE;
+            
+        $this->load->library('upload', $config);
+        $dados1 = array();
 
+        if($this->upload->do_upload('imagem')){
+
+            $imagem = $this->upload->data('file_name');
+            $descricao = $this->input->post('descricao');
+            $number = $_SESSION['number'];
+            $number++;
+            $_SESSION['number'] = $number;
+            $dados1['imagem'] = $imagem;
+            $dados1['descricao'] = $descricao;
+            $dados1['ids'] = $number;
+
+
+            $dados = $this->load->view('restrito/relatorios/novo_image_table', $dados1, true);
+            // if ($relatorio->tipo == 'PCMAT & PGST'){
+            //     $dados = $this->load->view('restrito/relatorios/novo_image_table', $dados1, true);
+            // }elseif ($relatorio->tipo == 'RIS') {
+            //     $dados = $this->load->view('restrito/relatorios/novo_image_table_ris', $dados1, true);
+            // }
+            // elseif ($relatorio->tipo == 'APR') {
+            //     $dados = $this->load->view('restrito/relatorios/novo_image_table_apr', $dados1, true);
+            // }      
+            
+            echo $dados;
+            
+        }
+
+    }
+
+    public function gerar_relatorio() {
+            $id = $this->input->post('id');
+            $tipo = $this->input->post('tipo');
+            $this->load->model('relatorios_m');
+            $relatorio = $this->relatorios_m->getRelatorioById($id);
+
+            if ($relatorio->tipo == 'PCMAT & PGST' || $relatorio->tipo == 'RIS') {
+                $imagensrelatorios = $this->relatorios_m->getPcmatImagesById($id);
+                $dados1 = array(
+                    'array_images' => $imagensrelatorios,
+                    'relatorio' => $relatorio    
+                );
+            }elseif ($relatorio->tipo == 'APR') {
+                $dadosapr = $this->relatorios_m->getAPRById($id);
+                $dados1 = array(
+                    'array_info' => $dadosapr,
+                    'relatorio' => $relatorio    
+                );
+            }elseif ($relatorio->tipo == 'DST') {
+                $dadosdst = $this->relatorios_m->getDSTById($id);
+                $dados1 = array(
+                    'array_info' => $dadosdst,
+                    'relatorio' => $relatorio    
+                );
+            }
+            
+            $nome_pdf = date('Y-m-d') . "-REL-" . $id . ".pdf";
+            $pdfFilePath = FCPATH . "uploads/relatorios/pdf/" . $nome_pdf;
+
+            if (file_exists($pdfFilePath) == FALSE) {
+                ini_set('memory_limit', '64M'); 
+
+                if ($relatorio->tipo == 'PCMAT & PGST'){
+                    $html = $this->load->view('restrito/relatorios/pdf_pcmat_pgst', $dados1, true);
+                }elseif($relatorio->tipo == 'RIS') {
+                    $html = $this->load->view('restrito/relatorios/pdf_ris', $dados1, true);
+                }elseif ($relatorio->tipo == 'APR') {
+                    $html = $this->load->view('restrito/relatorios/pdf_apr', $dados1, true);
+                }elseif ($relatorio->tipo == 'DST') {
+                    $html = $this->load->view('restrito/relatorios/pdf_dst', $dados1, true);
+                }
+
+                $this->load->library('pdf');
+                $pdf = $this->pdf->load();
+                $pdf->SetDisplayMode('fullpage');
+                $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}|' . date(DATE_RFC822));
+                $pdf->WriteHTML($html);
+                $pdf->Output($pdfFilePath, 'F');
+
+                $this->relatorios_m->update_relatorio($id, array('path_pdf' => $nome_pdf));
+                echo $nome_pdf;
+            } else {
+                echo $nome_pdf;
+            }
+    
+    }
+
+    //vai ser para o PCMAT,Ris no relatorio geral
+    public function salvar_edit_pcmat(){
+        $this->load->model('relatorios_m');
+
+        $idrel = $this->input->post('idrel');
+        $idcliente = $this->input->post('cliente');;
+        $obra = $this->input->post('obra');
+        $local = $this->input->post('local');
+        $obs = $this->input->post('obs');
+        $tst = $this->input->post('nometst');
+        $datarel = $this->input->post('data_rel');
+
+        //$dados['id'] = $idrel;
+        $dados = array(
+            'id_cliente'=> $idcliente,
+            'obra'=> $obra,
+            'local'=> $local,
+            'observacoes'=> $obs,
+            'tst_name'=> $tst,
+            'data'=> $datarel,
+        );
+
+            $result = $this->relatorios_m->update_relatorio($idrel, $dados);
+            echo json_encode(array('msg' => $result));
+
+    } //vai ser para o PCMAT, RIS
+
+
+   //vai ser para o PCMAT, RIS e APR
+    public function excluir_imagempcmat(){
+        if ($this->input->post('id')) {
+            $id = $this->input->post('id');
+            $this->load->model('relatorios_m');
+            if ($this->relatorios_m->remove_imagemPcmat($id)) {
+                echo json_encode(array('msg' => TRUE));
+            } else {
+                echo json_encode(array('msg' => FALSE));
+            }
+        } else {
+            echo json_encode(array('msg' => FALSE));
+        }
+    } //vai ser para o PCMAT, RIS e APR
+
+    //vai ser para o PCMAT, RIS e APR
     public function salvarImagensPcmat(){
         $this->load->model('relatorios_m');
         $nro_pcmat = $this->relatorios_m->getNroRelatorioPcmat()->nro_relatorio;
@@ -249,37 +339,122 @@ class Relatorio_painel extends CI_Controller {
         );
         $insert = $this->relatorios_m->insert_pcmat($dados);
         echo json_encode($insert);
+    }//vai ser para o PCMAT, RIS e APR
+
+
+
+
+
+    //********** Exclusivo PCMAT ***********/
+    public function editar_pcmat($id = '') {
+        $dados = array(
+            'header' => 'Controle de Relatórios'
+        );
+        
+        $this->load->model('relatorios_m');
+        $this->load->model('clientes_m');
+
+        $relatorio = $this->relatorios_m->getRelatorioById($id);
+        $imagensrelatorios = $this->relatorios_m->getPcmatImagesById($id);
+        $clientes = $this->clientes_m->get_all();
+
+        $dados1 = array(
+            'imagens' => $imagensrelatorios,
+            'clientes' => $clientes,
+            'relatorio' => $relatorio
+
+        );
+        $this->load->view('restrito/painel', $dados);
+        $this->load->view('restrito/relatorios/editar_pcmat', $dados1);
+        $this->load->view('restrito/footer');
     }
 
-
-    public function carregar_header() {
-        $id_cliente = $this->input->post('id');
-        $tipo_relatorio = $this->input->post('tipo');
-        //console.log($id_cliente, $tipo_relatorio);
-
-        $this->load->model('clientes_m');
+    //********** Exclusivo RIS ***********/
+    public function salvar_ris(){
         $this->load->model('relatorios_m');
-
-        $nro_relatorio = $this->relatorios_m->getNroRelatorio()->nro_relatorio;
-        $nro_relatorio = $nro_relatorio + 1;
+        $nro_aux_ris = $this->relatorios_m->getNroRelatorioAuxRis()->nro_relatorio;
+        $nro_aux_ris = $nro_aux_ris+1;
+        $id_relatorio = $this->input->post('id_relatorio');
+        $email = $this->input->post('email');
+        $recomendacoes = $this->input->post('recomendacoes');
+        $data_prazo = $this->input->post('data_prazo');
+        $asp_legal = $this->input->post('asp_legal');
 
         $dados = array(
-            'sel_cliente' => $this->clientes_m->get_cliente($id_cliente)->row(),
-            'nro_relatorio' => $nro_relatorio,
-            'data' => date('Y-m-d')
+            'id' => $nro_aux_ris,
+            'id_relatorio' => $id_relatorio,
+            'email' => $email,
+            'recomendacoes' => $recomendacoes,
+            'data_prazo' => $data_prazo,
+            'asp_legal' => $asp_legal
+        );
+        $insert = $this->relatorios_m->insert_ris($dados);
+        echo json_encode($insert);
+    }
+
+    public function editar_ris($id = '') {
+        $dados = array(
+            'header' => 'Controle de Relatórios'
+        );
+        
+        $this->load->model('relatorios_m');
+        $this->load->model('clientes_m');
+
+        $relatorio = $this->relatorios_m->getRelatorioById($id);
+        $imagensrelatorios = $this->relatorios_m->getPcmatImagesById($id);
+        $dadosaux = $this->relatorios_m->getAuxRisById($id);
+        $clientes = $this->clientes_m->get_all();
+
+        $dados1 = array(
+            'imagens' => $imagensrelatorios,
+            'dadosauxiliares' => $dadosaux,
+            'clientes' => $clientes,
+            'relatorio' => $relatorio
+
+        );
+        $this->load->view('restrito/painel', $dados);
+        $this->load->view('restrito/relatorios/editar_ris', $dados1);
+        $this->load->view('restrito/footer');
+    }
+
+    public function salvar_edit_ris(){
+        $this->load->model('relatorios_m');
+
+        $nro_aux_ris = $this->relatorios_m->getNroRelatorioAuxRis()->nro_relatorio;
+
+        $idrel = $this->input->post('idrel');
+        $idcliente = $this->input->post('cliente');;
+        $obra = $this->input->post('obra');
+        $local = $this->input->post('local');
+        $obs = $this->input->post('obs');
+        $tst = $this->input->post('nometst');
+        $datarel = $this->input->post('data_rel');
+
+        //$dados['id'] = $idrel;
+        $dados = array(
+            'id_cliente'=> $idcliente,
+            'obra'=> $obra,
+            'local'=> $local,
+            'observacoes'=> $obs,
+            'tst_name'=> $tst,
+            'data'=> $datarel,
         );
 
-        if ($tipo_relatorio == 0){
-            $this->load->view('restrito/relatorios/header_pcmat', $dados);
-            $this->load->view('restrito/relatorios/novo_pcmat', $dados);
-        } elseif ($tipo_relatorio ==1) {
-            $this->load->view('restrito/relatorios/header_ris', $dados);
-        } elseif ($tipo_relatorio ==2) {
-            $this->load->view('restrito/relatorios/header_apr', $dados);
-        } elseif ($tipo_relatorio ==3) {
-            $this->load->view('restrito/relatorios/header_dst', $dados);
-        }
+            $result = $this->relatorios_m->update_relatorio($idrel, $dados);
+            echo json_encode(array('msg' => $result));
+
     }
+
+    
+
+
+    //********** Exclusivo APR ***********/
+
+
+    //********** Exclusivo DST ***********/
+
+
+    //****************  não utilizados  *******************//
 
 
     public function acrescentar_imagem(){
@@ -389,105 +564,6 @@ class Relatorio_painel extends CI_Controller {
         }
 
     }
-
-
-    public function salvar_edit_pcmat(){
-        
-        // $dadosImagem = array();
-        // $imagem = $this->input->post('');
-        // $descricao = $this->input->post('descricao');
-        $this->load->model('relatorios_m');
-
-        $idrel = $this->input->post('idrel');
-        $idcliente = $this->input->post('cliente');;
-        $obra = $this->input->post('obra');
-        $local = $this->input->post('local');
-        $obs = $this->input->post('obs');
-        $tst = $this->input->post('nometst');
-        $datarel = $this->input->post('data_rel');
-
-        //$dados['id'] = $idrel;
-        $dados = array(
-            'id_cliente'=> $idcliente,
-            'obra'=> $obra,
-            'local'=> $local,
-            'observacoes'=> $obs,
-            'tst_name'=> $tst,
-            'data'=> $datarel,
-            'tipo'=> 'PCMAT & PGST',
-            'path_pdf'=> ''
-        );
-
-            $result = $this->relatorios_m->update_relatorio($idrel, $dados);
-            echo json_encode(array('msg' => $result));
-
-    }
-
-     function do_upload(){
-        $config['upload_path']= FCPATH . 'uploads/relatorios';
-        $config['allowed_types']='gif|jpg|png';
-        $config['max_size'] = 0;
-        $config['encrypt_name'] = TRUE;
-         
-        $this->load->library('upload', $config);
-        $dados1 = array();
-
-        if($this->upload->do_upload('imagem')){
-
-            $imagem = $this->upload->data('file_name');
-            $descricao = $this->input->post('descricao');
-            $number = $_SESSION['number'];
-            $number++;
-            $_SESSION['number'] = $number;
-            $dados1['imagem'] = $imagem;
-            $dados1['descricao'] = $descricao;
-            $dados1['ids'] = $number;
-            //$result= $this->upload_model->save_upload($title,$image);
-            $dados = $this->load->view('restrito/relatorios/novo_image_table', $dados1, true);
-            
-            
-            echo $dados;
-            
-        }
- 
-     }
-
-
-    public function gerar_relatorio() {
-
-            $id = $this->input->post('id');
-            $this->load->model('relatorios_m');
-            $relatorio = $this->relatorios_m->getRelatorioById($id);
-            $imagensrelatorios = $this->relatorios_m->getPcmatImagesById($id);
-
-            $dados1 = array(
-                'array_images' => $imagensrelatorios,
-                'relatorio' => $relatorio    
-            );
-
-            $nome_pdf = date('Y-m-d') . "-REL-" . $id . ".pdf";
-
-            $pdfFilePath = FCPATH . "uploads/relatorios/pdf/" . $nome_pdf;
-
-            if (file_exists($pdfFilePath) == FALSE) {
-                ini_set('memory_limit', '64M'); 
-                $html = $this->load->view('restrito/relatorios/pdf_pcmat_pgst', $dados1, true);
-
-                $this->load->library('pdf');
-                $pdf = $this->pdf->load();
-                $pdf->SetDisplayMode('fullpage');
-                $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}|' . date(DATE_RFC822));
-                $pdf->WriteHTML($html);
-                $pdf->Output($pdfFilePath, 'F');
-
-                $this->relatorios_m->update_relatorio($id, array('path_pdf' => $nome_pdf));
-                echo $nome_pdf;
-            } else {
-                echo $nome_pdf;
-            }
-    
-    }
-
 
 
     public function salvar_relatorio() {
@@ -692,80 +768,62 @@ class Relatorio_painel extends CI_Controller {
     }
 
 
+    public function salvarImagens() {
 
-    public function enviar_email() {
+        $config['upload_path'] = FCPATH . 'uploads/relatorios';
 
-        if ($this->input->post('id')) {
+        $config['allowed_types'] = 'gif|jpg|png';
 
-            $id = $this->input->post('id');
+        $config['max_size'] = 0;
 
-
-
-            $this->load->model('cotacao_m');
-
+        $this->load->library('upload', $config);
 
 
-            $orcamento = $this->cotacao_m->getOrcamentoById($id);
+        $array = array();
 
 
 
+        if (!$this->upload->do_upload('imagem')) {
+
+            $this->session->set_flashdata('error', 'Erro ao carregar imagem do relatorio, tente novamente.');
+
+            redirect(site_url('relatorio_painel/novo'));
+
+        } else {
+
+            $imagem = $this->upload->data('file_name');
+
+            $descricao = $this->input->post('descricao');
 
 
-            $email_config = Array(
-
-                'mailtype' => 'html',
-
-                'starttls' => true,
-
-                'newline' => "\r\n",
-
-                'charset' => 'utf-8',
-
-                'wordwrap' => TRUE
-
-            );
+            $array['imagem'] = $imagem;
 
 
+            $array['descricao'] = $descricao;
 
 
+            $this->load->model('relatorios_m');
 
-            $contato = 'Segue em anexo Orçamento referente ao treinamento ' . strip_tags($orcamento->nome_pt);
+            if ($this->relatorios_m->insert($array)) {
 
+                //$this->index($array);
 
+                $this->session->set_flashdata('success', '|Imagem adicionada com sucesso!');
 
-            $this->load->library('email', $email_config);
-
-
-
-            $this->email->from('site@jodaltreinamentos.com', 'Jodal');
-
-            $this->email->to($orcamento->email);
-
-            $this->email->reply_to('contato@jodaltreinamentos.com', 'Jodal Treinamentos');
-
-            $this->email->subject('Orçamento Jodal Treinamentos');
-
-            $this->email->message($contato);
-
-            $this->email->attach(FCPATH . "uploads/orcamentos/" . $orcamento->path_pdf);
-
-            $this->email->attach(FCPATH . "uploads/grades/" . $orcamento->grade_curso_pt);
-
-
-
-            if ($this->email->send()) {
-
-                echo json_encode(array('msg' => TRUE));
+                redirect(site_url('relatorios_painel'));
 
             } else {
 
-                echo json_encode(array('msg' => FALSE));
+                $this->session->set_flashdata('error', 'Erro ao salvar nova imagem, tente novamente.');
+
+                redirect(site_url('relatorios_painel/novo'));
 
             }
 
         }
 
     }
+
 
 
 
