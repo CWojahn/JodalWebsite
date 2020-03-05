@@ -9,8 +9,9 @@
 <div class="text-center">
     <h3>Dados do Relatório</h3>
 </div>
-
+<div>
 <form class = "form-row">
+
     <div class="row">
         <div class ="form-group col-md-6">
             <label for="obra">Obra</label>
@@ -35,7 +36,9 @@
             <input type="date" id="data_rel" name="data_rel" class ="form-control">
         </div>
     </div>
+
 </form>
+</div>
 <form class="form-row" id="form_nova_imagem" style="margin-bottom: 15px;">     
     <div class ="form-group col-md-4">
         <label for="imagem">Imagem</label>
@@ -46,9 +49,9 @@
         <img id="uploadPreview_pt" style="width: 150px; height: 125px;" />
     </div>
     <div class="form-group col-md-4">
-        <label for="descricao">Descrição</label>
+        <label for="descricao">Ações Encontradas</label>
         <textarea class="form-control" id="descricao" name="descricao"
-        placeholder="Descrição da Imagem" rows="4"></textarea> 
+        placeholder="Ações Encontradas" rows="4"></textarea> 
     </div>
     <div class="col-md-12 col-sm-12 text-center">
         <button class="btn btn-success" data-loading-text="Incluindo..." id="btn_upload" type="submit"><span class="glyphicon glyphicon-plus"></span> Acrescentar Imagem</button>
@@ -61,7 +64,7 @@
         <thead>
             <tr>
                 <th style="text-align: center">Imagem</th>
-                <th style="text-align: center">Descrição</th>
+                <th style="text-align: center">Ações Encontradas</th>
                 <th style="text-align: center">Excluir</th>
             </tr>
         </thead>

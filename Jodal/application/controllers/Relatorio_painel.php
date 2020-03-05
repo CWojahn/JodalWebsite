@@ -481,9 +481,9 @@ class Relatorio_painel extends CI_Controller {
                 $pdf->Output($pdfFilePath, 'F');
 
                 $this->relatorios_m->update_relatorio($id, array('path_pdf' => $nome_pdf));
-                echo TRUE;
+                echo $nome_pdf;
             } else {
-                echo FALSE;
+                echo $nome_pdf;
             }
     
     }
