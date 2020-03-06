@@ -493,7 +493,7 @@ class Relatorio_painel extends CI_Controller {
         $clientes = $this->clientes_m->get_all();
 
         $dados1 = array(
-            'dadosauxiliares' => $dadosaux,
+            'array_info' => $dadosaux,
             'clientes' => $clientes,
             'relatorio' => $relatorio
         );
