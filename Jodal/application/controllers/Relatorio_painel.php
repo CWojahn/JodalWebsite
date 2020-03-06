@@ -104,7 +104,7 @@ class Relatorio_painel extends CI_Controller {
             $this->load->view('restrito/relatorios/novo_apr', $dados);
         } elseif ($tipo_relatorio ==3) {
             $this->load->view('restrito/relatorios/header_dst', $dados);
-            $this->load->view('restrito/relatorios/novo_apr', $dados);
+            $this->load->view('restrito/relatorios/novo_dst', $dados);
         }
     }
 
@@ -243,15 +243,19 @@ class Relatorio_painel extends CI_Controller {
                     'relatorio' => $relatorio    
                 );
             }elseif ($relatorio->tipo == 'APR') {
-                $dadosapr = $this->relatorios_m->getAPRById($id);
+                $dadosapr = $this->relatorios_m->getAuxAprById($id);
                 $dados1 = array(
                     'array_info' => $dadosapr,
                     'relatorio' => $relatorio    
                 );
             }elseif ($relatorio->tipo == 'DST') {
-                $dadosdst = $this->relatorios_m->getDSTById($id);
+                $dadospart = $this->relatorios_m->getAuxDSTById($id);
+                $imagensrelatorios = $this->relatorios_m->getPcmatImagesById($id);
+                $dadosassunto = $this->relatorios_m->getAuxDST2ById($id);
                 $dados1 = array(
-                    'array_info' => $dadosdst,
+                    'array_images' => $imagensrelatorios,
+                    'array_info' => $dadosassunto,
+                    'array_part' => $dadospart,
                     'relatorio' => $relatorio    
                 );
             }
@@ -449,12 +453,242 @@ class Relatorio_painel extends CI_Controller {
     }
 
     
-
-
     //********** Exclusivo APR ***********/
+    public function salvar_apr(){
+        $this->load->model('relatorios_m');
+        $nro_aux_ris = $this->relatorios_m->getNroRelatorioAuxApr()->nro_relatorio;
+        $nro_aux_ris = $nro_aux_ris+1;
+        $id_relatorio = $this->input->post('id_relatorio');
+        $aprov_area = $this->input->post('aprov_area');
+        $aprov_seg = $this->input->post('aprov_seg');
+        $rev = $this->input->post('rev');
+        $atividades = $this->input->post('atividades');
+        $riscos = $this->input->post('riscos');
+        $medidas = $this->input->post('medidas');
+
+        $dados = array(
+            'id' => $nro_aux_ris,
+            'id_relatorio' => $id_relatorio,
+            'aprov_area' => $aprov_area,
+            'aprov_seg' => $aprov_seg,
+            'rev' => $rev,
+            'atividades' => $atividades,
+            'riscos' => $riscos,
+            'medidas' => $medidas
+        );
+        $insert = $this->relatorios_m->insert_apr($dados);
+        echo json_encode($insert);
+    }
+
+    public function editar_apr($id = '') {
+        $dados = array(
+            'header' => 'Controle de Relatórios'
+        );
+        
+        $this->load->model('relatorios_m');
+        $this->load->model('clientes_m');
+
+        $relatorio = $this->relatorios_m->getRelatorioById($id);
+        $dadosaux = $this->relatorios_m->getAuxAprById($id);
+        $clientes = $this->clientes_m->get_all();
+
+        $dados1 = array(
+            'dadosauxiliares' => $dadosaux,
+            'clientes' => $clientes,
+            'relatorio' => $relatorio
+        );
+        $this->load->view('restrito/painel', $dados);
+        $this->load->view('restrito/relatorios/editar_apr', $dados1);
+        $this->load->view('restrito/footer');
+    }
+
+    public function salvar_edit_apr(){
+        $this->load->model('relatorios_m');
+
+        $idrel = $this->input->post('idrel');
+        $aprov_area = $this->input->post('aprov_area');
+        $aprov_seg = $this->input->post('aprov_seg');
+        $rev = $this->input->post('rev');
+        $atividades = $this->input->post('atividades');
+        $riscos = $this->input->post('riscos');
+        $medidas = $this->input->post('medidas');
+
+        //$dados['id'] = $idrel;
+        $dados = array(
+            'aprov_area' => $aprov_area,
+            'aprov_seg' => $aprov_seg,
+            'rev' => $rev,
+            'atividades' => $atividades,
+            'riscos' => $riscos,
+            'medidas' => $medidas
+        );
+
+            $result = $this->relatorios_m->update_apr($idrel, $dados);
+            echo json_encode(array('msg' => $result));
+
+    }
 
 
     //********** Exclusivo DST ***********/
+    public function salvar_dst(){
+        $this->load->model('relatorios_m');
+        $nro_aux_ris = $this->relatorios_m->getNroRelatorioAuxDst()->nro_relatorio;
+        $nro_aux_ris = $nro_aux_ris+1;
+        $id_relatorio = $this->input->post('id_relatorio');
+        $nome = $this->input->post('nome');
+        $funcao = $this->input->post('funcao');
+
+        $dados = array(
+            'id' => $nro_aux_ris,
+            'id_relatorio' => $id_relatorio,
+            'nome' => $nome,
+            'funcao' => $funcao
+        );
+        $insert = $this->relatorios_m->insert_dst($dados);
+        echo json_encode($insert);
+    }
+
+    public function salvarassunto(){
+        $this->load->model('relatorios_m');
+        $nro_aux_ris = $this->relatorios_m->getNroRelatorioAux2Dst()->nro_relatorio;
+        $nro_aux_ris = $nro_aux_ris+1;
+        $id_relatorio = $this->input->post('id_relatorio');
+        $as_1 = $this->input->post('as_1');
+        $as_2 = $this->input->post('as_2');
+        $as_3 = $this->input->post('as_3');
+        $as_4 = $this->input->post('as_4');
+        $as_5 = $this->input->post('as_5');
+        $as_6 = $this->input->post('as_6');
+        $as_7 = $this->input->post('as_7');
+        $as_8 = $this->input->post('as_8');
+        $as_9 = $this->input->post('as_9');
+        $as_10 = $this->input->post('as_10');
+        $as_11 = $this->input->post('as_11');
+        $as_12 = $this->input->post('as_12');
+        $as_13 = $this->input->post('as_13');
+        $as_14 = $this->input->post('as_14');
+        $as_15 = $this->input->post('as_15');
+        $as_16 = $this->input->post('as_16');
+        $outros = $this->input->post('outros');
+
+        $dados = array(
+            'id' => $nro_aux_ris,
+            'id_relatorio' => $id_relatorio,
+            'as_1' => $as_1,
+            'as_2' => $as_2,
+            'as_3' => $as_3,
+            'as_4' => $as_4,
+            'as_5' => $as_5,
+            'as_6' => $as_6,
+            'as_7' => $as_7,
+            'as_8' => $as_8,
+            'as_9' => $as_9,
+            'as_10' => $as_10,
+            'as_11' => $as_11,
+            'as_12' => $as_12,
+            'as_13' => $as_13,
+            'as_14' => $as_14,
+            'as_15' => $as_15,
+            'as_16' => $as_16,
+            'outros' => $outros
+            
+        );
+        $insert = $this->relatorios_m->insert_assunto($dados);
+        echo json_encode($insert);
+    }
+
+    public function editar_dst($id = '') {
+        $dados = array(
+            'header' => 'Controle de Relatórios'
+        );
+        
+        $this->load->model('relatorios_m');
+        $this->load->model('clientes_m');
+
+        $relatorio = $this->relatorios_m->getRelatorioById($id);
+        $imagensrelatorios = $this->relatorios_m->getPcmatImagesById($id);
+        $dadosaux = $this->relatorios_m->getAuxDSTById($id);
+        $clientes = $this->clientes_m->get_all();
+
+        $dados1 = array(
+            'imagens' => $imagensrelatorios,
+            'dadosauxiliares' => $dadosaux,
+            'clientes' => $clientes,
+            'relatorio' => $relatorio
+        );
+        $this->load->view('restrito/painel', $dados);
+        $this->load->view('restrito/relatorios/editar_dst', $dados1);
+        $this->load->view('restrito/footer');
+    }
+
+    public function salvar_edit_dst(){
+        $this->load->model('relatorios_m');
+
+        $idrel = $this->input->post('idrel');
+        $nome = $this->input->post('nome');
+        $funcao = $this->input->post('funcao');
+
+        //$dados['id'] = $idrel;
+        $dados = array(
+            'nome' => $nome,
+            'funcao' => $funcao,
+        );
+
+            $result = $this->relatorios_m->update_dst($idrel, $dados);
+            echo json_encode(array('msg' => $result));
+
+    }
+
+    public function salvar_edit_assunto(){
+        $this->load->model('relatorios_m');
+
+        $idrel = $this->input->post('idrel');
+        $as_1 = $this->input->post('as_1');
+        $as_2 = $this->input->post('as_2');
+        $as_3 = $this->input->post('as_3');
+        $as_4 = $this->input->post('as_4');
+        $as_5 = $this->input->post('as_5');
+        $as_6 = $this->input->post('as_6');
+        $as_7 = $this->input->post('as_7');
+        $as_8 = $this->input->post('as_8');
+        $as_9 = $this->input->post('as_9');
+        $as_10 = $this->input->post('as_10');
+        $as_11 = $this->input->post('as_11');
+        $as_12 = $this->input->post('as_12');
+        $as_13 = $this->input->post('as_13');
+        $as_14 = $this->input->post('as_14');
+        $as_15 = $this->input->post('as_15');
+        $as_16 = $this->input->post('as_16');
+        $outros = $this->input->post('outros');
+
+        //$dados['id'] = $idrel;
+        $dados = array(
+            'as_1' => $as_1,
+            'as_2' => $as_2,
+            'as_3' => $as_3,
+            'as_4' => $as_4,
+            'as_5' => $as_5,
+            'as_6' => $as_6,
+            'as_7' => $as_7,
+            'as_8' => $as_8,
+            'as_9' => $as_9,
+            'as_10' => $as_10,
+            'as_11' => $as_11,
+            'as_12' => $as_12,
+            'as_13' => $as_13,
+            'as_14' => $as_14,
+            'as_15' => $as_15,
+            'as_16' => $as_16,
+            'outros' => $outros
+        );
+
+            $result = $this->relatorios_m->update_assunto($idrel, $dados);
+            echo json_encode(array('msg' => $result));
+
+    }
+
+
+
 
 
     //****************  não utilizados  *******************//

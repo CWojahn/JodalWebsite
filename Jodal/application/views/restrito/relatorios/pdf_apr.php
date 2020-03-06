@@ -41,15 +41,11 @@
     <div class="row">
     <table style="border-spacing: 0px; width: 100%; border-color: 000; border: 1px">
       <tbody>
-        <tr style="height: 20px;">
-          <td style="width: 20%; height: 43px; text-align: center; vertical-align: middle;" rowspan="2"><img src="<?php echo site_url('assets/img/logo_relatorio.jpg');?>" alt="" style="width: 75px;" srcset=""></td>
-          <td style="width: 50%; height: 43px; text-align: center; vertical-align: middle;" rowspan="2">Análise Preliminar de Risco</td>
+        <tr style="height: 75px;">
+          <td style="width: 20%; height: 43px; text-align: center; vertical-align: middle;"><img src="<?php echo site_url('assets/img/logo_relatorio.jpg');?>" alt="" style="width: 75px;" srcset=""></td>
+          <td style="width: 50%; height: 43px; text-align: center; vertical-align: middle;">Análise Preliminar de Risco</td>
           <td style="width: 15%; height: 15px;">Nº <?php echo $relatorio->id; ?></td>
-          <td style="width: 15%; height: 15px;">Página: {$1} de {$2}</td>
-        </tr>
-        <tr style="height: 20px;">
-          <td style="width: 15%; height: 20px;">Classificação: Uso Interno</td>
-          <td style="width: 15%; height: 20px;">Rev.: 00 - 27/04/2019</td>
+      
         </tr>
       </tbody>
     </table>
@@ -58,9 +54,9 @@
             <div class="panel-body">
                   <p class="text-uppercase" style="padding-left: 10px;">EMPRESA: <?php echo $relatorio->empresa?></p>
                   <p class="text-uppercase" style="padding-left: 10px;">FUNÇÃO: <?php echo $relatorio->obra?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">UNIDADE: <?php echo $relatorio->obra?></p>
+                  <p class="text-uppercase" style="padding-left: 10px;">UNIDADE: <?php echo $relatorio->local?></p>
                   <p class="text-uppercase" style="padding-left: 10px;">ÁREA: <?php echo $relatorio->observacoes?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">REVISÃO: <?php echo $relatorio->data?></p>
+                  <p class="text-uppercase" style="padding-left: 10px;">REVISÃO: <?php echo $array_info->rev?></p>
                   <p class="text-uppercase" style="padding-left: 10px;">DATA: <?php echo $relatorio->data?></p>
                   <p class="text-uppercase" style="padding-left: 10px;">TST: <?php echo $relatorio->tst_name?></p>
                   <p  style="color: #ffffff;
@@ -92,10 +88,10 @@
             <td style="border-top:0;">(Evita o acidente ou minimiza danos caso ocorra)</td>
           </tr>
           </tr>
-          <tr style="height: 500px;">
-            <td style="width: 30%; vertical-align:top"></td>
-            <td style="width: 30%; vertical-align:top">&nbsp;</td>
-            <td style="width: 40%; vertical-align:top">&nbsp;</td>
+          <tr>
+            <td style="width: 30%; vertical-align:top; height: 500px;"><?php echo $array_info->atividades; ?></td>
+            <td style="width: 30%; vertical-align:top; height: 500px;"><?php echo $array_info->riscos; ?></td>
+            <td style="width: 40%; vertical-align:top; height: 500px;"><?php echo $array_info->medidas; ?></td>
         </tr>
       </tbody>
     </table>
@@ -112,7 +108,7 @@
         <td style="width: 33%;">&nbsp;</td>
       </tr>
       <tr style="height: 23px;">
-        <td class="text-uppercase" style="width: 33%;">JODAL - PABLO M. DE MOURA MASTELLA</td>
+        <td class="text-uppercase" style="width: 33%; text-height:8px;">JODAL - PABLO M. DE MOURA MASTELLA</td>
         <td class="text-uppercase" style="width: 33%;">CONTRATANTE - <?php echo $array_info->aprov_area; ?></td>
         <td class="text-uppercase" style="width: 33%;">CONTRATANTE - <?php echo $array_info->aprov_seg; ?></td>
         </tr>

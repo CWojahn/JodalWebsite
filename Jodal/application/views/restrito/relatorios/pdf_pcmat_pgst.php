@@ -100,7 +100,7 @@
       </tr>
       <tr style="height: 23px;">
         <td style="width: 33%;">JODAL</td>
-        <td style="width: 33%;">Observaçõeso: Documento encaminhar para email:</td>
+        <td style="width: 33%;">Observações: Documento encaminhar para email:</td>
         <td style="width: 33%;">&nbsp;</td>
       </tr>
       <tr style="height: 70px;">

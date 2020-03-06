@@ -30,6 +30,20 @@ class Relatorios_m extends CI_Model {
         return $query;
     }
 
+    function insert_apr($data) {
+        $query = $this->db->insert('relatorio_apr', $data);
+        return $query;
+    }
+
+    function insert_dst($data) {
+        $query = $this->db->insert('relatorio_dst', $data);
+        return $query;
+    }
+
+    function insert_assunto($data) {
+        $query = $this->db->insert('relatorio_assunto', $data);
+        return $query;
+    }
 
     function getNroRelatorio() {
         $query = $this->db->query("SELECT COALESCE(max(id),0) nro_relatorio FROM relatorios");
@@ -43,6 +57,21 @@ class Relatorios_m extends CI_Model {
     
     function getNroRelatorioAuxRis() {
         $query = $this->db->query("SELECT COALESCE(max(id),0) nro_relatorio FROM relatorio_ris");
+        return $query->row();
+    }
+
+    function getNroRelatorioAuxApr() {
+        $query = $this->db->query("SELECT COALESCE(max(id),0) nro_relatorio FROM relatorio_apr");
+        return $query->row();
+    }
+    
+    function getNroRelatorioAuxDST() {
+        $query = $this->db->query("SELECT COALESCE(max(id),0) nro_relatorio FROM relatorio_dst");
+        return $query->row();
+    }
+
+    function getNroRelatorioAux2Dst() {
+        $query = $this->db->query("SELECT COALESCE(max(id),0) nro_relatorio FROM relatorio_assunto");
         return $query->row();
     }
 
@@ -86,6 +115,17 @@ class Relatorios_m extends CI_Model {
 
     function getAuxRisById($id){
         return $this->db->get_where('relatorio_ris', array('id_relatorio' =>$id))->row();
+    }
+
+    function getAuxAprById($id){
+        return $this->db->get_where('relatorio_apr', array('id_relatorio' =>$id))->row();
+    }
+
+    function getAuxDSTById($id){
+        return $this->db->get_where('relatorio_dst', array('id_relatorio' =>$id))->result();
+    }
+    function getAuxDST2ById($id){
+        return $this->db->get_where('relatorio_assunto', array('id_relatorio' =>$id))->row();
     }
 
     function getRelatorioById($id) {
@@ -143,6 +183,45 @@ class Relatorios_m extends CI_Model {
 
         $this->db->where('id_relatorio', $id);
         $this->db->update('relatorio_ris', $array);
+
+        if ($this->db->affected_rows() > 0) {
+            // Code here after successful insert
+            return true; // to the controller
+        }
+
+        return FALSE;
+    }
+
+    function update_apr($id, $array) {
+
+        $this->db->where('id_relatorio', $id);
+        $this->db->update('relatorio_apr', $array);
+
+        if ($this->db->affected_rows() > 0) {
+            // Code here after successful insert
+            return true; // to the controller
+        }
+
+        return FALSE;
+    }
+
+    function update_dst($id, $array) {
+
+        $this->db->where('id_relatorio', $id);
+        $this->db->update('relatorio_dst', $array);
+
+        if ($this->db->affected_rows() > 0) {
+            // Code here after successful insert
+            return true; // to the controller
+        }
+
+        return FALSE;
+    }
+
+    function update_assunto($id, $array) {
+
+        $this->db->where('id_relatorio', $id);
+        $this->db->update('relatorio_assunto', $array);
 
         if ($this->db->affected_rows() > 0) {
             // Code here after successful insert

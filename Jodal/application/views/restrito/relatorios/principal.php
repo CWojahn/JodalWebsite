@@ -42,6 +42,8 @@
                         <tr>
                             <td class="text-center" style="width: 15%;">
                                 <a onclick="gerapdf(<?php echo $relatorio->id;?>, '<?php echo $relatorio->tipo;?>')" class="btn btn-success" title="Imprimir" target="_blank"><span class="glyphicon glyphicon-print"></span></a>
+
+
                                 <a onclick="enviar(<?php echo $relatorio->id;?>, '<?php echo $relatorio->email;?>');" class="btn btn-success" title="Enviar" style="cursor: pointer"><span class="glyphicon glyphicon-envelope"></span></a>
                                 <?php if ($relatorio->tipo == 'PCMAT & PGST') { ?>
                                         <a href="<?php echo site_url('relatorio_painel/editar_pcmat/' . $relatorio->id); ?>" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
@@ -140,9 +142,11 @@
             data: {id: id, tipo: tipo},
             dataType: 'json',
             success: function (dados) {
+                console.log(dados);
                 openpdf(dados);
             },
             error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr.responseText);
                 openpdf(xhr.responseText);
             }
         });
