@@ -59,7 +59,7 @@ and open the template in the editor.
                         <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
                     </a>
                     </a>
-                     <a href="<?php echo site_url('relatorios_painel'); ?>" id="btn_user" class="btn btn-default btn-lg" aria-label="Left Align" title="Gerenciar Relatórios Externos">
+                     <a href="<?php echo site_url('relatorio_painel'); ?>" id="btn_user" class="btn btn-default btn-lg" aria-label="Left Align" title="Gerenciar Relatórios Externos">
                         <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
                     </a>
 

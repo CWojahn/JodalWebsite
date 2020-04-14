@@ -32,25 +32,26 @@
         </div>
 
 </form>
-<form class="form-row" id="form_nova_imagem" style="margin-bottom: 15px;">     
-    <div class ="form-group col-md-4">
-        <label for="imagem">Imagem</label>
-        <input type="file" id="imagem" name="imagem"
-        onchange="PreviewImage_pt();" accept="image/*" capture="camera" class="form-control-file">
-    </div>
-    <div class="form-group col-md-2">
-        <img id="uploadPreview_pt" style="width: 150px; height: 125px;" />
-    </div>
-    <div class="form-group col-md-4">
-        <label for="descricao">Ações Encontradas</label>
-        <textarea class="form-control" id="descricao" name="descricao"
-        placeholder="Ações Encontradas" rows="4"></textarea> 
-    </div>
-    <div class="col-md-12 col-sm-12 text-center">
-        <button class="btn btn-success" data-loading-text="Incluindo..." id="btn_upload" type="submit"><span class="glyphicon glyphicon-plus"></span> Acrescentar Imagem</button>
-    </div>
-</form>
-
+<div class="col-md-12 col-sm-12 text-center">
+  <form id="form_nova_imagem" style="margin-bottom: 15px;">   
+        <div class ="col-md-4">
+            <label for="imagem">Imagem</label>
+            <input type="file" id="imagem" name="imagem"
+            onchange="PreviewImage_pt();" accept="image/*" capture="camera" class="form-control-file">
+        </div>
+        <div class="col-md-2">
+            <img id="uploadPreview_pt" style="width: 150px; height: 125px;" />
+        </div>
+        <div class="col-md-4">
+            <label for="descricao">Ações Encontradas</label>
+            <textarea class="form-control" id="descricao" name="descricao"
+            placeholder="Ações Encontradas" rows="4"></textarea> 
+        </div>
+        <div class="col-md-12 col-sm-12 text-center">
+            <button class="btn btn-success" data-loading-text="Incluindo..." id="btn_upload" type="submit"><span class="glyphicon glyphicon-plus">				</span> Acrescentar Imagem</button>
+        </div>
+  </form>
+</div>
 <div id="imagens1">
 <hr>
     <table class="table table-hover">

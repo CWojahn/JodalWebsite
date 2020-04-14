@@ -39,7 +39,7 @@
         </div>
   </form>
 
-<div class="form-row">
+<div class="col-md-12 col-sm-12 text-center">
   <form id="form_nova_imagem" style="margin-bottom: 15px;">     
       <div class ="form-group col-md-6">
           <label for="imagem">Imagem</label>

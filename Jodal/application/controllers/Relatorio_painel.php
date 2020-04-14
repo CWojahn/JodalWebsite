@@ -606,13 +606,11 @@ class Relatorio_painel extends CI_Controller {
         $this->load->model('clientes_m');
 
         $relatorio = $this->relatorios_m->getRelatorioById($id);
-        $imagensrelatorios = $this->relatorios_m->getPcmatImagesById($id);
-        $dadosaux = $this->relatorios_m->getAuxDSTById($id);
+        $dadosaux = $this->relatorios_m->getAuxDST2ById($id);
         $clientes = $this->clientes_m->get_all();
 
         $dados1 = array(
-            'imagens' => $imagensrelatorios,
-            'dadosauxiliares' => $dadosaux,
+            'array_info' => $dadosaux,
             'clientes' => $clientes,
             'relatorio' => $relatorio
         );

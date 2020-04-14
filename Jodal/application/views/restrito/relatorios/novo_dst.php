@@ -152,7 +152,7 @@
         </div>
         <div class="form-group row">
             <div class ="form-group col-sm-2"></div>
-            <div class ="form-group col-sm-10">
+            <div class ="form-group col-sm-6">
                 <div class="form-check">
                     <label for="outros">Outros</label>
                     <input type="text" id="outros" name="outros" class ="form-control">

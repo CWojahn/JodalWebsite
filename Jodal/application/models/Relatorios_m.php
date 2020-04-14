@@ -219,16 +219,21 @@ class Relatorios_m extends CI_Model {
     }
 
     function update_assunto($id, $array) {
-
+        $this->db->trans_start();
         $this->db->where('id_relatorio', $id);
         $this->db->update('relatorio_assunto', $array);
+        $this->db->trans_complete();
 
-        if ($this->db->affected_rows() > 0) {
-            // Code here after successful insert
-            return true; // to the controller
-        }
+        if ($this->db->trans_status() === FALSE)
+            {
+                log_message('adasdasd');
+            }
+        // if ($this->db->affected_rows() > 0) {
+        //     // Code here after successful insert
+        //     return true; // to the controller
+        // }
 
-        return FALSE;
+        // return FALSE;
     }
 
     function update_relatorio($id, $array) {
