@@ -125,6 +125,7 @@ class Relatorio_painel extends CI_Controller {
     public function enviar_email() {
         if ($this->input->post('id')) {
             $id = $this->input->post('id');
+            $email_cliente = $this->input->post('email_prompt');
             $this->load->model('relatorios_m');
 
             $relatorio = $this->relatorios_m->getRelatorioById($id);
@@ -140,7 +141,7 @@ class Relatorio_painel extends CI_Controller {
             $corpo = 'Segue em anexo relatório referente a obra ' . $relatorio->obra;
             $this->load->library('email', $email_config);
             $this->email->from('site@jodaltreinamentos.com', 'Jodal');
-            $this->email->to($relatorio->email);
+            $this->email->to($email_cliente);
             $this->email->reply_to('contato@jodaltreinamentos.com', 'Jodal Treinamentos');
             $this->email->subject('Relatorio Jodal - '. $relatorio->obra);
             $this->email->message($corpo);
@@ -207,7 +208,7 @@ class Relatorio_painel extends CI_Controller {
 
 
             $dados = $this->load->view('restrito/relatorios/novo_image_table', $dados1, true);
-            // if ($relatorio->tipo == 'PCMAT & PGST'){
+            // if ($relatorio->tipo == 'PGR'){
             //     $dados = $this->load->view('restrito/relatorios/novo_image_table', $dados1, true);
             // }elseif ($relatorio->tipo == 'RIS') {
             //     $dados = $this->load->view('restrito/relatorios/novo_image_table_ris', $dados1, true);
@@ -228,7 +229,7 @@ class Relatorio_painel extends CI_Controller {
             $this->load->model('relatorios_m');
             $relatorio = $this->relatorios_m->getRelatorioById($id);
 
-            if ($relatorio->tipo == 'PCMAT & PGST') {
+            if ($relatorio->tipo == 'PGR') {
                 $imagensrelatorios = $this->relatorios_m->getPcmatImagesById($id);
                 $dados1 = array(
                     'array_images' => $imagensrelatorios,
@@ -266,7 +267,7 @@ class Relatorio_painel extends CI_Controller {
             if (file_exists($pdfFilePath) == FALSE) {
                 ini_set('memory_limit', '64M'); 
 
-                if ($relatorio->tipo == 'PCMAT & PGST'){
+                if ($relatorio->tipo == 'PGR'){
                     $html = $this->load->view('restrito/relatorios/pdf_pcmat_pgst', $dados1, true);
                 }elseif($relatorio->tipo == 'RIS') {
                     $html = $this->load->view('restrito/relatorios/pdf_ris', $dados1, true);

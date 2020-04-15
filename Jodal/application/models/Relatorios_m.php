@@ -133,7 +133,7 @@ class Relatorios_m extends CI_Model {
         $query = $this->db->query("SELECT relatorios.id, clientes.empresa,
                                     relatorios.id_cliente,clientes.email,relatorios.tipo,
                                     relatorios.obra, relatorios.data, relatorios.local,
-                                    relatorios.tst_name,relatorios.observacoes
+                                    relatorios.tst_name,relatorios.observacoes, relatorios.path_pdf
                                 FROM relatorios
                                 INNER JOIN clientes
                                 ON relatorios.id_cliente = clientes.id

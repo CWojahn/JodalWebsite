@@ -27,7 +27,7 @@
                     <label for="tipo_relatorio">Selecione um formulário</label>
                     <select class="form-control" id="tipo_relatorio" name="tipo_relatorio">
                         <option value="-1">Escolha um formulário</option>
-                        <option value="0">PCMAT & PGST</option>
+                        <option value="0">Programa de Gestão e Risco</option>
                         <option value="1">Relatório de Inspeção de Segurança</option>
                         <option value="2">Análise Preliminar de Risco</option>
                         <option value="3">Documento de Segurança do Trabalho</option>

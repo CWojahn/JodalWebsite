@@ -45,7 +45,6 @@
           <td style="width: 20%; height: 43px; text-align: center; vertical-align: middle;" rowspan="2"><img src="<?php echo base_url('assets/img/logo_relatorio.jpg');?>" alt="" style="width: 75px;" srcset=""></td>
           <td style="width: 50%; height: 43px; text-align: center; vertical-align: middle;" rowspan="2">Relatório fotográfico das <br> Melhorias a serem Implantadas no canteiro de obra.</td>
           <td style="width: 15%; height: 15px;">Nº <?php echo $relatorio->id; ?></td>
-          <td style="width: 15%; height: 15px;">Página: {$1} de {$2}</td>
         </tr>
         <tr style="height: 20px;">
           <td style="width: 15%; height: 20px;">Classificação: Uso Interno</td>
@@ -67,7 +66,7 @@
                         font-size: 16px;
                         padding: 0.25em;
                         margin-bottom: 0;"
-                  >PCMAT & PGST</p>
+                  >PGR - Programa de Gestão e Risco</p>
             </div>
           </div>
       </div>

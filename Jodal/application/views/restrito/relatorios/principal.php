@@ -43,7 +43,7 @@
                             <td class="text-center" style="width: 20%;">
                                 <a onclick="gerapdf(<?php echo $relatorio->id;?>, '<?php echo $relatorio->tipo;?>')" class="btn btn-success" title="Imprimir" target="_blank"><span class="glyphicon glyphicon-print"></span></a>
                                 <a onclick="enviar(<?php echo $relatorio->id;?>, '<?php echo $relatorio->email;?>');" class="btn btn-success" title="Enviar" style="cursor: pointer"><span class="glyphicon glyphicon-envelope"></span></a>
-                                <!-- <?php if ($relatorio->tipo == 'PCMAT & PGST') { ?>
+                                <!-- <?php if ($relatorio->tipo == 'PGR') { ?>
                                         <a href="<?php echo site_url('relatorio_painel/editar_pcmat/' . $relatorio->id); ?>" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
                                 <?php  }elseif ($relatorio->tipo == 'RIS') { ?>
                                         <a href="<?php echo site_url('relatorio_painel/editar_ris/' . $relatorio->id); ?>" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
@@ -105,12 +105,13 @@
 
     function enviar(id, email) {
 
-        bootbox.confirm("Enviar relatório por email para <b>" + email + '</b>?<br><i>Obs.: Caso o email esteja errado, altere no cadastro do cliente</i>', function (result) {
+        bootbox.prompt("Digite o e-mail para onde devemos enviar o relatório.", function (result) {
+            console.log(result);
             if (result) {
                 $.ajax({
                     type: "POST",
                     url: "<?php echo site_url('relatorio_painel/enviar_email'); ?>",
-                    data: {id: id},
+                    data: {id: id, email_prompt: result},
                     success: function (dados) {
                         if (dados.msg == true) {
                             $("#result_edit").html('<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Email enviado com sucesso!</div>');
