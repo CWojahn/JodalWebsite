@@ -25,6 +25,7 @@ class Relatorio_painel extends CI_Controller {
     public function index($array = array()) {
 
         $this->load->model('relatorios_m'); 
+        $this->load->model('clientes_m');
 
         $dados = array(
 
@@ -39,6 +40,7 @@ class Relatorio_painel extends CI_Controller {
         //$certificados = $this->certificado_m->get_all();
 
         $array['relatorios'] = $this->relatorios_m->getRelatorios();
+        $array['clientes'] = $this->clientes_m->get_all();
 
         $this->load->view('restrito/painel', $dados);
 
@@ -76,6 +78,16 @@ class Relatorio_painel extends CI_Controller {
 
     }
 
+    public function carregar_clientes(){
+        $id_cliente = $this->input->post('id');
+
+        $this->load->model('clientes_m');
+
+        $dados = array(
+            'sel_cliente' => $this->clientes_m->get_cliente($id_cliente)->row()
+        ); 
+    }
+
     public function carregar_header() {
         $id_cliente = $this->input->post('id');
         $tipo_relatorio = $this->input->post('tipo');
@@ -107,6 +119,33 @@ class Relatorio_painel extends CI_Controller {
             $this->load->view('restrito/relatorios/novo_dst', $dados);
         }
     }
+
+    public function filter() {
+        $id_cliente = $this->input->post('id');
+        $tipo_relatorio = $this->input->post('tipo');
+        $this->load->model('relatorios_m');
+        
+        if ($tipo_relatorio == -1){
+            $array['relatorios'] = $this->relatorios_m->getRelatorioByCliente($id_cliente);
+        }else {
+            if ($tipo_relatorio == 0 ){
+                $tipo = 'PGR';
+            }elseif ($tipo_relatorio == 1 ){
+                $tipo = 'RIS';
+            }elseif ($tipo_relatorio == 2 ){
+                $tipo = 'APR';
+            }elseif ($tipo_relatorio == 3 ){
+                $tipo = 'DST';
+            };
+            $array['relatorios'] = $this->relatorios_m->getRelatorioByClienteAndType($id_cliente, $tipo);
+        }
+
+        
+
+        $dados = $this->load->view('restrito/relatorios/filtrados', $array, true);
+        echo $dados;
+    }
+    
 
     public function excluir() {
         if ($this->input->post('id')) {

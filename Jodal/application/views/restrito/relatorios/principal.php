@@ -12,6 +12,38 @@
     <div id="result_edit">
 
     </div>
+    <div class="row" style="margin-bottom:25px">
+        <form id="form_filter_report" method="post">
+            <div class="col-md-12 col-sm-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="cliente">Selecione o Cliente</label>
+                        <select class="form-control" id="cliente" name="cliente">
+                            <option value="-1">Escolha um Cliente</option>
+                            <?php foreach ($clientes as $client) { ?>
+                                <option value="<?php echo $client->id ?>">
+                                <?php echo $client->empresa; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="tipo_relatorio">Selecione um formulário</label>
+                    <select class="form-control" id="tipo_relatorio" name="tipo_relatorio">
+                        <option value="-1">Escolha um formulário</option>
+                        <option value="0">Programa de Gestão e Risco</option>
+                        <option value="1">Relatório de Inspeção de Segurança</option>
+                        <option value="2">Análise Preliminar de Risco</option>
+                        <option value="3">Documento de Segurança do Trabalho</option>
+                    </select>
+                </div>
+                <div class="col-md-12 col-sm-12 text-center" style="margin-top:10px">
+                    <a class="btn btn-success" id="buscar"><span class="glyphicon glyphicon-filter"></span> Buscar</a>
+                    <a class="btn btn-default" onClick="clearfilter()"><span class="glyphicon glyphicon-erase"></span> Limpar Filtro</a>
+                </div>
+            </div>
+        </form>
+    </div>
     <form method="post">
         <div class="text-center">
             <a href="<?php echo site_url('relatorio_painel/novo'); ?>" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Novo Relatório</a>
@@ -33,7 +65,10 @@
                 </tr>
             </thead>
 
-            <tbody>
+            <tbody id="filtrado">
+            </tbody>
+
+            <tbody id="sem_filtro">
                 <?php setlocale(LC_ALL, 'pt_BR'); ?>
                 <?php
                 if (isset($relatorios)) {
@@ -42,16 +77,7 @@
                         <tr>
                             <td class="text-center" style="width: 20%;">
                                 <a onclick="gerapdf(<?php echo $relatorio->id;?>, '<?php echo $relatorio->tipo;?>')" class="btn btn-success" title="Imprimir" target="_blank"><span class="glyphicon glyphicon-print"></span></a>
-                                <a onclick="enviar(<?php echo $relatorio->id;?>, '<?php echo $relatorio->email;?>');" class="btn btn-success" title="Enviar" style="cursor: pointer"><span class="glyphicon glyphicon-envelope"></span></a>
-                                <!-- <?php if ($relatorio->tipo == 'PGR') { ?>
-                                        <a href="<?php echo site_url('relatorio_painel/editar_pcmat/' . $relatorio->id); ?>" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
-                                <?php  }elseif ($relatorio->tipo == 'RIS') { ?>
-                                        <a href="<?php echo site_url('relatorio_painel/editar_ris/' . $relatorio->id); ?>" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
-                                <?php  }elseif ($relatorio->tipo == 'APR') { ?>
-                                        <a href="<?php echo site_url('relatorio_painel/editar_apr/' . $relatorio->id); ?>" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
-                                <?php  }elseif ($relatorio->tipo == 'DST') { ?>
-                                        <a href="<?php echo site_url('relatorio_painel/editar_dst/' . $relatorio->id); ?>" class="btn btn-warning" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
-                                <?php   } ?> -->
+                                <a onclick="enviar(<?php echo $relatorio->id;?>, '<?php echo $relatorio->email;?>');" class="btn btn-success" title="Enviar" style="cursor: pointer"><span class="glyphicon glyphicon-envelope"></span></a>                                
                                 <a onclick="excluir(<?php echo $relatorio->id; ?>);" style="cursor: pointer;" class="btn btn-danger" title="Excluir"><span class="glyphicon glyphicon-remove"></span> </a>
                             </td>
                             <td class="text-center" style="width: 5%;"><?php echo $relatorio->id; ?></td>
@@ -60,9 +86,7 @@
                             <td class="text-center" style="width: 5%;"><?php echo $relatorio->local; ?></td>
                             <td class="text-center" style="width: 35%;"><?php echo $relatorio->empresa; ?></td>
                             <td class="text-center" style="width: 10%;"><?php echo $relatorio->tipo; ?></td>
-
                         </tr>
-
                         <?php
                     }
                 }
@@ -134,6 +158,35 @@
 </script>
 
 <script>
+
+    $('#buscar').on('click', function () {
+        
+        var tipo_relatorio = document.getElementById("tipo_relatorio").value;
+        var cliente = document.getElementById("cliente").value;
+        if(tipo_relatorio != -1 && cliente != -1){
+            $('#form_filter_report').removeAttr('disabled');
+            $.ajax(
+                {
+                url: "<?php echo site_url('relatorio_painel/filter') ?>",
+                type: "POST",
+                data: {id: cliente, tipo: tipo_relatorio},
+                    //dataType: "json",
+                success: function (dados)
+                    {
+                        console.log('ok');
+                        document.getElementById("sem_filtro").style.display = "none";
+                        $("#filtrado").html(dados);
+                    },
+                error: function (jqXhr, textStatus, errorThrown )
+                    {
+                        console.log(textStatus );
+                    }
+                }
+            );
+        }
+    });
+
+
     function gerapdf(id, tipo){
         $.ajax({
             type: "POST",
@@ -154,4 +207,11 @@
     function openpdf(dados) {
         window.open("http://www.jodaltreinamentos.com/jodal/uploads/relatorios/pdf/" + dados, "_blank");
     };
+
+    function clearfilter(){
+        //e.preventDefault();
+        //document.getElementById("filtrado").style.display = "none";//"none";
+        //document.getElementById("sem_filtro").style.visibility = "initial";//"none";
+        location.reload();
+    }
 </script>

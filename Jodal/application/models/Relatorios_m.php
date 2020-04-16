@@ -145,13 +145,30 @@ class Relatorios_m extends CI_Model {
 
     
     function getRelatorioByCliente($cliente){
-        $query = $this->db->query("SELECT relatorios.id, clientes.empresa, clientes.email,
-                                    relatorios.data, relatorios.obra, relatorios.local, relatorios.tst_name, relatotios.observacoes, relatorios.path_pdf,
-                                    clientes.responsavel
-                                   FROM relatorios
-	                               INNER JOIN clientes
-	                               ON relatorios.id_cliente = clientes.id AND relatorios.id_cliente=%cliente");
-        return $query->row();
+        $query = $this->db->query("select relatorios.id, 
+                                relatorios.data, relatorios.obra,
+                                relatorios.local,clientes.empresa,
+                                relatorios.tipo, clientes.email, relatorios.tipo
+                                from relatorios
+                                inner join clientes
+                                on relatorios.id_cliente = clientes.id
+                                where clientes.id = $cliente
+                                order by relatorios.data DESC");
+        return $query->result();
+    }
+
+
+    function getRelatorioByClienteAndType($cliente, $tipo){
+        $query = $this->db->query("select relatorios.id, 
+                                relatorios.data, relatorios.obra,
+                                relatorios.local,clientes.empresa,
+                                relatorios.tipo, clientes.email, relatorios.tipo
+                                from relatorios
+                                inner join clientes
+                                on relatorios.id_cliente = clientes.id
+                                where clientes.id = $cliente and relatorios.tipo = '$tipo'
+                                order by relatorios.data DESC");
+        return $query->result();
     }
 
     function getRelatorioByObra($obra) {
