@@ -4,7 +4,7 @@
 
 <div class="row">
 
-    <h3 class="text-center">DST Nº <?php echo ($nro_relatorio); ?></h3>
+    <h3 class="text-center">DDS Nº <?php echo ($nro_relatorio); ?></h3>
 
     <div class="col-md-offset-3 col-md-6">
 
@@ -40,7 +40,7 @@
         <table class="table table-borderless">
             <thead>
                 <tr>
-                    <th colspan="5" class="text-center">DOCUMETO DE SEGURANÇA DO TRABALHO</th>
+                    <th colspan="5" class="text-center">DIÁRIO DIÁLOGO DE SEGURANÇA</th>
                 </tr>
             </thead>
         </table>

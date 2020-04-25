@@ -40,7 +40,7 @@
         <table class="table table-borderless">
             <thead>
                 <tr>
-                    <th colspan="5" class="text-center">ANÁLISE PRELIMINAR DE RISCO - APR</th>
+                    <th colspan="5" class="text-center">ANÁLISE PRELIMINAR DE RISCO</th>
                 </tr>
             </thead>
         </table>

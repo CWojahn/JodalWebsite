@@ -135,7 +135,7 @@ class Relatorio_painel extends CI_Controller {
             }elseif ($tipo_relatorio == 2 ){
                 $tipo = 'APR';
             }elseif ($tipo_relatorio == 3 ){
-                $tipo = 'DST';
+                $tipo = 'DDS';
             };
             $array['relatorios'] = $this->relatorios_m->getRelatorioByClienteAndType($id_cliente, $tipo);
         }
@@ -268,13 +268,13 @@ class Relatorio_painel extends CI_Controller {
             $this->load->model('relatorios_m');
             $relatorio = $this->relatorios_m->getRelatorioById($id);
 
-            if ($relatorio->tipo == 'PGR') {
+            if ($tipo == 'PGR') {
                 $imagensrelatorios = $this->relatorios_m->getPcmatImagesById($id);
                 $dados1 = array(
                     'array_images' => $imagensrelatorios,
                     'relatorio' => $relatorio    
                 );
-            }elseif ($relatorio->tipo == 'RIS') {
+            }elseif ($tipo == 'RIS') {
                 $imagensrelatorios = $this->relatorios_m->getPcmatImagesById($id);
                 $dadosris = $this->relatorios_m->getAuxRisById($id);
                 $dados1 = array(
@@ -282,13 +282,13 @@ class Relatorio_painel extends CI_Controller {
                     'array_info' => $dadosris,
                     'relatorio' => $relatorio    
                 );
-            }elseif ($relatorio->tipo == 'APR') {
+            }elseif ($tipo == 'APR') {
                 $dadosapr = $this->relatorios_m->getAuxAprById($id);
                 $dados1 = array(
                     'array_info' => $dadosapr,
                     'relatorio' => $relatorio    
                 );
-            }elseif ($relatorio->tipo == 'DST') {
+            }elseif ($tipo == 'DDS') {
                 $dadospart = $this->relatorios_m->getAuxDSTById($id);
                 $imagensrelatorios = $this->relatorios_m->getPcmatImagesById($id);
                 $dadosassunto = $this->relatorios_m->getAuxDST2ById($id);
@@ -299,35 +299,40 @@ class Relatorio_painel extends CI_Controller {
                     'relatorio' => $relatorio    
                 );
             }
+
             
             $nome_pdf = date('Y-m-d') . "-REL-" . $id . ".pdf";
             $pdfFilePath = FCPATH . "uploads/relatorios/pdf/" . $nome_pdf;
 
-            if (file_exists($pdfFilePath) == FALSE) {
+           // if (file_exists($pdfFilePath) == FALSE) {
                 ini_set('memory_limit', '64M'); 
 
-                if ($relatorio->tipo == 'PGR'){
+                if ($tipo == 'PGR'){
                     $html = $this->load->view('restrito/relatorios/pdf_pcmat_pgst', $dados1, true);
-                }elseif($relatorio->tipo == 'RIS') {
+                }elseif($tipo == 'RIS') {
                     $html = $this->load->view('restrito/relatorios/pdf_ris', $dados1, true);
-                }elseif ($relatorio->tipo == 'APR') {
+                }elseif ($tipo == 'APR') {
                     $html = $this->load->view('restrito/relatorios/pdf_apr', $dados1, true);
-                }elseif ($relatorio->tipo == 'DST') {
+                }elseif ($tipo == 'DDS') {
                     $html = $this->load->view('restrito/relatorios/pdf_dst', $dados1, true);
                 }
 
                 $this->load->library('pdf');
                 $pdf = $this->pdf->load();
                 $pdf->SetDisplayMode('fullpage');
-                $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}|' . date(DATE_RFC822));
+                //$pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}|' . date(DATE_RFC822));
                 $pdf->WriteHTML($html);
                 $pdf->Output($pdfFilePath, 'F');
+                //$pdf->Output();
+
+                //echo json_encode($pdf);
 
                 $this->relatorios_m->update_relatorio($id, array('path_pdf' => $nome_pdf));
                 echo $nome_pdf;
-            } else {
-                echo $nome_pdf;
-            }
+
+            // } else {
+            //     echo $nome_pdf;
+            // }
     
     }
 

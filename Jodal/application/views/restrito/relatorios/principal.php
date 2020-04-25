@@ -31,10 +31,10 @@
                     <label for="tipo_relatorio">Selecione um formulário</label>
                     <select class="form-control" id="tipo_relatorio" name="tipo_relatorio">
                         <option value="-1">Escolha um formulário</option>
+                        <option value="2">Análise Preliminar de Risco</option>
+                        <option value="3">Diário Diálogo de Segurança</option>
                         <option value="0">Programa de Gestão e Risco</option>
                         <option value="1">Relatório de Inspeção de Segurança</option>
-                        <option value="2">Análise Preliminar de Risco</option>
-                        <option value="3">Documento de Segurança do Trabalho</option>
                     </select>
                 </div>
                 <div class="col-md-12 col-sm-12 text-center" style="margin-top:10px">
@@ -76,8 +76,8 @@
                         ?>
                         <tr>
                             <td class="text-center" style="width: 20%;">
-                                <a onclick="gerapdf(<?php echo $relatorio->id;?>, '<?php echo $relatorio->tipo;?>')" class="btn btn-success" title="Imprimir" target="_blank"><span class="glyphicon glyphicon-print"></span></a>
-                                <a onclick="enviar(<?php echo $relatorio->id;?>, '<?php echo $relatorio->email;?>');" class="btn btn-success" title="Enviar" style="cursor: pointer"><span class="glyphicon glyphicon-envelope"></span></a>                                
+                                <a onclick="gerapdf(<?php echo $relatorio->id;?>, '<?php echo $relatorio->tipo; ?>')" class="btn btn-success" title="Imprimir" target="_blank"><span class="glyphicon glyphicon-print"></span></a>
+                                <a onclick="enviar(<?php echo $relatorio->id;?>, <?php echo $relatorio->email;?>);" class="btn btn-success" title="Enviar" style="cursor: pointer"><span class="glyphicon glyphicon-envelope"></span></a>                            
                                 <a onclick="excluir(<?php echo $relatorio->id; ?>);" style="cursor: pointer;" class="btn btn-danger" title="Excluir"><span class="glyphicon glyphicon-remove"></span> </a>
                             </td>
                             <td class="text-center" style="width: 5%;"><?php echo $relatorio->id; ?></td>

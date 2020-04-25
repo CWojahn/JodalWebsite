@@ -39,41 +39,40 @@
 
     <?php setlocale(LC_ALL, 'pt_BR'); ?>
     <div class="row">
-    <table style="border-spacing: 0px; width: 100%; border-color: 000; border: 1px">
-      <tbody>
-        <tr style="height: 20px;">
-          <td style="width: 20%; height: 43px; text-align: center; vertical-align: middle;" rowspan="2"><img src="<?php echo site_url('assets/img/logo_relatorio.jpg');?>" alt="" style="width: 75px;" srcset=""></td>
-          <td style="width: 50%; height: 43px; text-align: center; vertical-align: middle;" rowspan="2">Relatório de Inspeção de Segurança</td>
-          <td style="width: 15%; height: 15px;">Nº <?php echo $relatorio->id; ?></td>
-          <td style="width: 15%; height: 15px;">Página: {$1} de {$2}</td>
-        </tr>
-        <tr style="height: 20px;">
-          <td style="width: 15%; height: 20px;">Classificação: Uso Interno</td>
-          <td style="width: 15%; height: 20px;">Rev.: 00 - 27/04/2019</td>
-        </tr>
-      </tbody>
-    </table>
-      <div class="col-md-offset-3 col-md-6" style="border-style: solid; border-width: 1px;margin-top: 35px;" >
-          <div class="panel panel-default">
-            <div class="panel-body">
-                  <p class="text-uppercase" style="padding-left: 10px;">EMPRESA: <?php echo $relatorio->empresa?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">SETOR ESPECÍFICO: <?php echo $relatorio->obra?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">ELABORADO POR: <?php echo $relatorio->tst_name?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">E-MAIL: <?php echo $array_info->email?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">DESCRIÇÃO: <?php echo $relatorio->observacoes?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">DATA: <?php echo $relatorio->data?></p>
-                  <p  style="color: #ffffff;
-                        background-color: #000000;
-                        text-align: center;
-                        font-size: 16px;
-                        padding: 0.25em;
-                        margin-bottom: 0;"
-                  >RIS</p>
-            </div>
-          </div>
+      <table style="border-spacing: 0px; width: 100%; border-color: 000; border: 1px">
+        <tbody>
+          <tr style="height: 75px;">
+            <td style="width: 20%; height: 43px; text-align: center; vertical-align: middle;">
+              <img src="<?php echo site_url('assets/img/logo_relatorio.jpg');?>" alt="" style="width: 75px;" srcset="">
+            </td>
+            <td style="width: 50%; height: 43px; text-align: center; vertical-align: middle;">RIS - Relatório de Inspeção de Segurança</td>
+            <td style="width: 15%; height: 15px;">Nº <?php echo $relatorio->id; ?></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="col-md-offset-3 col-md-6" 
+        style="border-style: solid;
+          border-width: 1px;
+          margin-top: 35px;
+          padding: 0;" >
+        <p class="text-uppercase" style="padding-left: 10px;">EMPRESA: <?php echo $relatorio->empresa?></p>
+        <p class="text-uppercase" style="padding-left: 10px;">SETOR ESPECÍFICO: <?php echo $relatorio->obra?></p>
+        <p class="text-uppercase" style="padding-left: 10px;">ELABORADO POR: <?php echo $relatorio->tst_name?></p>
+        <p class="text-uppercase" style="padding-left: 10px;">E-MAIL: <?php echo $array_info->email?></p>
+        <p class="text-uppercase" style="padding-left: 10px;">DESCRIÇÃO: <?php echo $relatorio->observacoes?></p>
+        <p class="text-uppercase" style="padding-left: 10px;">DATA: <?php echo $relatorio->data?></p>
+        <p  style="color: #ffffff;
+              background-color: #000000;
+              text-align: center;
+              font-size: 16px;
+              padding-left: 0;
+              padding-right: 0;
+              padding-top: 5px;
+              padding-bottom: 5px;
+              margin-bottom: 0;"
+        >Nenhuma tarefa é tão urgente que não pode ser planejada e executada com segurança!</p>
       </div>
     </div>
-  </div>
   <div class="row" style="margin-top: 30px;" >
     <table style="width: 100%;border-spacing: 0px;">
       <tbody>
@@ -81,19 +80,19 @@
         <td colspan="3">Foto/Imagem</td>
       </tr>
       <?php foreach ($array_images as $value) { ?>
-                <tr>
-                  <td colspan="3">
-                  	<img src="<?php echo $value->image_path;?>" alt="" srcset="" width="400em">
-                  </td>
-                </tr>
-              <?php } ?> 
+        <tr>
+          <td colspan="3">
+            <img src="<?php echo $value->image_path;?>" alt="" srcset="" width="400px">
+          </td>
+        </tr>
+      <?php } ?> 
       <tr style="background-color: #888888; height: 40px;">
         <td >Recomendações</td>
         <td >Aspecto Legal</td>
         <td >Prazo</td>
       </tr>
       <tr style="height: 50px;">
-        <td ><?php echo $array_info->recomendacoes; ?></td>
+        <td style="text-align: left"><?php echo $array_info->recomendacoes; ?></td>
         <td ><?php echo $array_info->asp_legal; ?></td>
         <td ><?php echo $array_info->data_prazo; ?></td>
       </tr>
@@ -107,7 +106,7 @@
         <td style="width: 33%;">&nbsp;</td>
       </tr>
       <tr style="height: 23px;">
-        <td style="width: 33%;">PABLO M. DE MOURA MASTELLA</td>
+        <td style="width: 33%;"><?php echo $relatorio->tst_name?></td>
         <td style="width: 33%; border-top: solid 1px #333">CONTRATANTE - <?php echo $relatorio->empresa?></td>
       </tr>
       </tbody>

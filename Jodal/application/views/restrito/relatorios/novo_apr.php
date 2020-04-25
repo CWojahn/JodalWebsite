@@ -52,7 +52,41 @@
         <textarea class="form-control" id="medidas" name="medidas"
               placeholder="MEDIDAS PREVENTIVAS / RECOMENDAÇÕES" rows="16"></textarea>
       </div>
-    </div>    
+    </div>
+    <!-- <div class="col-md-12 col-sm-12 text-center">
+        <form id="form_nova_imagem" style="margin-bottom: 15px;">   
+            <div class ="col-md-4">
+                <label for="imagem">Imagem</label>
+                <input type="file" id="imagem" name="imagem"
+                onchange="PreviewImage_pt();" accept="image/*" capture="camera" class="form-control-file">
+            </div>
+            <div class="col-md-2">
+                <img id="uploadPreview_pt" style="width: 150px; height: 125px;" />
+            </div>
+            <div class="col-md-4">
+                <label for="descricao">Observação</label>
+                <textarea class="form-control" id="descricao" name="descricao"
+                placeholder="Observação" rows="4"></textarea> 
+            </div>
+            <div class="col-md-12 col-sm-12 text-center">
+                <button class="btn btn-success" data-loading-text="Incluindo..." id="btn_upload" type="submit"><span class="glyphicon glyphicon-plus">				</span> Acrescentar Imagem</button>
+            </div>
+        </form>
+    </div>
+    <div id="imagens1">
+        <hr>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th style="text-align: center">Imagem</th>
+                    <th style="text-align: center">Observação</th>
+                    <th style="text-align: center">Excluir</th>
+                </tr>
+            </thead>
+            <tbody id="imagensadicionadas">
+            </tbody>
+        </table>
+    </div>    -->
     <div class="col-md-12 col-sm-12 text-center">
         <button class="btn btn-success" data-loading-text="Incluindo..." id="btn_save"  onclick="SalvarRelatorio()"><span class="glyphicon glyphicon-plus"></span>Salvar</button>
     </div>
@@ -62,6 +96,41 @@
 <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
 
 <script>
+    $(document).ready(function(){
+        $('#form_nova_imagem').submit(function(e){
+            e.preventDefault(); 
+            $.ajax({
+                url:'<?php echo site_url('relatorio_painel/do_upload') ?>',
+                type:"post",
+                data:new FormData(this),
+                processData:false,
+                contentType:false,
+                cache:false,
+                async:false,
+                success: function(dados){
+                    $('#imagensadicionadas').append(dados);
+                    $("#imagem").val(null)
+                    $("#descricao").val(null)
+                    //$('#uploadPreview_pt').removeAttr('src')
+                    $('#uploadPreview_pt').hide();
+                }
+            });
+        });
+    });
+
+    function excluir(id){
+        document.getElementById("linha"+id).remove();     
+    };
+
+    function PreviewImage_pt() {
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("imagem").files[0]);
+
+        oFReader.onload = function (oFREvent) {
+            $('#uploadPreview_pt').show();
+            document.getElementById("uploadPreview_pt").src = oFREvent.target.result;
+        };
+    };
     function SalvarRelatorio(){
         
         $.ajax(
@@ -73,6 +142,7 @@
                     async:false,
                     success: function(dados){
                       salvarapr(dados);
+                    //   salvarPcmat(dados);
                     },
                     error: function(){
                         alert('erro');
@@ -103,4 +173,37 @@
                 }
         });
 };
+
+function salvarPcmat(dados) {
+    let countrows =0;
+    let count =0;
+    $("#imagensadicionadas tr").each(function (row,tr) {
+        $.ajax(               
+            {
+                url: "<?php echo site_url('relatorio_painel/salvarImagensPcmat') ?>",
+                type: "POST",
+                data: {image_path : $(this).find("td").eq(0).find("img").attr('src'),
+                    observacao :  $(this).find("td").eq(1).find("textarea").val(), 
+                    id_relatorio : dados},
+                datatype: "json",
+                async:false,
+                success: function(dados){
+                    console.log('Imagem ' + row + ' foi cadastrada');
+                    count = count+1;
+                },
+                error: function(){
+                    alert('erro');
+                }
+        });
+        countrows = countrows +1;
+    });
+
+    if (count == countrows) {
+        alert('Todas as imagens foram cadastradas com sucesso.');
+    }
+};
+</script>
+<script type="text/javascript">
+
+
 </script>

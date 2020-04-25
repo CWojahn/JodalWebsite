@@ -40,19 +40,24 @@
   </form>
 
 <div class="col-md-12 col-sm-12 text-center">
-  <form id="form_nova_imagem" style="margin-bottom: 15px;">     
-      <div class ="form-group col-md-6">
-          <label for="imagem">Imagem</label>
-          <input type="file" id="imagem" name="imagem"
-          onchange="PreviewImage_pt();" accept="image/*" capture="camera" class="form-control-file">
-      </div>
-      <div class="form-group col-md-2">
-          <img id="uploadPreview_pt" style="width: 150px; height: 125px;" />
-      </div>
-      <div class="col-md-12 col-sm-12 text-center">
-          <button class="btn btn-success" data-loading-text="Incluindo..." id="btn_upload" type="submit"><span class="glyphicon glyphicon-plus"></span> Acrescentar Imagem</button>
-      </div>
-  </form>
+    <form id="form_nova_imagem" style="margin-bottom: 15px;">     
+        <div class ="form-group col-md-6">
+            <label for="imagem">Imagem</label>
+            <input type="file" id="imagem" name="imagem"
+            onchange="PreviewImage_pt();" accept="image/*" capture="camera" class="form-control-file">
+        </div>
+        <div class="form-group col-md-2">
+            <img id="uploadPreview_pt" style="width: 150px; height: 125px;" />
+        </div>    
+        <div class="col-md-4">
+            <label for="descricao">Observações</label>
+            <textarea class="form-control" id="descricao" name="descricao"
+            placeholder="Observações" rows="4"></textarea> 
+        </div>
+        <div class="col-md-12 col-sm-12 text-center">
+            <button class="btn btn-success" data-loading-text="Incluindo..." id="btn_upload" type="submit"><span class="glyphicon glyphicon-plus"></span> Acrescentar Imagem</button>
+        </div>
+    </form>
 </div>
 
 <div id="imagens1">
@@ -61,6 +66,7 @@
         <thead>
             <tr>
                 <th style="text-align: center">Imagem</th>
+                <th style="text-align: center">Observações</th>
                 <th style="text-align: center">Excluir</th>
             </tr>
         </thead>
@@ -115,7 +121,8 @@
                 async:false,
                 success: function(dados){
                     $('#imagensadicionadas').append(dados);
-                    $("#imagem").val(null)
+                    $("#imagem").val(null);
+                    $("#descricao").val(null);
                     $('#uploadPreview_pt').hide();
                 }
             });
@@ -185,7 +192,8 @@ function salvarImagens(dados) {
                 url: "<?php echo site_url('relatorio_painel/salvarImagensPcmat') ?>",
                 type: "POST",
                 data: {image_path : $(this).find("td").eq(0).find("img").attr('src'),
-                      observacao:'', id_relatorio : dados},
+                      observacao: $(this).find("td").eq(1).find("textarea").val(), 
+                      id_relatorio : dados},
                 datatype: "json",
                 async:false,
                 success: function(dados){

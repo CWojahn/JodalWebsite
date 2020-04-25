@@ -41,37 +41,37 @@
     <div class="row">
     <table style="border-spacing: 0px; width: 100%; border-color: 000; border: 1px">
       <tbody>
-        <tr style="height: 20px;">
-          <td style="width: 20%; height: 43px; text-align: center; vertical-align: middle;" rowspan="2"><img src="<?php echo base_url('assets/img/logo_relatorio.jpg');?>" alt="" style="width: 75px;" srcset=""></td>
-          <td style="width: 50%; height: 43px; text-align: center; vertical-align: middle;" rowspan="2">Relatório fotográfico das <br> Melhorias a serem Implantadas no canteiro de obra.</td>
+        <tr style="height: 75px;">
+          <td style="width: 20%; height: 43px; text-align: center; vertical-align: middle;">
+            <img src="<?php echo site_url('assets/img/logo_relatorio.jpg');?>" alt="" style="width: 75px;" srcset="">
+          </td>
+          <td style="width: 50%; height: 43px; text-align: center; vertical-align: middle;">PGR - Relatório fotográfico das<br>Melhorias a serem Implantadas no canteiro de obra.</td>
           <td style="width: 15%; height: 15px;">Nº <?php echo $relatorio->id; ?></td>
-        </tr>
-        <tr style="height: 20px;">
-          <td style="width: 15%; height: 20px;">Classificação: Uso Interno</td>
-          <td style="width: 15%; height: 20px;">Rev.: 00 - 27/04/2019</td>
         </tr>
       </tbody>
     </table>
-      <div class="col-md-offset-3 col-md-6" style="border-style: solid; border-width: 1px;margin-top: 35px;" >
-          <div class="panel panel-default">
-            <div class="panel-body text-center">
-                  <p class="text-uppercase" style="padding-left: 10px;">EMPRESA: <?php echo $relatorio->empresa?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">OBRA: <?php echo $relatorio->obra?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">LOCAL: <?php echo $relatorio->local?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">TST-OBRA: <?php echo $relatorio->tst_name?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">DATA: <?php echo $relatorio->data?></p>
-                  <p  style="color: #ffffff;
-                        background-color: #000000;
-                        text-align: center;
-                        font-size: 16px;
-                        padding: 0.25em;
-                        margin-bottom: 0;"
-                  >PGR - Programa de Gestão e Risco</p>
-            </div>
-          </div>
+      <div class="col-md-offset-3 col-md-6" 
+        style="border-style: solid;
+          border-width: 1px;
+          margin-top: 35px;
+          padding: 0;" >
+        <p class="text-uppercase" style="padding-left: 10px; padding-top: 10px">EMPRESA: <?php echo $relatorio->empresa?></p>
+        <p class="text-uppercase" style="padding-left: 10px;">OBRA: <?php echo $relatorio->obra?></p>
+        <p class="text-uppercase" style="padding-left: 10px;">LOCAL: <?php echo $relatorio->local?></p>
+        <p class="text-uppercase" style="padding-left: 10px;">TST-OBRA: <?php echo $relatorio->tst_name?></p>
+        <p class="text-uppercase" style="padding-left: 10px;">DATA: <?php echo $relatorio->data?></p>
+        <p  style="color: #ffffff;
+              background-color: #000000;
+              text-align: center;
+              font-size: 16px;
+              padding-left: 0;
+              padding-right: 0;
+              padding-top: 5px;
+              padding-bottom: 5px;
+              margin-bottom: 0;"
+        >Nenhuma tarefa é tão urgente que não pode ser planejada e executada com segurança!</p>
       </div>
     </div>
-  </div>
   <div class="row" style="margin-top: 30px;" >
     <p style="font-size: 12px; font-weight: 600; padding-left: 10px;">RELATÓRIO VISUAL: - (X)</p>
     <table style="width: 100%;border-spacing: 0px;">
@@ -81,16 +81,16 @@
         <td >Ações Encontradas</td>
       </tr>
       <?php foreach ($array_images as $value) { ?>
-                <tr>
-                  <td colspan="2">
-                  	<img src="<?php echo $value->image_path;?>" alt="" srcset="" width="400em">
-                  </td>
-                  <td style="vertical-align: top;">
-                    APONTAMENTOS TÉCNICOS:<br>
-                    <?php echo $value->observacao; ?>
-                  </td>
-                </tr>
-              <?php } ?> 
+        <tr>
+          <td colspan="2">
+            <img src="<?php echo $value->image_path;?>" alt="" srcset="" width="400px">
+          </td>
+          <td style="vertical-align: top;">
+            APONTAMENTOS TÉCNICOS:<br>
+            <?php echo $value->observacao; ?>
+          </td>
+        </tr>
+      <?php } ?> 
       <tr style="background-color: #888888; height: 40px;">
         <td colspan="3">Observações</td>
       </tr>

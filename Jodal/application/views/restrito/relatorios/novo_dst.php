@@ -189,6 +189,11 @@
       <div class="form-group col-md-2">
           <img id="uploadPreview_pt" style="width: 150px; height: 125px;" />
       </div>
+      <div class="col-md-4">
+            <label for="descricao">Observação</label>
+            <textarea class="form-control" id="descricao" name="descricao"
+            placeholder="Observação" rows="4"></textarea> 
+        </div>
       <div class="col-md-12 col-sm-12 text-center">
           <button class="btn btn-success" data-loading-text="Incluindo..." id="btn_upload" type="submit"><span class="glyphicon glyphicon-plus"></span> Acrescentar Imagem</button>
       </div>
@@ -269,7 +274,8 @@
                 async:false,
                 success: function(dados){
                     $('#imagensadicionadas').append(dados);
-                    $("#imagem").val(null)
+                    $("#imagem").val(null);
+                    $("#descricao").val(null);
                     $('#uploadPreview_pt').hide();
                 }
             });
@@ -310,11 +316,11 @@
                 {
                     url: "<?php echo site_url('relatorio_painel/salvar') ?>",
                     type: "POST",
-                    data: {cliente: document.getElementById("cliente").value, obra: document.getElementById("obra").value, data: document.getElementById("data_rel").value, tst: '', obs: '',local: document.getElementById("local").value, tipo: 'DST'},
+                    data: {cliente: document.getElementById("cliente").value, obra: document.getElementById("obra").value, data: document.getElementById("data_rel").value, tst: '', obs: '',local: document.getElementById("local").value, tipo: 'DDS'},
                     datatype: "json",
                     async:false,
                     success: function(dados){
-                        salvardst(dados);
+                        salvarDDS(dados);
                         salvarAssuntos(dados);
                         salvarImagens(dados);
                     },
@@ -395,11 +401,11 @@
         );
     }
 
-    function salvardst(dados){
+    function salvarDDS(dados){
         $("#participantes tr").each(function (row,tr) {
         $.ajax(
                 {
-                    url: "<?php echo site_url('relatorio_painel/salvar_dst') ?>",
+                    url: "<?php echo site_url('relatorio_painel/salvar_DST') ?>",
                     type: "POST",
                     data: {nome : $(this).find("td").eq(0).text(), 
                         funcao : $(this).find("td").eq(1).text(),
@@ -426,7 +432,8 @@ function salvarImagens(dados) {
                 url: "<?php echo site_url('relatorio_painel/salvarImagensPcmat') ?>",
                 type: "POST",
                 data: {image_path : $(this).find("td").eq(0).find("img").attr('src'),
-                      observacao:'', id_relatorio : dados},
+                    observacao :  $(this).find("td").eq(1).find("textarea").val(),
+                    id_relatorio : dados},
                 datatype: "json",
                 async:false,
                 success: function(dados){

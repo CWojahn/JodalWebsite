@@ -40,7 +40,7 @@
         <table class="table table-borderless">
             <thead>
                 <tr>
-                    <th colspan="5" class="text-center">RELATORIO PGR - Programa de Gestão e Risco</th>
+                    <th colspan="5" class="text-center">PROGRAMA GESTÃO DE RISCO</th>
                 </tr>
             </thead>
         </table>

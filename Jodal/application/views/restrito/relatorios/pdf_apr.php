@@ -39,38 +39,39 @@
 
     <?php setlocale(LC_ALL, 'pt_BR'); ?>
     <div class="row">
-    <table style="border-spacing: 0px; width: 100%; border-color: 000; border: 1px">
-      <tbody>
-        <tr style="height: 75px;">
-          <td style="width: 20%; height: 43px; text-align: center; vertical-align: middle;"><img src="<?php echo site_url('assets/img/logo_relatorio.jpg');?>" alt="" style="width: 75px;" srcset=""></td>
-          <td style="width: 50%; height: 43px; text-align: center; vertical-align: middle;">Análise Preliminar de Risco</td>
-          <td style="width: 15%; height: 15px;">Nº <?php echo $relatorio->id; ?></td>
-      
-        </tr>
-      </tbody>
-    </table>
-      <div class="col-md-offset-3 col-md-6" style="border-style: solid; border-width: 1px;margin-top: 35px;" >
-          <div class="panel panel-default">
-            <div class="panel-body">
-                  <p class="text-uppercase" style="padding-left: 10px;">EMPRESA: <?php echo $relatorio->empresa?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">FUNÇÃO: <?php echo $relatorio->obra?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">UNIDADE: <?php echo $relatorio->local?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">ÁREA: <?php echo $relatorio->observacoes?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">REVISÃO: <?php echo $array_info->rev?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">DATA: <?php echo $relatorio->data?></p>
-                  <p class="text-uppercase" style="padding-left: 10px;">TST: <?php echo $relatorio->tst_name?></p>
-                  <p  style="color: #ffffff;
-                        background-color: #000000;
-                        text-align: center;
-                        font-size: 16px;
-                        padding: 0.25em;
-                        margin-bottom: 0;"
-                  >APR</p>
-            </div>
-          </div>
+      <table style="border-spacing: 0px; width: 100%; border-color: 000; border: 1px">
+        <tbody>
+          <tr style="height: 75px;">
+            <td style="width: 20%; height: 43px; text-align: center; vertical-align: middle;"><img src="<?php echo site_url('assets/img/logo_relatorio.jpg');?>" alt="" style="width: 75px;" srcset=""></td>
+            <td style="width: 50%; height: 43px; text-align: center; vertical-align: middle;">APR - Análise Preliminar de Risco</td>
+            <td style="width: 15%; height: 15px;">Nº <?php echo $relatorio->id; ?></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="col-md-offset-3 col-md-6"
+        style="border-style: solid;
+          border-width: 1px;
+          margin-top: 35px;
+          padding: 0;" >
+        <p class="text-uppercase" style="padding-left: 10px; padding-top: 10px">EMPRESA: <?php echo $relatorio->empresa?></p>
+        <p class="text-uppercase" style="padding-left: 10px;">FUNÇÃO: <?php echo $relatorio->obra?></p>
+        <p class="text-uppercase" style="padding-left: 10px;">UNIDADE: <?php echo $relatorio->local?></p>
+        <p class="text-uppercase" style="padding-left: 10px;">ÁREA: <?php echo $relatorio->observacoes?></p>
+        <p class="text-uppercase" style="padding-left: 10px;">REVISÃO: <?php echo $array_info->rev?></p>
+        <p class="text-uppercase" style="padding-left: 10px;">DATA: <?php echo $relatorio->data?></p>
+        <p class="text-uppercase" style="padding-left: 10px;">TST: <?php echo $relatorio->tst_name?></p>
+        <p  style="color: #ffffff;
+              background-color: #000000;
+              text-align: center;
+              font-size: 16px;
+              padding-left: 0;
+              padding-right: 0;
+              padding-top: 5px;
+              padding-bottom: 5px;
+              margin-bottom: 0;"
+        >Nenhuma tarefa é tão urgente que não pode ser planejada e executada com segurança!</p>
       </div>
     </div>
-  </div>
   <div class="row" style="margin-top: 30px;" >
     <table style="width: 100%;border-spacing: 0px;">
       <tbody>
@@ -88,11 +89,37 @@
             <td style="border-top:0;">(Evita o acidente ou minimiza danos caso ocorra)</td>
           </tr>
           </tr>
-          <tr>
-            <td style="width: 30%; vertical-align:top; height: 500px;"><?php echo $array_info->atividades; ?></td>
-            <td style="width: 30%; vertical-align:top; height: 500px;"><?php echo $array_info->riscos; ?></td>
-            <td style="width: 40%; vertical-align:top; height: 500px;"><?php echo $array_info->medidas; ?></td>
-        </tr>
+          <?php
+            $atividades = explode(';', $array_info->atividades);
+            $riscos = explode(';', $array_info->riscos);
+            $medidas = explode(';', $array_info->medidas);
+            for ($i=0, $tamanho = count($atividades);$i < $tamanho; ++$i){
+              echo '<tr>
+                <td style="width: 30%; vertical-align:top; text-align: left; padding: 5px 5px">'.
+                $atividades[$i] . '
+                </td>
+                <td style="width: 30%; vertical-align:top; text-align: left; padding: 5px 5px">'.
+                $riscos[$i] . '</td>
+                <td style="width: 40%; vertical-align:top; text-align: left; padding: 5px 5px">'.
+                $medidas[$i] . '</td>
+              </tr>';
+            }
+          ?>
+          <!-- <tr>
+            <td colspan="2">Foto</td>
+            <td>Observação</td>
+          </tr>
+          <?php foreach ($array_images as $value) { ?>
+            <tr>
+              <td colspan="2">
+                <img src="<?php echo $value->image_path;?>" alt="" srcset="" width="400px">
+              </td>
+              <td style="vertical-align: top;">
+                Obs:<br>
+                <?php echo $value->observacao; ?>
+              </td>
+            </tr>
+          <?php } ?>  -->
       </tbody>
     </table>
   
@@ -108,9 +135,9 @@
         <td style="width: 33%;">&nbsp;</td>
       </tr>
       <tr style="height: 23px;">
-        <td class="text-uppercase" style="width: 33%; text-height:8px;">JODAL - PABLO M. DE MOURA MASTELLA</td>
-        <td class="text-uppercase" style="width: 33%;">CONTRATANTE - <?php echo $array_info->aprov_area; ?></td>
-        <td class="text-uppercase" style="width: 33%;">CONTRATANTE - <?php echo $array_info->aprov_seg; ?></td>
+        <td class="text-uppercase" style="width: 33%; text-height:8px;">JODAL - <?php echo $relatorio->tst_name?></td>
+        <td class="text-uppercase" style="width: 33%;">CONTRATANTE - <?php echo $array_info->aprov_area?></td>
+        <td class="text-uppercase" style="width: 33%;">CONTRATANTE - <?php echo $array_info->aprov_seg;?></td>
         </tr>
       </tbody>
     </table>
