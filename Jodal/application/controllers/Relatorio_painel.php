@@ -320,6 +320,22 @@ class Relatorio_painel extends CI_Controller {
                 $this->load->library('pdf');
                 $pdf = $this->pdf->load();
                 $pdf->SetDisplayMode('fullpage');
+                $pdf->AddPage();
+                $pdf->SetHTMLFooter('
+                <table width="100%">
+                    <tr>
+                        <td style="border: none;
+                                text-align: left;
+                                width: 33%">http://www.jodaltreinamentos.com
+                        </td>
+                        <td style="border: none;
+                                width: 33%">{PAGENO}/{nbpg}</td>
+                        <td style="border: none;
+                                text-align: right;
+                                width: 33%">{DATE j/m/Y}
+                        </td>
+                    </tr>
+                </table>', 'O');
                 //$pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}|' . date(DATE_RFC822));
                 $pdf->WriteHTML($html);
                 $pdf->Output($pdfFilePath, 'F');
